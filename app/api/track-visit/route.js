@@ -196,8 +196,11 @@ export async function POST(req) {
 
     return NextResponse.json({ success: true, record_id: result.insertId });
   } catch (error) {
-    console.error("Track visit error:", error);
-    return NextResponse.json({ error: "Failed to record visit" }, { status: 500 });
+    if (error.code === "ECONNREFUSED" || error.code === "ETIMEDOUT") {
+      return NextResponse.json({ skipped: true, reason: "db_offline" }, { status: 200 });
+    }
+    console.warn("Track visit error:", error.message || error);
+    return NextResponse.json({ skipped: true, reason: "error" }, { status: 200 });
   }
 }
 
@@ -227,6 +230,9 @@ export async function PUT(req) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: "Failed to update heartbeat" }, { status: 500 });
+    if (error.code === "ECONNREFUSED" || error.code === "ETIMEDOUT") {
+      return NextResponse.json({ skipped: true, reason: "db_offline" }, { status: 200 });
+    }
+    return NextResponse.json({ skipped: true, reason: "error" }, { status: 200 });
   }
 }

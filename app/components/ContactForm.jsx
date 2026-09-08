@@ -48,16 +48,26 @@ export default function ContactForm() {
     setErrorMessage("");
 
     try {
+      // Submit enquiry via internal API route (which handles CRM forwarding + Google Sheets + WhatsApp)
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData)
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          service: formData.service,
+          message: formData.message,
+          source: "Website (aidigital.biz)"
+        })
       });
 
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
 
       if (!res.ok) {
-        throw new Error(data.error || "Failed to submit inquiry.");
+        throw new Error(data.error || "Something went wrong while submitting your enquiry.");
       }
 
       setStatus("success");
@@ -71,7 +81,8 @@ export default function ContactForm() {
           userEmail: formData.email,
           userPhone: formData.phone,
           selectedService: formData.service,
-          message: formData.message
+          message: formData.message,
+          source: "Website (aidigital.biz)"
         });
       }
 
@@ -84,9 +95,9 @@ export default function ContactForm() {
         message: ""
       });
     } catch (err) {
-      console.error(err);
+      console.error("Failed to submit enquiry:", err);
       setStatus("error");
-      setErrorMessage(err.message || "An unexpected error occurred.");
+      setErrorMessage(err.message || "Connection error. Please try again later.");
     }
   };
 
@@ -108,7 +119,7 @@ export default function ContactForm() {
           textAlign: "center",
           marginBottom: "16px"
         }}>
-          Thank you! Your inquiry has been submitted and saved to our Google Sheet successfully. We will get back to you shortly.
+          Thank you! Your enquiry has been received. Our sales team will contact you shortly.
         </div>
       )}
 

@@ -40,8 +40,8 @@ export async function GET(req) {
     );
     return NextResponse.json(rows);
   } catch (error) {
-    console.error("Admin Applications GET error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.warn("Admin Applications GET (DB offline or table missing):", error.message);
+    return NextResponse.json([]);
   }
 }
 

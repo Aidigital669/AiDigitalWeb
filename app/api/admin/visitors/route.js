@@ -275,8 +275,39 @@ export async function GET(req) {
       },
     });
   } catch (error) {
-    console.error("Admin visitors fetch error:", error);
-    return NextResponse.json({ error: "Failed to fetch visitors analytics", details: error.message }, { status: 500 });
+    console.error("Admin visitors fetch error:", error.message || error);
+    return NextResponse.json({
+      success: false,
+      dbStatus: "offline",
+      error: "MySQL database is offline or not running. Please start MySQL in XAMPP.",
+      range: "today",
+      liveOnline: 0,
+      summary: {
+        totalPageviews: 0,
+        uniqueVisitors: 0,
+        totalSessions: 0,
+        newVisitors: 0,
+        avgDurationSeconds: 0,
+        bounceRate: 0,
+      },
+      charts: {
+        trend: [],
+        devices: [],
+        os: [],
+        browsers: [],
+        topPages: [],
+        topSources: [],
+        topCountries: [],
+        topCities: [],
+      },
+      logs: [],
+      pagination: {
+        page: 1,
+        limit: 50,
+        total: 0,
+        totalPages: 1,
+      },
+    }, { status: 200 });
   }
 }
 

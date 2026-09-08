@@ -49,8 +49,8 @@ export async function GET() {
     const [rows] = await pool.query("SELECT * FROM promo_codes ORDER BY min_order_amount ASC, created_at DESC");
     return NextResponse.json({ success: true, promoCodes: rows });
   } catch (err) {
-    console.error("Failed to fetch promo codes:", err);
-    return NextResponse.json({ success: false, error: err.message }, { status: 500 });
+    console.warn("Admin promo GET (DB offline or table missing):", err.message);
+    return NextResponse.json({ success: true, promoCodes: [] });
   }
 }
 
