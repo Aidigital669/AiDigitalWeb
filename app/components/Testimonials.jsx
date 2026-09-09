@@ -24,9 +24,9 @@ export default function Testimonials() {
       <div style={{ position: "relative", zIndex: 2, maxWidth: "1100px", margin: "0 auto", padding: "0 20px" }}>
         {/* Widget Container with Premium Frame */}
         <div style={{ background: "#ffffff", borderRadius: "24px", padding: "20px", boxShadow: "0 20px 40px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04)", border: "1px solid rgba(226, 232, 240, 0.8)" }}>
-          {/* Elfsight Google Reviews Widget */}
+          {/* Elfsight All-in-One Reviews Widget */}
           <Script src="https://elfsightcdn.com/platform.js" strategy="lazyOnload" />
-          <div className="elfsight-app-bd5c2fce-3425-4393-9df3-40b382efcd2c" data-elfsight-app-lazy="true"></div>
+          <div className="elfsight-app-8a4acbd3-d813-43e7-a303-15ff4fc467e2" data-elfsight-app-lazy></div>
         </div>
       </div>
     </section>
