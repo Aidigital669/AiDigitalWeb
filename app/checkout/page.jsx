@@ -27,6 +27,80 @@ export default function CheckoutPage() {
       : selectedItem.price
     : 0;
 
+  // Detect whether the selected plan is natively a 6-month plan
+  const isPredefinedSixMonth = Boolean(
+    selectedItem && (
+      (selectedItem.period && (
+        selectedItem.period.toLowerCase().includes("6 month") ||
+        selectedItem.period.toLowerCase().includes("6month") ||
+        selectedItem.period.toLowerCase().includes("6mo")
+      )) ||
+      selectedItem.id === "g_premium" ||
+      selectedItem.id === "comb_premium" ||
+      /6\s*months?/i.test(selectedItem.name || "") ||
+      (selectedItem.name?.includes("Google Ads") && selectedItem.name?.includes("Premium")) ||
+      (selectedItem.name?.includes("Combine") && selectedItem.name?.includes("Premium"))
+    )
+  );
+
+  // Detect whether the selected plan is natively a 3-month plan
+  const isPredefinedThreeMonth = Boolean(
+    selectedItem && !isPredefinedSixMonth && (
+      (selectedItem.period && (
+        selectedItem.period.toLowerCase().includes("3 month") ||
+        selectedItem.period.toLowerCase().includes("3month") ||
+        selectedItem.period.toLowerCase().includes("3mo")
+      )) ||
+      selectedItem.id === "g_standard" ||
+      selectedItem.id === "fb_premium" ||
+      selectedItem.id === "comb_standard" ||
+      /3\s*months?/i.test(selectedItem.name || "") ||
+      (selectedItem.name?.includes("Google Ads") && selectedItem.name?.includes("Standard")) ||
+      (selectedItem.name?.includes("Meta Ads") && selectedItem.name?.includes("Premium")) ||
+      (selectedItem.name?.includes("Combine") && selectedItem.name?.includes("Standard"))
+    )
+  );
+
+  // Check if this plan is an ongoing ads/marketing plan that can also be toggled
+  const isEligibleForDurationToggle = Boolean(
+    selectedItem && !isPredefinedThreeMonth && !isPredefinedSixMonth && (
+      (selectedItem.period && (
+        selectedItem.period.toLowerCase().includes("month") ||
+        selectedItem.period.toLowerCase().includes("mo")
+      )) ||
+      selectedItem.name?.toLowerCase().includes("ads") ||
+      selectedItem.name?.toLowerCase().includes("marketing")
+    )
+  );
+
+  const [duration, setDuration] = useState(
+    isPredefinedSixMonth ? 6 : isPredefinedThreeMonth ? 3 : 1
+  );
+
+  useEffect(() => {
+    if (isPredefinedSixMonth) {
+      setDuration(6);
+    } else if (isPredefinedThreeMonth) {
+      setDuration(3);
+    } else {
+      setDuration(1);
+    }
+  }, [selectedItem?.name, isPredefinedThreeMonth, isPredefinedSixMonth]);
+
+  const isSixMonth = isPredefinedSixMonth || duration === 6;
+  const isThreeMonth = !isSixMonth && (isPredefinedThreeMonth || duration === 3);
+
+  // Calculate base price before discounts:
+  const effectivePrice = isPredefinedSixMonth
+    ? itemPrice
+    : isPredefinedThreeMonth
+    ? itemPrice
+    : duration === 6
+    ? itemPrice * 6
+    : duration === 3
+    ? itemPrice * 3
+    : itemPrice;
+
   const [loading, setLoading] = useState(false);
 
   // Onboarding details
@@ -42,6 +116,7 @@ export default function CheckoutPage() {
   const [discountPercent, setDiscountPercent] = useState(0);
   const [referralSuccessMsg, setReferralSuccessMsg] = useState("");
   const [referralErrorMsg, setReferralErrorMsg] = useState("");
+  const [isManualPromo, setIsManualPromo] = useState(false);
 
   // Recovery Modal States
   const [showExitSurvey, setShowExitSurvey] = useState(false);
@@ -61,32 +136,30 @@ export default function CheckoutPage() {
     setMounted(true);
   }, []);
 
-  // Auto-apply promo code based on item price tier
+  // Auto-apply promo code: 6-month plans receive 15% OFF, 3-month plans receive 10% OFF. 1-month and 2-month plans receive NO discount.
   useEffect(() => {
-    if (itemPrice >= 15000) {
-      setAppliedCode("SCALE15");
+    if (isManualPromo) return;
+
+    if (isSixMonth) {
+      setAppliedCode("PLAN6M15");
       setDiscountPercent(15);
-      setReferralSuccessMsg("Auto-applied: SCALE15 (15% OFF for orders ₹15,000+)");
-    } else if (itemPrice >= 8000) {
-      setAppliedCode("GROWTH10");
+      setReferralSuccessMsg("🎉 6-Month Plan Offer: 15% OFF applied automatically!");
+    } else if (isThreeMonth) {
+      setAppliedCode("PLAN3M10");
       setDiscountPercent(10);
-      setReferralSuccessMsg("Auto-applied: GROWTH10 (10% OFF for orders ₹8,000+)");
-    } else if (itemPrice >= 3000) {
-      setAppliedCode("SAVE5");
-      setDiscountPercent(5);
-      setReferralSuccessMsg("Auto-applied: SAVE5 (5% OFF for orders ₹3,000+)");
+      setReferralSuccessMsg("🎉 3-Month Plan Offer: 10% OFF applied automatically!");
     } else {
+      // Strictly 0% off on 1-month, 2-month, or other non-multi-month durations
       setAppliedCode("");
       setDiscountPercent(0);
       setReferralSuccessMsg("");
     }
-  }, [itemPrice]);
+  }, [effectivePrice, isThreeMonth, isSixMonth, isManualPromo]);
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
       if (window.Razorpay) {
         resolve(true);
-        return;
       }
       const script = document.createElement("script");
       script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -112,12 +185,13 @@ export default function CheckoutPage() {
       const res = await fetch("/api/promo/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: formattedCode, amount: itemPrice })
+        body: JSON.stringify({ code: formattedCode, amount: effectivePrice })
       });
 
       const data = await res.json();
 
       if (data.success) {
+        setIsManualPromo(true);
         setAppliedCode(data.code);
         setDiscountPercent(data.discountPercent);
         setReferralSuccessMsg(data.message || `Code "${data.code}" applied successfully!`);
@@ -132,6 +206,7 @@ export default function CheckoutPage() {
   };
 
   const handleRemoveReferral = () => {
+    setIsManualPromo(true);
     setAppliedCode("");
     setDiscountPercent(0);
     setReferralSuccessMsg("");
@@ -139,8 +214,8 @@ export default function CheckoutPage() {
   };
 
   // Calculated Rates
-  const discountAmount = Math.round((itemPrice * discountPercent) / 100);
-  const netAmount = Math.max(0, itemPrice - discountAmount);
+  const discountAmount = Math.round((effectivePrice * discountPercent) / 100);
+  const netAmount = Math.max(0, effectivePrice - discountAmount);
   const gstAmount = hasGst ? Math.round(netAmount * 0.18) : 0;
   const finalTotal = netAmount + gstAmount;
 
@@ -181,12 +256,14 @@ export default function CheckoutPage() {
     }
 
     try {
+      const checkoutPlanTitle = `${selectedItem.name}${isSixMonth ? " (6 Months Plan - 15% OFF)" : isThreeMonth ? " (3 Months Plan - 10% OFF)" : ""}`;
+
       const response = await fetch("/api/razorpay/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           amount: finalTotal,
-          planName: selectedItem.name,
+          planName: checkoutPlanTitle,
           referralCode: appliedCode || "None",
           gstNumber: hasGst ? gstNumber : "None"
         }),
@@ -200,14 +277,14 @@ export default function CheckoutPage() {
       }
 
       // Add extra details in checkout description notes
-      const notesDescription = `Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"}`;
+      const notesDescription = `Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"} | Duration: ${isSixMonth ? "6 Months" : isThreeMonth ? "3 Months" : "1 Month"}`;
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_7fK8bF9H1k6Y3a",
         amount: data.amount,
         currency: "INR",
         name: "AI Digital",
-        description: `${selectedItem.name} Purchase`,
+        description: `${checkoutPlanTitle} Purchase`,
         image: "/Logo.ai.png",
         order_id: data.orderId,
         handler: async function (paymentResponse) {
@@ -225,7 +302,7 @@ export default function CheckoutPage() {
             if (verifyData.success) {
               alert(`Payment Successful!\nPayment ID: ${paymentResponse.razorpay_payment_id}`);
               clearCart();
-              window.location.href = `/payment-success?payment_id=${paymentResponse.razorpay_payment_id}&amount=${finalTotal}&plans=${encodeURIComponent(selectedItem.name)}&phone=${encodeURIComponent(customerPhone)}&promo_code=${encodeURIComponent(appliedCode || "None")}`;
+              window.location.href = `/payment-success?payment_id=${paymentResponse.razorpay_payment_id}&amount=${finalTotal}&plans=${encodeURIComponent(checkoutPlanTitle)}&phone=${encodeURIComponent(customerPhone)}&promo_code=${encodeURIComponent(appliedCode || "None")}`;
             } else {
               alert("Payment verification failed.");
             }
@@ -579,12 +656,143 @@ export default function CheckoutPage() {
                   border: "1px solid var(--line-soft)",
                   marginBottom: "20px"
                 }}>
-                  <h3 style={{ fontSize: "1.2rem", fontWeight: "800", color: "var(--text)" }}>
-                    {selectedItem.name}
-                  </h3>
-                  <div style={{ fontSize: "1.5rem", fontWeight: "800", color: "var(--text)", marginTop: "6px" }}>
-                    ₹{selectedItem.price}
+                  <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px" }}>
+                    <h3 style={{ fontSize: "1.2rem", fontWeight: "800", color: "var(--text)", margin: 0 }}>
+                      {selectedItem.name}
+                    </h3>
+                    {isSixMonth && (
+                      <span style={{
+                        background: "#dbeafe",
+                        color: "#1e40af",
+                        border: "1px solid #bfdbfe",
+                        padding: "3px 8px",
+                        borderRadius: "999px",
+                        fontSize: "0.74rem",
+                        fontWeight: "800",
+                        whiteSpace: "nowrap"
+                      }}>
+                        🎉 15% OFF
+                      </span>
+                    )}
+                    {isThreeMonth && (
+                      <span style={{
+                        background: "#dcfce7",
+                        color: "#15803d",
+                        border: "1px solid #bbf7d0",
+                        padding: "3px 8px",
+                        borderRadius: "999px",
+                        fontSize: "0.74rem",
+                        fontWeight: "800",
+                        whiteSpace: "nowrap"
+                      }}>
+                        🎉 10% OFF
+                      </span>
+                    )}
                   </div>
+
+                  <div style={{ fontSize: "1.5rem", fontWeight: "800", color: "var(--text)", marginTop: "8px" }}>
+                    ₹{effectivePrice.toLocaleString("en-IN")}
+                    <span style={{ fontSize: "0.85rem", color: "var(--muted)", fontWeight: "500", marginLeft: "6px" }}>
+                      {isSixMonth ? "/ 6 months" : isThreeMonth ? "/ 3 months" : (selectedItem.period || "")}
+                    </span>
+                  </div>
+
+                  {(isSixMonth || isThreeMonth) && (
+                    <div style={{
+                      marginTop: "10px",
+                      padding: "8px 12px",
+                      background: isSixMonth ? "#eff6ff" : "#f0fdf4",
+                      border: isSixMonth ? "1px solid #bfdbfe" : "1px solid #bbf7d0",
+                      borderRadius: "10px",
+                      fontSize: "0.84rem",
+                      color: isSixMonth ? "#1e40af" : "#166534",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between"
+                    }}>
+                      <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                        <span className="material-symbols-outlined" style={{ fontSize: "16px", color: isSixMonth ? "#2563eb" : "#16a34a" }}>schedule</span>
+                        Monthly Estimation:
+                      </span>
+                      <strong>≈ ₹{Math.round(netAmount / (isSixMonth ? 6 : 3)).toLocaleString("en-IN")} / month</strong>
+                    </div>
+                  )}
+
+                  {/* Duration Selector for eligible monthly plans */}
+                  {isEligibleForDurationToggle && (
+                    <div style={{ marginTop: "14px", paddingTop: "12px", borderTop: "1px dashed var(--line-soft)" }}>
+                      <label style={{ display: "block", fontSize: "0.78rem", fontWeight: "700", color: "var(--muted)", marginBottom: "8px", textTransform: "uppercase" }}>
+                        Select Duration:
+                      </label>
+                      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
+                        <button
+                          type="button"
+                          onClick={() => setDuration(1)}
+                          style={{
+                            padding: "8px 6px",
+                            borderRadius: "8px",
+                            border: duration === 1 ? "2px solid var(--orange)" : "1px solid var(--line)",
+                            background: duration === 1 ? "var(--orange-soft)" : "#fff",
+                            color: duration === 1 ? "var(--orange)" : "var(--text)",
+                            fontWeight: "700",
+                            fontSize: "0.78rem",
+                            cursor: "pointer",
+                            transition: "all 0.2s ease"
+                          }}
+                        >
+                          1 Mo (₹{itemPrice.toLocaleString("en-IN")})
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDuration(3)}
+                          style={{
+                            padding: "8px 6px",
+                            borderRadius: "8px",
+                            border: duration === 3 ? "2px solid #16a34a" : "1px solid var(--line)",
+                            background: duration === 3 ? "#f0fdf4" : "#fff",
+                            color: duration === 3 ? "#15803d" : "var(--text)",
+                            fontWeight: "700",
+                            fontSize: "0.78rem",
+                            cursor: "pointer",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: "2px",
+                            transition: "all 0.2s ease"
+                          }}
+                        >
+                          <span>3 Mo (10% OFF)</span>
+                          <span style={{ fontSize: "0.68rem", color: "#16a34a", fontWeight: "800" }}>
+                            ₹{Math.round((itemPrice * 3) * 0.9).toLocaleString("en-IN")}
+                          </span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setDuration(6)}
+                          style={{
+                            padding: "8px 6px",
+                            borderRadius: "8px",
+                            border: duration === 6 ? "2px solid #2563eb" : "1px solid var(--line)",
+                            background: duration === 6 ? "#eff6ff" : "#fff",
+                            color: duration === 6 ? "#1e40af" : "var(--text)",
+                            fontWeight: "700",
+                            fontSize: "0.78rem",
+                            cursor: "pointer",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            gap: "2px",
+                            transition: "all 0.2s ease"
+                          }}
+                        >
+                          <span>6 Mo (15% OFF)</span>
+                          <span style={{ fontSize: "0.68rem", color: "#2563eb", fontWeight: "800" }}>
+                            ₹{Math.round((itemPrice * 6) * 0.85).toLocaleString("en-IN")}
+                          </span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
 
                   {selectedItem.features && selectedItem.features.length > 0 && (
                     <div style={{ marginTop: "12px" }}>
@@ -684,19 +892,44 @@ export default function CheckoutPage() {
                       {referralSuccessMsg}
                     </div>
                   )}
+
+                  {(isSixMonth || isThreeMonth) && isManualPromo && (
+                    <button
+                      type="button"
+                      onClick={() => setIsManualPromo(false)}
+                      style={{
+                        background: "none",
+                        border: "none",
+                        color: isSixMonth ? "#1e40af" : "#166534",
+                        fontSize: "0.78rem",
+                        fontWeight: "700",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                        marginTop: "8px",
+                        padding: 0,
+                        display: "block"
+                      }}
+                    >
+                      ↩ Re-apply {isSixMonth ? "15% 6-Month" : "10% 3-Month"} Plan Discount
+                    </button>
+                  )}
                 </div>
 
                 {/* Price Breakdown */}
                 <div style={{ padding: "16px 0 0 0", borderTop: "1px dashed var(--line)" }}>
                   <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "0.92rem" }}>
-                    <span style={{ color: "var(--muted)" }}>Subtotal</span>
-                    <span style={{ fontWeight: "600", color: "var(--text)" }}>₹{itemPrice}</span>
+                    <span style={{ color: "var(--muted)" }}>
+                      Subtotal {isSixMonth ? "(6 Months Plan)" : isThreeMonth ? "(3 Months Plan)" : ""}
+                    </span>
+                    <span style={{ fontWeight: "600", color: "var(--text)" }}>₹{effectivePrice.toLocaleString("en-IN")}</span>
                   </div>
 
                   {discountAmount > 0 && (
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "0.92rem" }}>
-                      <span style={{ color: "#166534", fontWeight: "600" }}>Referral Discount</span>
-                      <span style={{ fontWeight: "700", color: "#166534" }}>-₹{discountAmount}</span>
+                      <span style={{ color: "#166534", fontWeight: "600" }}>
+                        {isSixMonth ? "6-Month Plan Discount (15%)" : isThreeMonth ? "3-Month Plan Discount (10%)" : "Referral Discount"}
+                      </span>
+                      <span style={{ fontWeight: "700", color: "#166534" }}>-₹{discountAmount.toLocaleString("en-IN")}</span>
                     </div>
                   )}
 

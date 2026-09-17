@@ -38,11 +38,13 @@ export default function PricingClientPage() {
 
   const creativeScrollRef = React.useRef(null);
 
-  const handleBuyNow = (planName, price, features = []) => {
+  const handleBuyNow = (planName, price, features = [], period = "", id = "") => {
     clearCart();
     addToCart({
+      id: id,
       name: planName,
       price: price,
+      period: period,
       features: features
     });
     router.push("/checkout");
@@ -84,40 +86,42 @@ export default function PricingClientPage() {
         </div>
 
         <div className="ads-pricing-grid" style={{ "--grid-cols": facebookPlansState.length }}>
-          {facebookPlansState.map((plan, index) => (
-            <TiltCard
-              key={index}
-              className={`pricing-card-ads ${plan.isPopular ? "standard-popular-card" : ""} premium-shadow reveal delay-200`}
-              style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-            >
-              <div>
-                <div className="card-top-info" style={{ marginTop: "8px" }}>
-                  <div className={`card-label-badge ${plan.pillClass}`} style={{ marginBottom: "16px" }}>{plan.level}</div>
-                  <div className="price-display" style={{ marginBottom: "8px" }}>
-                    <span className="currency">₹</span>
-                    <span className="value">{plan.price}</span>
-                    <span className="period">{plan.period}</span>
-                  </div>
-                </div>
-
-                <ul className="card-features-list">
-                  {plan.features.map((feat, i) => (
-                    <li key={i}>
-                      <span className="check-icon-wrapper" style={{ color: "#1877F2", background: "rgba(24, 119, 242, 0.1)" }}>✓</span>
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                onClick={() => handleBuyNow(plan.platform + " " + plan.level, plan.price, plan.features)}
-                className={`${plan.isPopular ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto", cursor: "pointer" }}
+          {facebookPlansState.map((plan, index) => {
+            return (
+              <TiltCard
+                key={index}
+                className={`pricing-card-ads ${plan.isPopular ? "standard-popular-card" : ""} premium-shadow reveal delay-200`}
+                style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
               >
-                Buy Now
-              </button>
-            </TiltCard>
-          ))}
+                <div>
+                  <div className="card-top-info">
+                    <div className={`card-label-badge ${plan.pillClass}`}>{plan.level}</div>
+                    <div className="price-display">
+                      <span className="currency">₹</span>
+                      <span className="value">{plan.price}</span>
+                      <span className="period">{plan.period}</span>
+                    </div>
+                  </div>
+
+                  <ul className="card-features-list">
+                    {plan.features.map((feat, i) => (
+                      <li key={i}>
+                        <span className="check-icon-wrapper" style={{ color: "#1877F2", background: "rgba(24, 119, 242, 0.1)" }}>✓</span>
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <button
+                  onClick={() => handleBuyNow(plan.platform + " " + plan.level, plan.price, plan.features, plan.period, plan.id)}
+                  className={`${plan.isPopular ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
+                  style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto", cursor: "pointer" }}
+                >
+                  Buy Now
+                </button>
+              </TiltCard>
+            );
+          })}
         </div>
       </section>
 
@@ -131,40 +135,42 @@ export default function PricingClientPage() {
         </div>
 
         <div className="ads-pricing-grid" style={{ "--grid-cols": googlePlansState.length }}>
-          {googlePlansState.map((plan, index) => (
-            <TiltCard
-              key={index}
-              className={`pricing-card-ads ${plan.isPopular ? "standard-popular-card" : ""} premium-shadow reveal delay-200`}
-              style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-            >
-              <div>
-                <div className="card-top-info" style={{ marginTop: "8px" }}>
-                  <div className={`card-label-badge ${plan.pillClass}`} style={{ marginBottom: "16px" }}>{plan.level}</div>
-                  <div className="price-display" style={{ marginBottom: "8px" }}>
-                    <span className="currency">₹</span>
-                    <span className="value">{plan.price}</span>
-                    <span className="period">{plan.period}</span>
-                  </div>
-                </div>
-
-                <ul className="card-features-list">
-                  {plan.features.map((feat, i) => (
-                    <li key={i}>
-                      <span className="check-icon-wrapper" style={{ color: "#4285F4", background: "rgba(66, 133, 244, 0.1)" }}>✓</span>
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                onClick={() => handleBuyNow(plan.platform + " " + plan.level, plan.price, plan.features)}
-                className={`${plan.isPopular ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto", cursor: "pointer" }}
+          {googlePlansState.map((plan, index) => {
+            return (
+              <TiltCard
+                key={index}
+                className={`pricing-card-ads ${plan.isPopular ? "standard-popular-card" : ""} premium-shadow reveal delay-200`}
+                style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
               >
-                Buy Now
-              </button>
-            </TiltCard>
-          ))}
+                <div>
+                  <div className="card-top-info">
+                    <div className={`card-label-badge ${plan.pillClass}`}>{plan.level}</div>
+                    <div className="price-display">
+                      <span className="currency">₹</span>
+                      <span className="value">{plan.price}</span>
+                      <span className="period">{plan.period}</span>
+                    </div>
+                  </div>
+
+                  <ul className="card-features-list">
+                    {plan.features.map((feat, i) => (
+                      <li key={i}>
+                        <span className="check-icon-wrapper" style={{ color: "#4285F4", background: "rgba(66, 133, 244, 0.1)" }}>✓</span>
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <button
+                  onClick={() => handleBuyNow(plan.platform + " " + plan.level, plan.price, plan.features, plan.period, plan.id)}
+                  className={`${plan.isPopular ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
+                  style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto", cursor: "pointer" }}
+                >
+                  Buy Now
+                </button>
+              </TiltCard>
+            );
+          })}
         </div>
       </section>
 
@@ -178,40 +184,42 @@ export default function PricingClientPage() {
         </div>
 
         <div className="ads-pricing-grid" style={{ "--grid-cols": combinePlansState.length }}>
-          {combinePlansState.map((plan, index) => (
-            <TiltCard
-              key={index}
-              className={`pricing-card-ads ${plan.isPopular ? "standard-popular-card" : ""} premium-shadow reveal delay-200`}
-              style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-            >
-              <div>
-                <div className="card-top-info" style={{ marginTop: "8px" }}>
-                  <div className={`card-label-badge ${plan.pillClass}`} style={{ marginBottom: "16px" }}>{plan.level}</div>
-                  <div className="price-display" style={{ marginBottom: "8px" }}>
-                    <span className="currency">₹</span>
-                    <span className="value">{plan.price}</span>
-                    <span className="period">{plan.period}</span>
-                  </div>
-                </div>
-
-                <ul className="card-features-list">
-                  {plan.features.map((feat, i) => (
-                    <li key={i}>
-                      <span className="check-icon-wrapper" style={{ color: "#3B2FC9", background: "rgba(59, 47, 201, 0.1)" }}>✓</span>
-                      {feat}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                onClick={() => handleBuyNow(plan.platform + " " + plan.level, plan.price, plan.features)}
-                className={`${plan.isPopular ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto", cursor: "pointer" }}
+          {combinePlansState.map((plan, index) => {
+            return (
+              <TiltCard
+                key={index}
+                className={`pricing-card-ads ${plan.isPopular ? "standard-popular-card" : ""} premium-shadow reveal delay-200`}
+                style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
               >
-                Buy Now
-              </button>
-            </TiltCard>
-          ))}
+                <div>
+                  <div className="card-top-info">
+                    <div className={`card-label-badge ${plan.pillClass}`}>{plan.level}</div>
+                    <div className="price-display">
+                      <span className="currency">₹</span>
+                      <span className="value">{plan.price}</span>
+                      <span className="period">{plan.period}</span>
+                    </div>
+                  </div>
+
+                  <ul className="card-features-list">
+                    {plan.features.map((feat, i) => (
+                      <li key={i}>
+                        <span className="check-icon-wrapper" style={{ color: "#3B2FC9", background: "rgba(59, 47, 201, 0.1)" }}>✓</span>
+                        {feat}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <button
+                  onClick={() => handleBuyNow(plan.platform + " " + plan.level, plan.price, plan.features, plan.period, plan.id)}
+                  className={`${plan.isPopular ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
+                  style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto", cursor: "pointer" }}
+                >
+                  Buy Now
+                </button>
+              </TiltCard>
+            );
+          })}
         </div>
       </section>
 

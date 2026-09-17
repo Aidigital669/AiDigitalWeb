@@ -60,11 +60,12 @@ export default function PricingPopup({ dialogRef }) {
     const { addToCart, clearCart } = useCart();
     const router = useRouter();
 
-    const handleBuyNow = (planName, price, features = []) => {
+    const handleBuyNow = (planName, price, features = [], period = "/mo") => {
         clearCart();
         addToCart({
             name: planName,
             price: price,
+            period: period,
             features: features
         });
         if (dialogRef.current) {
@@ -132,7 +133,7 @@ export default function PricingPopup({ dialogRef }) {
                                 ))}
                             </ul>
                             <button
-                                onClick={() => handleBuyNow("Meta Ads - Basic", popupPlans.facebook.price, popupPlans.facebook.features)}
+                                onClick={() => handleBuyNow("Meta Ads - Basic", popupPlans.facebook.price, popupPlans.facebook.features, popupPlans.facebook.period)}
                                 className="btn-card-outline"
                                 style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto" }}
                             >
@@ -169,7 +170,7 @@ export default function PricingPopup({ dialogRef }) {
                                 ))}
                             </ul>
                             <button
-                                onClick={() => handleBuyNow("Google Ads - Basic", popupPlans.google.price, popupPlans.google.features)}
+                                onClick={() => handleBuyNow("Google Ads - Basic", popupPlans.google.price, popupPlans.google.features, popupPlans.google.period)}
                                 className="btn-card-solid"
                                 style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto" }}
                             >
@@ -199,7 +200,7 @@ export default function PricingPopup({ dialogRef }) {
                                 ))}
                             </ul>
                             <button
-                                onClick={() => handleBuyNow("Meta + Google Ads - Basic", popupPlans.combine.price, popupPlans.combine.features)}
+                                onClick={() => handleBuyNow("Meta + Google Ads - Basic", popupPlans.combine.price, popupPlans.combine.features, popupPlans.combine.period)}
                                 className="btn-card-outline"
                                 style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto" }}
                             >

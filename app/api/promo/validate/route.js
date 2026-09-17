@@ -29,7 +29,11 @@ async function ensurePromoTable() {
       const defaultPromos = [
         ["SAVE5", 5.00, 3000.00, "5% OFF on orders of ₹3,000 or more"],
         ["GROWTH10", 10.00, 8000.00, "10% OFF on orders of ₹8,000 or more"],
-        ["SCALE15", 15.00, 15000.00, "15% OFF on orders of ₹15,000 or more"]
+        ["SCALE15", 15.00, 15000.00, "15% OFF on orders of ₹15,000 or more"],
+        ["PLAN3M10", 10.00, 0.00, "10% OFF on 3-Month Plan Purchase"],
+        ["3MONTHS10", 10.00, 0.00, "10% OFF on 3-Month Plan Purchase"],
+        ["PLAN6M15", 15.00, 0.00, "15% OFF on 6-Month Plan Purchase"],
+        ["6MONTHS15", 15.00, 0.00, "15% OFF on 6-Month Plan Purchase"]
       ];
 
       for (const [code, percent, minAmt, desc] of defaultPromos) {
@@ -69,6 +73,32 @@ export async function POST(req) {
     );
 
     if (rows.length === 0) {
+      if (cleanCode === "PLAN6M15" || cleanCode === "6MONTHS15" || cleanCode === "6MONTH15") {
+        const discountPercent = 15;
+        const discountAmount = Math.round((orderAmount * discountPercent) / 100);
+        const finalTotal = Math.max(0, orderAmount - discountAmount);
+        return NextResponse.json({
+          success: true,
+          code: cleanCode,
+          discountPercent,
+          discountAmount,
+          finalTotal,
+          message: "6-Month Plan Special Discount (15% OFF) applied!"
+        });
+      }
+      if (cleanCode === "PLAN3M10" || cleanCode === "3MONTHS10" || cleanCode === "3MONTH10") {
+        const discountPercent = 10;
+        const discountAmount = Math.round((orderAmount * discountPercent) / 100);
+        const finalTotal = Math.max(0, orderAmount - discountAmount);
+        return NextResponse.json({
+          success: true,
+          code: cleanCode,
+          discountPercent,
+          discountAmount,
+          finalTotal,
+          message: "3-Month Plan Special Discount (10% OFF) applied!"
+        });
+      }
       return NextResponse.json({ success: false, error: "Invalid promo code." }, { status: 404 });
     }
 
