@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { Suspense, useEffect, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useCart } from "../hooks/useCart";
 import { Icon, SiteFooter, SiteHeader } from "../components/SiteChrome";
 import { isValidEmail, isValidMobileNumber, isValidName } from "../../lib/validation";
@@ -13,9 +14,43 @@ const REFERRAL_CODES = {
   SHARMA15: { discount: 15, label: "Sharma Marketing - 15% Off" },
 };
 
-export default function CheckoutPage() {
-  const { items, clearCart } = useCart();
+function CheckoutContent() {
+  const { items, addToCart, clearCart } = useCart();
   const [mounted, setMounted] = useState(false);
+  const searchParams = useSearchParams();
+  const planName = searchParams.get("plan");
+  const planPrice = searchParams.get("price");
+
+  useEffect(() => {
+    if (planName && planPrice) {
+      const numPrice = Number(planPrice);
+      
+      // If cart is empty OR has a different plan/price, replace it with the new plan!
+      const isDifferentPlan = !items || items.length === 0 || items[0]?.name !== planName || items[0]?.price !== numPrice;
+      
+      if (isDifferentPlan) {
+        const isTwoMo = planName?.toLowerCase().includes("2mo") || 
+                        planName?.toLowerCase().includes("2 month") || 
+                        (planName?.includes("Meta") && (planName?.includes("Standard") || numPrice === 4999));
+        const isThreeMo = planName?.toLowerCase().includes("3mo") || 
+                          planName?.toLowerCase().includes("3 month") || 
+                          numPrice === 13499 || numPrice === 19499 || numPrice === 6899;
+        const isSixMo = planName?.toLowerCase().includes("6mo") || 
+                        planName?.toLowerCase().includes("6 month") || 
+                        numPrice === 23999 || numPrice === 35999;
+
+        const detectedPeriod = isTwoMo ? "/2 months" : isThreeMo ? "/3 months" : isSixMo ? "/6 months" : "/month";
+
+        clearCart();
+        addToCart({ 
+          name: planName, 
+          price: numPrice, 
+          period: detectedPeriod,
+          features: [] 
+        });
+      }
+    }
+  }, [planName, planPrice, items, addToCart, clearCart]);
 
   // Get the single item (plan) to check out
   const selectedItem = items && items.length > 0 ? items[0] : null;
@@ -61,6 +96,21 @@ export default function CheckoutPage() {
     )
   );
 
+  // Detect whether the selected plan is natively a 2-month plan
+  const isPredefinedTwoMonth = Boolean(
+    selectedItem && !isPredefinedSixMonth && !isPredefinedThreeMonth && (
+      (selectedItem.period && (
+        selectedItem.period.toLowerCase().includes("2 month") ||
+        selectedItem.period.toLowerCase().includes("2month") ||
+        selectedItem.period.toLowerCase().includes("2mo")
+      )) ||
+      selectedItem.id === "fb_standard_monthly" ||
+      /2\s*months?/i.test(selectedItem.name || "") ||
+      (selectedItem.name?.includes("Meta Ads") && selectedItem.name?.includes("Standard")) ||
+      (selectedItem.name?.includes("Meta") && (itemPrice === 4999 || selectedItem.price === 4999))
+    )
+  );
+
   // Check if this plan is an ongoing ads/marketing plan that can also be toggled
   const isEligibleForDurationToggle = Boolean(
     selectedItem && !isPredefinedThreeMonth && !isPredefinedSixMonth && (
@@ -74,7 +124,7 @@ export default function CheckoutPage() {
   );
 
   const [duration, setDuration] = useState(
-    isPredefinedSixMonth ? 6 : isPredefinedThreeMonth ? 3 : 1
+    isPredefinedSixMonth ? 6 : isPredefinedThreeMonth ? 3 : isPredefinedTwoMonth ? 2 : 1
   );
 
   useEffect(() => {
@@ -82,18 +132,23 @@ export default function CheckoutPage() {
       setDuration(6);
     } else if (isPredefinedThreeMonth) {
       setDuration(3);
+    } else if (isPredefinedTwoMonth) {
+      setDuration(2);
     } else {
       setDuration(1);
     }
-  }, [selectedItem?.name, isPredefinedThreeMonth, isPredefinedSixMonth]);
+  }, [selectedItem?.name, isPredefinedThreeMonth, isPredefinedSixMonth, isPredefinedTwoMonth]);
 
   const isSixMonth = isPredefinedSixMonth || duration === 6;
   const isThreeMonth = !isSixMonth && (isPredefinedThreeMonth || duration === 3);
+  const isTwoMonth = !isSixMonth && !isThreeMonth && (isPredefinedTwoMonth || duration === 2);
 
   // Calculate base price before discounts:
   const effectivePrice = isPredefinedSixMonth
     ? itemPrice
     : isPredefinedThreeMonth
+    ? itemPrice
+    : isPredefinedTwoMonth
     ? itemPrice
     : duration === 6
     ? itemPrice * 6
@@ -256,7 +311,7 @@ export default function CheckoutPage() {
     }
 
     try {
-      const checkoutPlanTitle = `${selectedItem.name}${isSixMonth ? " (6 Months Plan - 15% OFF)" : isThreeMonth ? " (3 Months Plan - 10% OFF)" : ""}`;
+      const checkoutPlanTitle = `${selectedItem.name}${isSixMonth ? " (6 Months Plan - 15% OFF)" : isThreeMonth ? " (3 Months Plan - 10% OFF)" : isTwoMonth ? " (2 Months Plan)" : ""}`;
 
       const response = await fetch("/api/razorpay/order", {
         method: "POST",
@@ -277,7 +332,7 @@ export default function CheckoutPage() {
       }
 
       // Add extra details in checkout description notes
-      const notesDescription = `Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"} | Duration: ${isSixMonth ? "6 Months" : isThreeMonth ? "3 Months" : "1 Month"}`;
+      const notesDescription = `Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"} | Duration: ${isSixMonth ? "6 Months" : isThreeMonth ? "3 Months" : isTwoMonth ? "2 Months" : "1 Month"}`;
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_7fK8bF9H1k6Y3a",
@@ -693,11 +748,11 @@ export default function CheckoutPage() {
                   <div style={{ fontSize: "1.5rem", fontWeight: "800", color: "var(--text)", marginTop: "8px" }}>
                     ₹{effectivePrice.toLocaleString("en-IN")}
                     <span style={{ fontSize: "0.85rem", color: "var(--muted)", fontWeight: "500", marginLeft: "6px" }}>
-                      {isSixMonth ? "/ 6 months" : isThreeMonth ? "/ 3 months" : (selectedItem.period || "")}
+                      {isSixMonth ? "/ 6 months" : isThreeMonth ? "/ 3 months" : isTwoMonth ? "/ 2 months" : (selectedItem.period || "")}
                     </span>
                   </div>
 
-                  {(isSixMonth || isThreeMonth) && (
+                  {(isSixMonth || isThreeMonth || isTwoMonth) && (
                     <div style={{
                       marginTop: "10px",
                       padding: "8px 12px",
@@ -714,7 +769,7 @@ export default function CheckoutPage() {
                         <span className="material-symbols-outlined" style={{ fontSize: "16px", color: isSixMonth ? "#2563eb" : "#16a34a" }}>schedule</span>
                         Monthly Estimation:
                       </span>
-                      <strong>≈ ₹{Math.round(netAmount / (isSixMonth ? 6 : 3)).toLocaleString("en-IN")} / month</strong>
+                      <strong>≈ ₹{Math.round(netAmount / (isSixMonth ? 6 : isThreeMonth ? 3 : 2)).toLocaleString("en-IN")} / month</strong>
                     </div>
                   )}
 
@@ -727,20 +782,20 @@ export default function CheckoutPage() {
                       <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: "8px" }}>
                         <button
                           type="button"
-                          onClick={() => setDuration(1)}
+                          onClick={() => setDuration(isPredefinedTwoMonth ? 2 : 1)}
                           style={{
                             padding: "8px 6px",
                             borderRadius: "8px",
-                            border: duration === 1 ? "2px solid var(--orange)" : "1px solid var(--line)",
-                            background: duration === 1 ? "var(--orange-soft)" : "#fff",
-                            color: duration === 1 ? "var(--orange)" : "var(--text)",
+                            border: (duration === 1 || duration === 2) ? "2px solid var(--orange)" : "1px solid var(--line)",
+                            background: (duration === 1 || duration === 2) ? "var(--orange-soft)" : "#fff",
+                            color: (duration === 1 || duration === 2) ? "var(--orange)" : "var(--text)",
                             fontWeight: "700",
                             fontSize: "0.78rem",
                             cursor: "pointer",
                             transition: "all 0.2s ease"
                           }}
                         >
-                          1 Mo (₹{itemPrice.toLocaleString("en-IN")})
+                          {isPredefinedTwoMonth ? "2 Mo" : "1 Mo"} (₹{itemPrice.toLocaleString("en-IN")})
                         </button>
                         <button
                           type="button"
@@ -1317,6 +1372,24 @@ export default function CheckoutPage() {
         }
       `}</style>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="pricing-page-wrapper">
+          <SiteHeader active="checkout" />
+          <div style={{ minHeight: "60vh", display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <div className="loader-spinner">Loading your secure checkout...</div>
+          </div>
+          <SiteFooter />
+        </div>
+      }
+    >
+      <CheckoutContent />
+    </Suspense>
   );
 }
 
