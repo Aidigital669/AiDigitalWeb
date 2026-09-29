@@ -3,6 +3,11 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import defaultData from "../../data/visibilitySettings.json";
 
+// Bump this version string any time default visibility settings change.
+// This automatically clears the browser sessionStorage cache.
+const CACHE_VERSION = "v5-realestate-only";
+const CACHE_KEY = `ai_visibility_settings_${CACHE_VERSION}`;
+
 const VisibilityContext = createContext({
   visibility: defaultData?.settings || {},
   isLoading: false,
@@ -13,8 +18,9 @@ const VisibilityContext = createContext({
 });
 
 export function VisibilityProvider({ children }) {
+  // Start with defaults from JSON file (non-real estate industries are false by default)
   const [visibility, setVisibility] = useState(defaultData?.settings || {});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   const fetchVisibility = useCallback(async () => {
     try {
@@ -26,9 +32,15 @@ export function VisibilityProvider({ children }) {
         if (data && data.visibility) {
           setVisibility(data.visibility);
           try {
-            sessionStorage.setItem("ai_visibility_settings", JSON.stringify(data.visibility));
+            // Clear ALL old cache keys (previous versions)
+            Object.keys(sessionStorage).forEach((key) => {
+              if (key.startsWith("ai_visibility_settings")) {
+                sessionStorage.removeItem(key);
+              }
+            });
+            sessionStorage.setItem(CACHE_KEY, JSON.stringify(data.visibility));
           } catch (e) {
-            // ignore
+            // ignore storage errors
           }
         }
       }
@@ -40,9 +52,9 @@ export function VisibilityProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    // Check sessionStorage cache first for instant hydration
+    // Only use cached value if it's from the current version
     try {
-      const cached = sessionStorage.getItem("ai_visibility_settings");
+      const cached = sessionStorage.getItem(CACHE_KEY);
       if (cached) {
         setVisibility(JSON.parse(cached));
       }
@@ -50,12 +62,13 @@ export function VisibilityProvider({ children }) {
       // ignore
     }
 
+    // Always fetch fresh data from server on mount
     fetchVisibility();
 
-    // Re-check periodically every 60 seconds (or on window focus)
+    // Re-check every 30 seconds and on window focus
     const handleFocus = () => fetchVisibility();
     window.addEventListener("focus", handleFocus);
-    const interval = setInterval(fetchVisibility, 60000);
+    const interval = setInterval(fetchVisibility, 30000);
 
     return () => {
       window.removeEventListener("focus", handleFocus);

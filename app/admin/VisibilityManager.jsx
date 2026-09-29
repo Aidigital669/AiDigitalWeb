@@ -1009,6 +1009,167 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
                 </div>
               )}
 
+              {/* ═══ INDUSTRY QUICK CONTROL PANEL (always visible in Portfolio group) ═══ */}
+              {groupKey === "portfolio" && (() => {
+                const industryItems = sectionItems.filter(i => i.id.startsWith("portfolio_ind_"));
+                if (industryItems.length === 0) return null;
+                const visibleCount = industryItems.filter(i => i.is_visible).length;
+
+                const INDUSTRY_ICONS = {
+                  portfolio_ind_realestate: { icon: "apartment", color: "#f59e0b", label: "Real Estate" },
+                  portfolio_ind_education:  { icon: "school",    color: "#3b82f6", label: "Education" },
+                  portfolio_ind_healthcare: { icon: "medical_services", color: "#10b981", label: "Healthcare" },
+                  portfolio_ind_finance:    { icon: "account_balance", color: "#8b5cf6", label: "Finance" },
+                  portfolio_ind_hospitality:{ icon: "hotel",     color: "#ec4899", label: "Hotels & Resorts" },
+                  portfolio_ind_solar:      { icon: "wb_sunny",  color: "#eab308", label: "Solar & Energy" },
+                  portfolio_ind_agriculture:{ icon: "grass",     color: "#22c55e", label: "Agriculture" },
+                  portfolio_ind_construction:{ icon: "construction", color: "#f97316", label: "Construction" },
+                  portfolio_ind_ecommerce:  { icon: "storefront", color: "#06b6d4", label: "E-Commerce" },
+                  portfolio_ind_interior:   { icon: "chair",     color: "#a855f7", label: "Interior Design" },
+                  portfolio_ind_tech:       { icon: "memory",    color: "#14b8a6", label: "Technology" },
+                  portfolio_ind_travel:     { icon: "flight",    color: "#0ea5e9", label: "Tours & Travels" },
+                  portfolio_ind_sports:     { icon: "sports_soccer", color: "#84cc16", label: "Sports & Fitness" },
+                  portfolio_ind_cars:       { icon: "directions_car", color: "#ef4444", label: "Car Dealerships" },
+                  portfolio_ind_marketing:  { icon: "ads_click", color: "#d946ef", label: "Digital Marketing" },
+                };
+
+                return (
+                  <div style={{
+                    margin: "0 24px 20px 24px",
+                    background: "linear-gradient(135deg, rgba(139, 92, 246, 0.06) 0%, rgba(16, 185, 129, 0.04) 100%)",
+                    border: "1px solid rgba(139, 92, 246, 0.2)",
+                    borderRadius: "14px",
+                    overflow: "hidden",
+                  }}>
+                    {/* Panel Header */}
+                    <div style={{
+                      padding: "14px 20px",
+                      borderBottom: "1px solid rgba(139, 92, 246, 0.15)",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      background: "rgba(139, 92, 246, 0.08)",
+                    }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <Icon name="factory" style={{ color: "#a78bfa", fontSize: "20px" }} />
+                        <div>
+                          <div style={{ fontSize: "14px", fontWeight: "800", color: "#e2e8f0" }}>
+                            Industry Sector Visibility
+                          </div>
+                          <div style={{ fontSize: "11px", color: "#94a3b8", marginTop: "1px" }}>
+                            Toggle individual industries shown on the Portfolio page · {visibleCount} of {industryItems.length} visible
+                          </div>
+                        </div>
+                      </div>
+                      <div style={{ display: "flex", gap: "8px" }}>
+                        <button
+                          onClick={handleRealEstateOnly}
+                          style={{
+                            display: "inline-flex", alignItems: "center", gap: "5px",
+                            padding: "5px 12px", borderRadius: "8px", fontSize: "11px", fontWeight: "700",
+                            border: "1px solid rgba(245, 158, 11, 0.4)",
+                            background: "rgba(245, 158, 11, 0.12)", color: "#fbbf24",
+                            cursor: "pointer", transition: "all 0.15s ease",
+                          }}
+                          title="Show ONLY Real Estate, hide all others"
+                        >
+                          <Icon name="apartment" style={{ fontSize: "14px" }} /> Only Real Estate
+                        </button>
+                        <button
+                          onClick={() => handleToggleGroup("portfolio", true)}
+                          style={{
+                            display: "inline-flex", alignItems: "center", gap: "5px",
+                            padding: "5px 12px", borderRadius: "8px", fontSize: "11px", fontWeight: "700",
+                            border: "1px solid rgba(16, 185, 129, 0.4)",
+                            background: "rgba(16, 185, 129, 0.1)", color: "#6ee7b7",
+                            cursor: "pointer", transition: "all 0.15s ease",
+                          }}
+                          title="Make all industries visible"
+                        >
+                          <Icon name="visibility" style={{ fontSize: "14px" }} /> Show All
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Industry Cards Grid */}
+                    <div style={{
+                      padding: "16px 20px",
+                      display: "grid",
+                      gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+                      gap: "10px",
+                    }}>
+                      {industryItems.map((item) => {
+                        const meta = INDUSTRY_ICONS[item.id] || { icon: "category", color: "#94a3b8", label: item.name };
+                        const isOn = item.is_visible;
+                        const isUpdating = updatingIds.has(item.id);
+                        return (
+                          <div
+                            key={item.id}
+                            onClick={() => handleToggle(item.id, item.is_visible)}
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "12px",
+                              padding: "12px 14px",
+                              borderRadius: "10px",
+                              border: isOn
+                                ? `1px solid ${meta.color}44`
+                                : "1px solid rgba(239, 68, 68, 0.25)",
+                              background: isOn
+                                ? `${meta.color}11`
+                                : "rgba(239, 68, 68, 0.04)",
+                              cursor: isUpdating ? "wait" : "pointer",
+                              transition: "all 0.2s ease",
+                              userSelect: "none",
+                              opacity: isUpdating ? 0.6 : 1,
+                            }}
+                          >
+                            {/* Icon Circle */}
+                            <div style={{
+                              width: "36px", height: "36px", flexShrink: 0,
+                              borderRadius: "8px",
+                              background: isOn ? `${meta.color}22` : "rgba(239, 68, 68, 0.1)",
+                              display: "flex", alignItems: "center", justifyContent: "center",
+                            }}>
+                              <Icon
+                                name={meta.icon}
+                                style={{ fontSize: "18px", color: isOn ? meta.color : "#ef4444" }}
+                              />
+                            </div>
+
+                            {/* Label */}
+                            <div style={{ flex: 1, minWidth: 0 }}>
+                              <div style={{
+                                fontSize: "12px", fontWeight: "700",
+                                color: isOn ? "#e2e8f0" : "#94a3b8",
+                                whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis",
+                                textDecoration: isOn ? "none" : "line-through",
+                              }}>
+                                {meta.label}
+                              </div>
+                              <div style={{
+                                fontSize: "10px", fontWeight: "600", marginTop: "2px",
+                                color: isOn ? "#10b981" : "#ef4444",
+                              }}>
+                                {isUpdating ? "Saving…" : isOn ? "● VISIBLE" : "○ HIDDEN"}
+                              </div>
+                            </div>
+
+                            {/* Toggle */}
+                            <ToggleSwitch
+                              checked={isOn}
+                              onChange={(e) => { e.stopPropagation(); handleToggle(item.id, item.is_visible); }}
+                              loading={isUpdating}
+                            />
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              })()}
+
+
               {/* Grid of Sections */}
               <div
                 style={{
