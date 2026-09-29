@@ -9,6 +9,7 @@ import {
   resetAllVisibility,
   upsertCustomVisibilityItem,
   seedAllDefaultVisibilityItems,
+  setRealEstateOnly,
 } from "../../../../lib/visibility";
 
 export async function GET() {
@@ -49,6 +50,14 @@ export async function PUT(req) {
       return NextResponse.json({
         success: true,
         message: "All 40 default pages, sections and widgets synchronized into database!",
+      });
+    }
+
+    if (body.action === "realestate_only") {
+      await setRealEstateOnly();
+      return NextResponse.json({
+        success: true,
+        message: "Portfolio updated: Only Real Estate is visible. All other industries are hidden.",
       });
     }
 

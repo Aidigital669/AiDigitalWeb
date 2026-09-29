@@ -35,20 +35,20 @@
     "portfolio_type_creatives": true,
     "portfolio_type_reels": true,
     "portfolio_ind_realestate": true,
-    "portfolio_ind_education": true,
-    "portfolio_ind_healthcare": true,
-    "portfolio_ind_finance": true,
-    "portfolio_ind_hospitality": true,
-    "portfolio_ind_solar": true,
-    "portfolio_ind_agriculture": true,
-    "portfolio_ind_construction": true,
-    "portfolio_ind_ecommerce": true,
-    "portfolio_ind_interior": true,
-    "portfolio_ind_tech": true,
-    "portfolio_ind_travel": true,
-    "portfolio_ind_sports": true,
-    "portfolio_ind_cars": true,
-    "portfolio_ind_marketing": true,
+    "portfolio_ind_education": false,
+    "portfolio_ind_healthcare": false,
+    "portfolio_ind_finance": false,
+    "portfolio_ind_hospitality": false,
+    "portfolio_ind_solar": false,
+    "portfolio_ind_agriculture": false,
+    "portfolio_ind_construction": false,
+    "portfolio_ind_ecommerce": false,
+    "portfolio_ind_interior": false,
+    "portfolio_ind_tech": false,
+    "portfolio_ind_travel": false,
+    "portfolio_ind_sports": false,
+    "portfolio_ind_cars": false,
+    "portfolio_ind_marketing": false,
     "page_blog": true,
     "blog_hero": true,
     "blog_grid": true,
@@ -387,7 +387,7 @@
       "page_group": "portfolio",
       "name": "Industry: Education & Academics",
       "description": "School websites, admission campaigns, and student coaching creatives",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 35
     },
     {
@@ -396,7 +396,7 @@
       "page_group": "portfolio",
       "name": "Industry: Healthcare & Wellness",
       "description": "Hospitals, pain clinics, doctors, and wellness brand campaigns",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 36
     },
     {
@@ -405,7 +405,7 @@
       "page_group": "portfolio",
       "name": "Industry: Finance & Investment",
       "description": "Loan agencies, ITR filing, Demat, and wealth advisory creatives",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 37
     },
     {
@@ -414,7 +414,7 @@
       "page_group": "portfolio",
       "name": "Industry: Hotels & Resorts",
       "description": "Hotel booking platforms, resort promos, and hospitality videos",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 38
     },
     {
@@ -423,7 +423,7 @@
       "page_group": "portfolio",
       "name": "Industry: Solar & Clean Energy",
       "description": "Solar landing pages and green energy promotion campaigns",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 39
     },
     {
@@ -432,7 +432,7 @@
       "page_group": "portfolio",
       "name": "Industry: Agriculture & Farming",
       "description": "Agro products, cattle nutrition, and crop protection creatives",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 40
     },
     {
@@ -441,7 +441,7 @@
       "page_group": "portfolio",
       "name": "Industry: Construction & ERP",
       "description": "Construction ERP platforms and architecture design project cards",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 41
     },
     {
@@ -450,7 +450,7 @@
       "page_group": "portfolio",
       "name": "Industry: E-Commerce & Retail",
       "description": "Online store platforms, Ayurvedic products, and retail checkouts",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 42
     },
     {
@@ -459,7 +459,7 @@
       "page_group": "portfolio",
       "name": "Industry: Interior Design",
       "description": "Interior design studios, modular spaces, and architectural decors",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 43
     },
     {
@@ -468,7 +468,7 @@
       "page_group": "portfolio",
       "name": "Industry: Technology & Apps",
       "description": "SaaS dashboards, business apps, and tech software campaigns",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 44
     },
     {
@@ -477,7 +477,7 @@
       "page_group": "portfolio",
       "name": "Industry: Tours & Travels",
       "description": "Travel packages, destination reels, and tourism campaigns",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 45
     },
     {
@@ -486,7 +486,7 @@
       "page_group": "portfolio",
       "name": "Industry: Sports & Fitness",
       "description": "Sports academies, athletic training, and fitness promo videos",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 46
     },
     {
@@ -495,7 +495,7 @@
       "page_group": "portfolio",
       "name": "Industry: Car Dealerships",
       "description": "Automotive dealerships, vehicle promos, and showroom videos",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 47
     },
     {
@@ -504,7 +504,7 @@
       "page_group": "portfolio",
       "name": "Industry: Digital Marketing",
       "description": "AI Digital performance campaigns, ROI case studies, and ad promos",
-      "is_visible": true,
+      "is_visible": false,
       "sort_order": 48
     },
     {

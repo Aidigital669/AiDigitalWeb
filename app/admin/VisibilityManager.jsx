@@ -259,6 +259,25 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
     }
   };
 
+  const handleRealEstateOnly = async () => {
+    try {
+      const res = await fetch("/api/admin/visibility", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "realestate_only" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast(data.message || "Portfolio updated: Only Real Estate is visible!");
+        loadData();
+      } else {
+        showToast(data.error || "Failed to update portfolio", "error");
+      }
+    } catch (err) {
+      showToast("Network error updating portfolio", "error");
+    }
+  };
+
   const handleResetAll = async () => {
     if (
       !confirm(
@@ -954,17 +973,39 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
                       );
                     })}
                   </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "12px", flexWrap: "wrap" }}>
+                    <button
+                      onClick={handleRealEstateOnly}
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        gap: "6px",
+                        fontSize: "12px",
+                        fontWeight: "700",
+                        padding: "5px 12px",
+                        borderRadius: "8px",
+                        border: "1px solid rgba(16, 185, 129, 0.4)",
+                        background: "rgba(16, 185, 129, 0.12)",
+                        color: "#6ee7b7",
+                        cursor: "pointer",
+                        transition: "all 0.15s ease",
+                      }}
+                      title="Hide all other industries and keep ONLY Real Estate active"
+                    >
+                      <Icon name="domain" style={{ fontSize: "15px" }} /> Only Real Estate (Hide Others)
+                    </button>
 
-                  <span style={{ fontSize: "11px", color: "#94a3b8" }}>
-                    Showing {
-                      sectionItems.filter((item) => {
-                        if (portfolioSubFilter === "sections") return !item.id.startsWith("portfolio_type_") && !item.id.startsWith("portfolio_ind_");
-                        if (portfolioSubFilter === "types") return item.id.startsWith("portfolio_type_");
-                        if (portfolioSubFilter === "industries") return item.id.startsWith("portfolio_ind_");
-                        return true;
-                      }).length
-                    } of {sectionItems.length} controls
-                  </span>
+                    <span style={{ fontSize: "11px", color: "#94a3b8" }}>
+                      Showing {
+                        sectionItems.filter((item) => {
+                          if (portfolioSubFilter === "sections") return !item.id.startsWith("portfolio_type_") && !item.id.startsWith("portfolio_ind_");
+                          if (portfolioSubFilter === "types") return item.id.startsWith("portfolio_type_");
+                          if (portfolioSubFilter === "industries") return item.id.startsWith("portfolio_ind_");
+                          return true;
+                        }).length
+                      } of {sectionItems.length} controls
+                    </span>
+                  </div>
                 </div>
               )}
 
