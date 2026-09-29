@@ -31,7 +31,7 @@ const typeVisibilityMap = {
   image: "portfolio_type_creatives",
   reel: "portfolio_type_reels",
 };
-const creativeGroups = [
+export const creativeGroups = [
   {
     industry: "Real Estate",
     description: "Websites, campaigns, AI property promotions, creative branding, and real estate reels.",
