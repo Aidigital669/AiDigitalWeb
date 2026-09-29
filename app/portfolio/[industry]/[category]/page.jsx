@@ -38,6 +38,26 @@ export default function IndustryCategoryPage() {
   const router = useRouter();
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [videoErrors, setVideoErrors] = useState({});
+  const [creativeGroupsState, setCreativeGroupsState] = useState(creativeGroups);
+
+  useEffect(() => {
+    let isMounted = true;
+    async function loadDynamicPortfolio() {
+      try {
+        const res = await fetch("/api/portfolio?t=" + Date.now(), { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted && data.creativeGroups && Array.isArray(data.creativeGroups) && data.creativeGroups.length > 0) {
+            setCreativeGroupsState(data.creativeGroups);
+          }
+        }
+      } catch (err) {
+        console.warn("Could not load dynamic creative groups:", err);
+      }
+    }
+    loadDynamicPortfolio();
+    return () => { isMounted = false; };
+  }, []);
 
   const industrySlug = params?.industry;
   const categorySlug = params?.category;
@@ -135,8 +155,8 @@ export default function IndustryCategoryPage() {
 
   // Find matching industry group and projects
   const group = useMemo(() => {
-    return creativeGroups.find(g => g.industry.toLowerCase() === industryName.toLowerCase());
-  }, [industryName]);
+    return creativeGroupsState.find(g => g.industry.toLowerCase() === industryName.toLowerCase());
+  }, [creativeGroupsState, industryName]);
 
   const projects = useMemo(() => {
     if (!group) return [];

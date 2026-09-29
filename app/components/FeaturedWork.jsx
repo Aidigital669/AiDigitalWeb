@@ -174,6 +174,30 @@ export default function FeaturedWork() {
   const [industriesState, setIndustriesState] = useState(industries);
   const [otherProjectsState, setOtherProjectsState] = useState(otherProjects);
 
+  useEffect(() => {
+    let isMounted = true;
+    async function loadDynamicPortfolio() {
+      try {
+        const res = await fetch("/api/portfolio?t=" + Date.now(), { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          if (isMounted) {
+            if (data.industries && Array.isArray(data.industries) && data.industries.length > 0) {
+              setIndustriesState(data.industries);
+            }
+            if (data.otherProjects && Array.isArray(data.otherProjects) && data.otherProjects.length > 0) {
+              setOtherProjectsState(data.otherProjects);
+            }
+          }
+        }
+      } catch (err) {
+        console.warn("Could not load dynamic industries in FeaturedWork, using static fallback:", err);
+      }
+    }
+    loadDynamicPortfolio();
+    return () => { isMounted = false; };
+  }, []);
+
   // Filter out any service filter pill whose type is hidden in admin
   const availableFilters = useMemo(() => {
     return filters.filter((filter) => {

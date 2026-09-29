@@ -589,35 +589,41 @@ export default function AdminPage() {
 
   const handleSavePricing = async () => {
     try {
+      showToast("Saving pricing plans...", "info");
       const res = await fetch("/api/admin/pricing", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(pricingData),
       });
-      if (res.ok) {
-        showToast("Pricing plans updated successfully!");
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(data.message || "Pricing plans updated successfully!");
+        loadStats();
       } else {
-        showToast("Error saving pricing data", "error");
+        showToast(data.error || "Error saving pricing data", "error");
       }
     } catch (err) {
-      showToast("Connection failed", "error");
+      showToast("Connection failed saving pricing data", "error");
     }
   };
 
   const handleSavePortfolio = async () => {
     try {
+      showToast("Saving portfolio items...", "info");
       const res = await fetch("/api/admin/portfolio", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(portfolioData),
       });
-      if (res.ok) {
-        showToast("Portfolio data updated successfully!");
+      const data = await res.json();
+      if (res.ok && data.success) {
+        showToast(data.message || "Portfolio data updated successfully!");
+        loadStats();
       } else {
-        showToast("Error saving portfolio data", "error");
+        showToast(data.error || "Error saving portfolio data", "error");
       }
     } catch (err) {
-      showToast("Connection failed", "error");
+      showToast("Connection failed saving portfolio data", "error");
     }
   };
 
@@ -625,7 +631,7 @@ export default function AdminPage() {
   const updatePricingField = (category, index, field, value) => {
     setPricingData(prev => ({
       ...prev,
-      [category]: prev[category].map((plan, idx) =>
+      [category]: (prev[category] || []).map((plan, idx) =>
         idx === index ? { ...plan, [field]: value } : plan
       )
     }));
@@ -633,15 +639,16 @@ export default function AdminPage() {
 
   const updatePricingFeatures = (category, index, commaString) => {
     setPricingData(prev => {
-      const updatedCategory = prev[category].map((plan, idx) => {
+      const currentList = prev[category] || [];
+      const updatedCategory = currentList.map((plan, idx) => {
         if (idx !== index) return plan;
 
         let updatedFeatures;
-        if (category === "websitePlans" || category === "creativePacks" || category === "aiVideoPlans") {
-          const currentFeatures = plan.features || [];
+        if (category === "websitePlans" || category === "creativePacks" || category === "aiVideoPlans" || category === "realEstatePlans") {
+          const currentFeatures = Array.isArray(plan.features) ? plan.features : [];
           const texts = commaString.split(",").map(t => t.trim()).filter(Boolean);
           updatedFeatures = texts.map((text, i) => ({
-            icon: currentFeatures[i]?.icon || "check_circle",
+            icon: (currentFeatures[i] && typeof currentFeatures[i] === "object" ? currentFeatures[i].icon : "check_circle") || "check_circle",
             text
           }));
         } else {
@@ -654,10 +661,22 @@ export default function AdminPage() {
     });
   };
 
+  const movePricingPlan = (category, index, direction) => {
+    setPricingData(prev => {
+      const list = [...(prev[category] || [])];
+      const targetIndex = index + direction;
+      if (targetIndex < 0 || targetIndex >= list.length) return prev;
+      const [item] = list.splice(index, 1);
+      list.splice(targetIndex, 0, item);
+      return { ...prev, [category]: list };
+    });
+  };
+
   const addPricingPlan = (category) => {
     let newPlan;
     if (category === "googlePlans") {
       newPlan = {
+        id: `g_${Date.now()}`,
         platform: "Google Ads",
         badgeClass: "gg-badge",
         level: "New Google Plan",
@@ -672,6 +691,7 @@ export default function AdminPage() {
       };
     } else if (category === "facebookPlans") {
       newPlan = {
+        id: `fb_${Date.now()}`,
         platform: "Meta Ads",
         badgeClass: "fb-badge",
         level: "New Meta Plan",
@@ -686,6 +706,7 @@ export default function AdminPage() {
       };
     } else if (category === "combinePlans") {
       newPlan = {
+        id: `comb_${Date.now()}`,
         platform: "Meta + Google Ads",
         badgeClass: "multi-badge",
         level: "New Combine Plan",
@@ -700,6 +721,7 @@ export default function AdminPage() {
       };
     } else if (category === "websitePlans") {
       newPlan = {
+        id: `web_${Date.now()}`,
         level: "New Website Plan",
         tagClass: "static-tag",
         price: 9999,
@@ -714,7 +736,8 @@ export default function AdminPage() {
       };
     } else if (category === "creativePacks") {
       newPlan = {
-        level: "New Pack",
+        id: `cp_${Date.now()}`,
+        level: "New Creative Pack",
         tagClass: "static-tag",
         price: 999,
         period: "",
@@ -728,9 +751,10 @@ export default function AdminPage() {
       };
     } else if (category === "aiVideoPlans") {
       newPlan = {
-        level: "New Plan",
+        id: `ai_${Date.now()}`,
+        level: "New AI Video Plan",
         tagClass: "static-tag",
-        price: "3,000",
+        price: 3000,
         period: "",
         features: [
           { icon: "video_library", text: "3 AI Videos" }
@@ -740,13 +764,36 @@ export default function AdminPage() {
         planParameter: "AI Video - New Plan (3 Videos for ₹3000)",
         isHighlight: false
       };
+    } else if (category === "realEstatePlans") {
+      newPlan = {
+        id: `re_${Date.now()}`,
+        platform: "Real Estate Ads",
+        badgeClass: "fb-badge",
+        level: "New Real Estate Plan",
+        pillClass: "standard-pill",
+        price: 5000,
+        period: "/month",
+        features: [
+          { icon: "my_location", text: "Targeted Ad Campaigns" },
+          { icon: "groups", text: "Quality Leads" },
+          { icon: "phone_callback", text: "More Site Visits" },
+          { icon: "palette", text: "3 Creatives" },
+          { icon: "movie", text: "1 AI Video" }
+        ],
+        buttonText: "Call Now",
+        isPopular: false,
+        serviceName: "Real Estate Advertising",
+        planParameter: "Real Estate - New Plan (₹5,000/mo)",
+        isHighlight: false
+      };
     }
 
     if (newPlan) {
       setPricingData(prev => ({
         ...prev,
-        [category]: [...prev[category], newPlan]
+        [category]: [...(prev[category] || []), newPlan]
       }));
+      showToast(`Added new plan to ${category}. Remember to Save Changes.`);
     }
   };
 
@@ -754,8 +801,9 @@ export default function AdminPage() {
     if (!confirm("Are you sure you want to delete this pricing plan?")) return;
     setPricingData(prev => ({
       ...prev,
-      [category]: prev[category].filter((_, idx) => idx !== index)
+      [category]: (prev[category] || []).filter((_, idx) => idx !== index)
     }));
+    showToast("Plan removed. Remember to Save Changes.");
   };
 
   // Portfolio Operations - Showcase Carousel
@@ -995,35 +1043,99 @@ export default function AdminPage() {
         // Update the source field with uploaded URL
         updateCreativeMedia(groupIndex, mediaIndex, "src", data.url);
 
-        // Only auto-set type if it's NOT already set to "website"
-        // (website cards keep their type so uploaded image shows in website section)
         setPortfolioData(prev => {
           const currentType = prev.creativeGroups[groupIndex]?.images[mediaIndex]?.type;
-          if (currentType !== "website") {
-            const fileType = file.type.startsWith("video/") ? "video" : "image";
-            const updated = { ...prev };
-            updated.creativeGroups = updated.creativeGroups.map((grp, gi) => {
-              if (gi !== groupIndex) return grp;
-              return {
-                ...grp,
-                images: grp.images.map((img, ii) => {
-                  if (ii !== mediaIndex) return img;
-                  return { ...img, type: fileType };
-                })
-              };
-            });
-            return updated;
-          }
-          return prev;
+          const isVideo = file.type.startsWith("video/") || data.mediaType === "video";
+          const fileType = currentType === "website" ? "website" : (isVideo ? "video" : "image");
+          const updated = { ...prev };
+          updated.creativeGroups = updated.creativeGroups.map((grp, gi) => {
+            if (gi !== groupIndex) return grp;
+            return {
+              ...grp,
+              images: grp.images.map((img, ii) => {
+                if (ii !== mediaIndex) return img;
+                return { ...img, src: data.url, type: fileType };
+              })
+            };
+          });
+          return updated;
         });
 
-        showToast("Image uploaded successfully! Remember to Save Changes.", "success");
+        showToast("File uploaded successfully! Remember to Save Changes.", "success");
       } else {
         showToast(data.error || "Upload failed", "error");
       }
     } catch (err) {
       showToast("Network error uploading file", "error");
       console.error(err);
+    }
+  };
+
+  const handleDirectUploadAndAdd = async (file, groupIndex) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    showToast("Uploading file and adding project...", "info");
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        const isVideo = file.type.startsWith("video/") || data.mediaType === "video";
+        const cleanTitle = (file.name || "New Media").replace(/\.[^/.]+$/, "").replace(/[_-]/g, " ");
+        const newMedia = {
+          src: data.url,
+          title: cleanTitle.charAt(0).toUpperCase() + cleanTitle.slice(1),
+          description: "Newly uploaded showcase asset.",
+          globalIndex: Date.now() % 1000,
+          type: isVideo ? "video" : "image",
+          category: isVideo ? "video" : "image"
+        };
+
+        setPortfolioData(prev => ({
+          ...prev,
+          creativeGroups: prev.creativeGroups.map((group, grpIdx) => {
+            if (grpIdx !== groupIndex) return group;
+            return {
+              ...group,
+              images: [newMedia, ...group.images]
+            };
+          })
+        }));
+
+        showToast("New media uploaded & added to project! Remember to Save Changes.", "success");
+      } else {
+        showToast(data.error || "Upload failed", "error");
+      }
+    } catch (err) {
+      showToast("Network error uploading file", "error");
+      console.error(err);
+    }
+  };
+
+  const handleShowcaseUpload = async (file, index) => {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    showToast("Uploading showcase image...", "info");
+
+    try {
+      const res = await fetch("/api/admin/upload", {
+        method: "POST",
+        body: formData
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
+        updateShowcaseField(index, "thumbnail", data.url);
+        showToast("Showcase thumbnail uploaded! Remember to Save Changes.", "success");
+      } else {
+        showToast(data.error || "Upload failed", "error");
+      }
+    } catch (err) {
+      showToast("Network error uploading showcase file", "error");
     }
   };
 
@@ -1274,6 +1386,12 @@ export default function AdminPage() {
             <Icon name="dashboard" /> Portfolio Showcase
           </button>
           <button
+            onClick={() => { setActiveTab("pricing"); setEditingBlog(null); }}
+            style={{ ...styles.sidebarBtn, ...(activeTab === "pricing" ? styles.sidebarBtnActive : {}) }}
+          >
+            <Icon name="payments" /> Pricing Plans
+          </button>
+          <button
             onClick={() => { setActiveTab("blogs"); setEditingBlog(null); }}
             style={{ ...styles.sidebarBtn, ...(activeTab === "blogs" ? styles.sidebarBtnActive : {}) }}
           >
@@ -1409,22 +1527,34 @@ export default function AdminPage() {
                     </span>
                   </div>
 
-                  <div style={styles.miniCard}>
+                  <div 
+                    style={{ ...styles.miniCard, cursor: "pointer", border: "1px solid rgba(253, 126, 20, 0.3)", backgroundColor: "rgba(253, 126, 20, 0.05)" }}
+                    onClick={() => { setActiveTab("pricing"); setEditingBlog(null); }}
+                    title="Click to manage Pricing Packages"
+                  >
                     <div style={styles.miniCardHeader}>
                       <Icon name="payments" style={{ color: "#FD7E14" }} />
-                      <h4 style={{ margin: 0 }}>Pricing Plans</h4>
+                      <h4 style={{ margin: 0, color: "#FD7E14" }}>Pricing Plans</h4>
                     </div>
                     <p style={styles.statNumber}>{stats.counts.pricing_plans}</p>
-                    <span style={styles.statLabel}>Active packages</span>
+                    <span style={{ fontSize: "12px", color: "#FD7E14", fontWeight: "600", display: "flex", alignItems: "center", gap: "4px" }}>
+                      Manage Plans & Packages →
+                    </span>
                   </div>
 
-                  <div style={styles.miniCard}>
+                  <div 
+                    style={{ ...styles.miniCard, cursor: "pointer", border: "1px solid rgba(59, 130, 246, 0.3)", backgroundColor: "rgba(59, 130, 246, 0.05)" }}
+                    onClick={() => { setActiveTab("portfolio"); setEditingBlog(null); }}
+                    title="Click to manage Portfolio Showcase & Media"
+                  >
                     <div style={styles.miniCardHeader}>
                       <Icon name="dashboard" style={{ color: "#3B82F6" }} />
-                      <h4 style={{ margin: 0 }}>Portfolio Items</h4>
+                      <h4 style={{ margin: 0, color: "#60A5FA" }}>Portfolio Items</h4>
                     </div>
                     <p style={styles.statNumber}>{stats.counts.portfolio_items}</p>
-                    <span style={styles.statLabel}>Showcase & creatives</span>
+                    <span style={{ fontSize: "12px", color: "#3B82F6", fontWeight: "600", display: "flex", alignItems: "center", gap: "4px" }}>
+                      Manage Portfolio & Media →
+                    </span>
                   </div>
 
                   <div style={styles.miniCard}>
@@ -1515,84 +1645,154 @@ export default function AdminPage() {
                 >
                   AI Video
                 </button>
+                <button
+                  onClick={() => setSelectedPriceCategory("realEstatePlans")}
+                  style={{ ...styles.tabSelectBtn, ...(selectedPriceCategory === "realEstatePlans" ? styles.tabSelectBtnActive : {}) }}
+                >
+                  Real Estate
+                </button>
               </div>
 
               {/* Edit forms list */}
               <div style={styles.formGrid}>
-                {pricingData[selectedPriceCategory].map((plan, index) => (
+                {(!pricingData[selectedPriceCategory] || pricingData[selectedPriceCategory].length === 0) && (
+                  <div style={{ ...styles.card, textAlign: "center", padding: "32px", color: "#94a3b8" }}>
+                    <p>No plans found in this category.</p>
+                    <button onClick={() => addPricingPlan(selectedPriceCategory)} style={{ ...styles.addBtn, margin: "12px auto 0" }}>
+                      <Icon name="add" /> Add First Plan
+                    </button>
+                  </div>
+                )}
+                {(pricingData[selectedPriceCategory] || []).map((plan, index) => (
                   <div key={index} style={styles.card}>
                     <div style={styles.cardHeader}>
                       <h3>{plan.level || plan.platform || "Plan Level"}</h3>
-                      <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                        <button
+                          onClick={() => movePricingPlan(selectedPriceCategory, index, -1)}
+                          disabled={index === 0}
+                          style={{ ...styles.deleteBtnIcon, opacity: index === 0 ? 0.3 : 1, cursor: index === 0 ? "default" : "pointer" }}
+                          title="Move plan up"
+                        >
+                          <Icon name="arrow_upward" />
+                        </button>
+                        <button
+                          onClick={() => movePricingPlan(selectedPriceCategory, index, 1)}
+                          disabled={index === (pricingData[selectedPriceCategory] || []).length - 1}
+                          style={{ ...styles.deleteBtnIcon, opacity: index === (pricingData[selectedPriceCategory] || []).length - 1 ? 0.3 : 1, cursor: index === (pricingData[selectedPriceCategory] || []).length - 1 ? "default" : "pointer" }}
+                          title="Move plan down"
+                        >
+                          <Icon name="arrow_downward" />
+                        </button>
                         <label style={styles.switchLabel}>
                           <input
                             type="checkbox"
                             checked={plan.isPopular || false}
                             onChange={(e) => updatePricingField(selectedPriceCategory, index, "isPopular", e.target.checked)}
                           />{" "}
-                          Popular/Featured
+                          Popular / Featured
                         </label>
-                        <button onClick={() => deletePricingPlan(selectedPriceCategory, index)} style={styles.deleteBtnIcon}>
+                        <button onClick={() => deletePricingPlan(selectedPriceCategory, index)} style={styles.deleteBtnIcon} title="Delete plan">
                           <Icon name="delete" />
                         </button>
                       </div>
                     </div>
 
-                    <div style={styles.inputGroup}>
-                      <label style={styles.label}>Plan Title / Level</label>
-                      <input
-                        type="text"
-                        value={plan.level || ""}
-                        onChange={(e) => updatePricingField(selectedPriceCategory, index, "level", e.target.value)}
-                        style={styles.input}
-                      />
-                    </div>
-
-                    {plan.platform !== undefined && (
-                      <div style={styles.inputGroup}>
-                        <label style={styles.label}>Platform (e.g. Meta Ads)</label>
+                    <div className="admin-input-row" style={styles.inputRow}>
+                      <div style={styles.inputGroupFluid}>
+                        <label style={styles.label}>Plan Title / Level</label>
+                        <input
+                          type="text"
+                          value={plan.level || ""}
+                          onChange={(e) => updatePricingField(selectedPriceCategory, index, "level", e.target.value)}
+                          style={styles.input}
+                          placeholder="e.g. Basic Plan, Standard, Premium"
+                        />
+                      </div>
+                      <div style={styles.inputGroupFluid}>
+                        <label style={styles.label}>Platform / Service Label</label>
                         <input
                           type="text"
                           value={plan.platform || ""}
                           onChange={(e) => updatePricingField(selectedPriceCategory, index, "platform", e.target.value)}
                           style={styles.input}
+                          placeholder="e.g. Meta Ads, Google Ads"
                         />
                       </div>
-                    )}
-
-                    <div style={styles.inputGroup}>
-                      <label style={styles.label}>Price (INR ₹)</label>
-                      <input
-                        type="text"
-                        value={plan.price}
-                        onChange={(e) => updatePricingField(selectedPriceCategory, index, "price", e.target.value)}
-                        style={styles.input}
-                      />
                     </div>
 
-                    <div style={styles.inputGroup}>
-                      <label style={styles.label}>Billing Period / Cycle (e.g. /month, /3 months, /6 months)</label>
-                      <input
-                        type="text"
-                        value={plan.period || ""}
-                        onChange={(e) => updatePricingField(selectedPriceCategory, index, "period", e.target.value)}
-                        placeholder="Leave blank for one-time payments"
-                        style={styles.input}
-                      />
+                    <div className="admin-input-row" style={styles.inputRow}>
+                      <div style={styles.inputGroupFluid}>
+                        <label style={styles.label}>Price (INR ₹)</label>
+                        <input
+                          type="text"
+                          value={plan.price !== undefined && plan.price !== null ? plan.price : ""}
+                          onChange={(e) => updatePricingField(selectedPriceCategory, index, "price", e.target.value)}
+                          style={styles.input}
+                          placeholder="e.g. 4999"
+                        />
+                      </div>
+                      <div style={styles.inputGroupFluid}>
+                        <label style={styles.label}>Billing Period / Cycle</label>
+                        <input
+                          type="text"
+                          value={plan.period || ""}
+                          onChange={(e) => updatePricingField(selectedPriceCategory, index, "period", e.target.value)}
+                          placeholder="e.g. /month, /3 months, or leave blank for one-time"
+                          style={styles.input}
+                        />
+                      </div>
+                      <div style={styles.inputGroupFluid}>
+                        <label style={styles.label}>Button Text</label>
+                        <input
+                          type="text"
+                          value={plan.buttonText || ""}
+                          onChange={(e) => updatePricingField(selectedPriceCategory, index, "buttonText", e.target.value)}
+                          placeholder="e.g. Select Plan, Buy Now, Call Now"
+                          style={styles.input}
+                        />
+                      </div>
                     </div>
 
                     <div style={styles.inputGroup}>
                       <label style={styles.label}>Features (Comma-separated)</label>
                       <textarea
-                        rows={4}
+                        rows={3}
                         value={
-                          ["googlePlans", "facebookPlans", "combinePlans"].includes(selectedPriceCategory)
-                            ? plan.features.join(", ")
-                            : plan.features.map(f => f.text).join(", ")
+                          Array.isArray(plan.features)
+                            ? plan.features
+                                .map((f) => (typeof f === "object" && f !== null ? f.text : f))
+                                .filter(Boolean)
+                                .join(", ")
+                            : ""
                         }
                         onChange={(e) => updatePricingFeatures(selectedPriceCategory, index, e.target.value)}
                         style={styles.textarea}
+                        placeholder="Feature 1, Feature 2, Feature 3..."
                       />
+                    </div>
+
+                    <div className="admin-input-row" style={styles.inputRow}>
+                      <div style={styles.inputGroupFluid}>
+                        <label style={styles.label}>Service Name (for cart/checkout)</label>
+                        <input
+                          type="text"
+                          value={plan.serviceName || ""}
+                          onChange={(e) => updatePricingField(selectedPriceCategory, index, "serviceName", e.target.value)}
+                          placeholder="e.g. Performance Marketing, Real Estate"
+                          style={styles.input}
+                        />
+                      </div>
+                      <div style={styles.inputGroupFluid}>
+                        <label style={styles.label}>Plan Parameter (for tracking / WhatsApp)</label>
+                        <input
+                          type="text"
+                          value={plan.planParameter || ""}
+                          onChange={(e) => updatePricingField(selectedPriceCategory, index, "planParameter", e.target.value)}
+                          placeholder="e.g. Meta Ads - Standard (₹4999/2mo)"
+                          style={styles.input}
+                        />
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -1786,6 +1986,40 @@ export default function AdminPage() {
                                 style={styles.input}
                               />
                             </div>
+
+                            <div className="admin-input-row" style={styles.inputRow}>
+                              <div style={styles.inputGroupFluid}>
+                                <label style={styles.label}>Thumbnail / Visual Image URL</label>
+                                <input
+                                  type="text"
+                                  value={proj.thumbnail || ""}
+                                  onChange={(e) => updateShowcaseField(idx, "thumbnail", e.target.value)}
+                                  placeholder="e.g. /uploads/image.jpg or click Upload Image"
+                                  style={styles.input}
+                                />
+                              </div>
+                              <div style={{ alignSelf: "flex-end", marginBottom: "16px" }}>
+                                <button
+                                  type="button"
+                                  onClick={() => document.getElementById(`sc-upload-${idx}`).click()}
+                                  style={{ ...styles.addBtnSmall, backgroundColor: "#10B981", color: "#fff", display: "flex", alignItems: "center", gap: "4px" }}
+                                  title="Upload image from computer"
+                                >
+                                  <Icon name="cloud_upload" /> Upload Image
+                                </button>
+                                <input
+                                  id={`sc-upload-${idx}`}
+                                  type="file"
+                                  accept="image/*"
+                                  style={{ display: "none" }}
+                                  onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    if (file) handleShowcaseUpload(file, idx);
+                                    e.target.value = "";
+                                  }}
+                                />
+                              </div>
+                            </div>
                           </div>
                         );
                       })}
@@ -1962,14 +2196,33 @@ export default function AdminPage() {
                         return (
                           <div key={grpIdx} style={styles.industryBox}>
                             <div style={styles.industryTitleRow}>
-                              <h4>{group.industry} Media</h4>
-                              <div style={{ display: "flex", gap: "8px" }}>
-                                <button onClick={() => handleDeleteIndustry(group.industry)} style={{ ...styles.deleteBtn, padding: "4px 8px", fontSize: "12px" }}>
+                              <h4>{group.industry} Media ({group.images.length} items)</h4>
+                              <div style={{ display: "flex", gap: "8px", alignItems: "center" }}>
+                                <button onClick={() => handleDeleteIndustry(group.industry)} style={{ ...styles.deleteBtn, padding: "6px 10px", fontSize: "12px" }}>
                                   <Icon name="delete" /> Delete Industry Box
                                 </button>
                                 <button onClick={() => addCreativeMedia(grpIdx)} style={styles.addBtnSmall}>
-                                  <Icon name="add" /> Add Media File
+                                  <Icon name="add" /> Add Item
                                 </button>
+                                <button
+                                  type="button"
+                                  onClick={() => document.getElementById(`quick-upload-${grpIdx}`).click()}
+                                  style={{ ...styles.addBtnSmall, backgroundColor: "#10B981", color: "#fff", display: "flex", alignItems: "center", gap: "4px" }}
+                                  title="Upload new image or video file directly from your computer"
+                                >
+                                  <Icon name="cloud_upload" /> Upload New Media
+                                </button>
+                                <input
+                                  id={`quick-upload-${grpIdx}`}
+                                  type="file"
+                                  accept="image/*,video/*"
+                                  style={{ display: "none" }}
+                                  onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    if (file) handleDirectUploadAndAdd(file, grpIdx);
+                                    e.target.value = "";
+                                  }}
+                                />
                               </div>
                             </div>
 
@@ -1985,13 +2238,86 @@ export default function AdminPage() {
 
                                 if (!isVisible) return null;
 
+                                const isVideoMedia = img.type === "video" || img.type === "reel" || (img.src && (img.src.endsWith(".mp4") || img.src.endsWith(".webm") || img.src.endsWith(".mov")));
+                                const isYouTubeMedia = img.src && (img.src.includes("youtube.com") || img.src.includes("youtu.be"));
+
                                 return (
                                   <div key={imgIdx} style={styles.mediaCard}>
                                     <div style={styles.mediaCardTop}>
-                                      <span style={styles.mediaTypeLabel}>{img.type}</span>
-                                      <button onClick={() => deleteCreativeMedia(grpIdx, imgIdx)} style={styles.deleteBtnIcon}>
+                                      <span style={{ ...styles.mediaTypeLabel, textTransform: "uppercase" }}>{img.type}</span>
+                                      <button onClick={() => deleteCreativeMedia(grpIdx, imgIdx)} style={styles.deleteBtnIcon} title="Delete this media card">
                                         <Icon name="delete" />
                                       </button>
+                                    </div>
+
+                                    {/* Live Media Visual Preview */}
+                                    {img.src && (
+                                      <div style={{ marginBottom: "10px", borderRadius: "8px", overflow: "hidden", backgroundColor: "rgba(0,0,0,0.4)", border: "1px solid rgba(255,255,255,0.1)", position: "relative" }}>
+                                        {isYouTubeMedia ? (
+                                          <div style={{ height: "100px", display: "flex", alignItems: "center", justifyContent: "center", backgroundColor: "#1e1e24", color: "#EA4335", gap: "6px", fontSize: "12px", fontWeight: "700" }}>
+                                            <Icon name="play_circle" style={{ fontSize: "28px" }} />
+                                            <span>YouTube Video Link</span>
+                                          </div>
+                                        ) : isVideoMedia ? (
+                                          <video src={img.src} style={{ width: "100%", height: "110px", objectFit: "cover", display: "block" }} controls />
+                                        ) : (
+                                          <img
+                                            src={img.thumbnail || img.src}
+                                            alt={img.title || "Preview"}
+                                            style={{ width: "100%", height: "110px", objectFit: "cover", display: "block" }}
+                                            onError={(e) => { e.currentTarget.style.display = "none"; }}
+                                          />
+                                        )}
+                                      </div>
+                                    )}
+
+                                    {/* Universal File Upload Dropzone */}
+                                    <div style={{ marginBottom: "10px" }}>
+                                      <div
+                                        onDragOver={(e) => {
+                                          e.preventDefault();
+                                          e.currentTarget.style.borderColor = "#10B981";
+                                          e.currentTarget.style.backgroundColor = "rgba(16, 185, 129, 0.08)";
+                                        }}
+                                        onDragLeave={(e) => {
+                                          e.preventDefault();
+                                          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                                          e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.02)";
+                                        }}
+                                        onDrop={(e) => {
+                                          e.preventDefault();
+                                          e.currentTarget.style.borderColor = "rgba(255, 255, 255, 0.15)";
+                                          e.currentTarget.style.backgroundColor = "rgba(255, 255, 255, 0.02)";
+                                          const file = e.dataTransfer.files[0];
+                                          if (file) handleFileUpload(file, grpIdx, imgIdx);
+                                        }}
+                                        style={{
+                                          border: "1px dashed rgba(255, 255, 255, 0.25)",
+                                          borderRadius: "6px",
+                                          padding: "10px",
+                                          textAlign: "center",
+                                          fontSize: "11px",
+                                          color: "#94a3b8",
+                                          cursor: "pointer",
+                                          backgroundColor: "rgba(255, 255, 255, 0.02)",
+                                          transition: "all 0.2s ease"
+                                        }}
+                                        onClick={() => document.getElementById(`media-upload-${grpIdx}-${imgIdx}`).click()}
+                                      >
+                                        <span style={{ fontSize: "14px", display: "inline-block", marginRight: "4px" }}>📁</span>
+                                        <span>Click or drop image/video to upload</span>
+                                        <input
+                                          id={`media-upload-${grpIdx}-${imgIdx}`}
+                                          type="file"
+                                          accept="image/*,video/*"
+                                          style={{ display: "none" }}
+                                          onChange={(e) => {
+                                            const file = e.target.files[0];
+                                            if (file) handleFileUpload(file, grpIdx, imgIdx);
+                                            e.target.value = "";
+                                          }}
+                                        />
+                                      </div>
                                     </div>
 
                                     <div style={styles.inputGroupSmall}>
@@ -2001,19 +2327,33 @@ export default function AdminPage() {
                                         value={img.title}
                                         onChange={(e) => updateCreativeMedia(grpIdx, imgIdx, "title", e.target.value)}
                                         style={styles.inputSmall}
+                                        placeholder="Project title..."
                                       />
                                     </div>
 
                                     <div style={styles.inputGroupSmall}>
-                                      <label style={styles.labelSmall}>Media path / URL</label>
+                                      <label style={styles.labelSmall}>Media URL / File Path</label>
                                       <input
                                         type="text"
                                         value={img.src}
                                         onChange={(e) => updateCreativeMedia(grpIdx, imgIdx, "src", e.target.value)}
                                         style={styles.inputSmall}
-                                        placeholder="e.g. /creative_content/image.jpg or https://..."
+                                        placeholder="e.g. /uploads/image.jpg or https://youtube.com/..."
                                       />
                                     </div>
+
+                                    {img.type === "website" && (
+                                      <div style={styles.inputGroupSmall}>
+                                        <label style={styles.labelSmall}>Website Thumbnail Image URL</label>
+                                        <input
+                                          type="text"
+                                          value={img.thumbnail || ""}
+                                          onChange={(e) => updateCreativeMedia(grpIdx, imgIdx, "thumbnail", e.target.value)}
+                                          style={styles.inputSmall}
+                                          placeholder="e.g. /uploads/thumbnail.jpg"
+                                        />
+                                      </div>
+                                    )}
 
                                     <div style={styles.inputGroupSmall}>
                                       <label style={styles.labelSmall}>Media Type</label>
@@ -2029,61 +2369,9 @@ export default function AdminPage() {
                                         <option value="youtube">YouTube (Video/Shorts)</option>
                                         <option value="instagram">Instagram Reel</option>
                                         <option value="iframe">Other Iframe Embed</option>
-                                        <option value="website">Website Link (Auto Screenshot)</option>
+                                        <option value="website">Website Link (Live Site)</option>
                                       </select>
                                     </div>
-
-                                    {img.type === "website" && (
-                                      <div style={styles.inputGroupSmall}>
-                                        <label style={styles.labelSmall}>Drop Website Image Here</label>
-                                        <div
-                                          onDragOver={(e) => {
-                                            e.preventDefault();
-                                            e.currentTarget.style.borderColor = "#e56030";
-                                            e.currentTarget.style.backgroundColor = "rgba(229, 96, 48, 0.05)";
-                                          }}
-                                          onDragLeave={(e) => {
-                                            e.preventDefault();
-                                            e.currentTarget.style.borderColor = "rgba(229, 96, 48, 0.3)";
-                                            e.currentTarget.style.backgroundColor = "transparent";
-                                          }}
-                                          onDrop={(e) => {
-                                            e.preventDefault();
-                                            e.currentTarget.style.borderColor = "rgba(229, 96, 48, 0.3)";
-                                            e.currentTarget.style.backgroundColor = "transparent";
-                                            const file = e.dataTransfer.files[0];
-                                            if (file && file.type.startsWith("image/")) {
-                                              handleFileUpload(file, grpIdx, imgIdx);
-                                            }
-                                          }}
-                                          style={{
-                                            border: "2px dashed rgba(229, 96, 48, 0.3)",
-                                            borderRadius: "8px",
-                                            padding: "16px",
-                                            textAlign: "center",
-                                            fontSize: "11px",
-                                            color: "#e56030",
-                                            cursor: "pointer",
-                                            backgroundColor: "rgba(229, 96, 48, 0.02)",
-                                            transition: "all 0.2s ease"
-                                          }}
-                                          onClick={() => document.getElementById(`ws-upload-${grpIdx}-${imgIdx}`).click()}
-                                        >
-                                          <span style={{ fontSize: "20px", display: "block", marginBottom: "4px" }}>🖼️</span>
-                                          <span>Drag & drop image here, or <strong>click to upload</strong></span>
-                                          <input
-                                            id={`ws-upload-${grpIdx}-${imgIdx}`}
-                                            type="file"
-                                            accept="image/*"
-                                            style={{ display: "none" }}
-                                            onChange={(e) => {
-                                              const file = e.target.files[0];
-                                              if (file) handleFileUpload(file, grpIdx, imgIdx);
-                                            }}
-                                          />
-                                        </div>
-                                      </div>
-                                    )}
 
                                     <div style={styles.inputGroupSmall}>
                                       <label style={styles.labelSmall}>Description</label>
@@ -2091,6 +2379,8 @@ export default function AdminPage() {
                                         rows={2}
                                         value={img.description}
                                         onChange={(e) => updateCreativeMedia(grpIdx, imgIdx, "description", e.target.value)}
+                                        style={styles.inputSmall}
+                                        placeholder="Short description..."
                                       />
                                     </div>
 

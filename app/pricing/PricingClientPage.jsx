@@ -21,13 +21,37 @@ export default function PricingClientPage() {
   useScrollReveal([]);
   const router = useRouter();
 
-  const googlePlansState = googlePlans;
-  const facebookPlansState = facebookPlans;
-  const combinePlansState = combinePlans;
-  const websitePlansState = websitePlans;
-  const creativePacksState = creativePacks;
-  const aiVideoPlansState = aiVideoPlans;
-  const realEstatePlansState = realEstatePlans;
+  const [googlePlansState, setGooglePlansState] = React.useState(googlePlans);
+  const [facebookPlansState, setFacebookPlansState] = React.useState(facebookPlans);
+  const [combinePlansState, setCombinePlansState] = React.useState(combinePlans);
+  const [websitePlansState, setWebsitePlansState] = React.useState(websitePlans);
+  const [creativePacksState, setCreativePacksState] = React.useState(creativePacks);
+  const [aiVideoPlansState, setAiVideoPlansState] = React.useState(aiVideoPlans);
+  const [realEstatePlansState, setRealEstatePlansState] = React.useState(realEstatePlans);
+
+  React.useEffect(() => {
+    let isMounted = true;
+    async function loadDynamicPricing() {
+      try {
+        const res = await fetch("/api/pricing?t=" + Date.now(), { cache: "no-store" });
+        if (res.ok) {
+          const data = await res.json();
+          if (!isMounted) return;
+          if (data.googlePlans && Array.isArray(data.googlePlans)) setGooglePlansState(data.googlePlans);
+          if (data.facebookPlans && Array.isArray(data.facebookPlans)) setFacebookPlansState(data.facebookPlans);
+          if (data.combinePlans && Array.isArray(data.combinePlans)) setCombinePlansState(data.combinePlans);
+          if (data.websitePlans && Array.isArray(data.websitePlans)) setWebsitePlansState(data.websitePlans);
+          if (data.creativePacks && Array.isArray(data.creativePacks)) setCreativePacksState(data.creativePacks);
+          if (data.aiVideoPlans && Array.isArray(data.aiVideoPlans)) setAiVideoPlansState(data.aiVideoPlans);
+          if (data.realEstatePlans && Array.isArray(data.realEstatePlans)) setRealEstatePlansState(data.realEstatePlans);
+        }
+      } catch (err) {
+        console.warn("Could not load dynamic pricing, using static fallback:", err);
+      }
+    }
+    loadDynamicPricing();
+    return () => { isMounted = false; };
+  }, []);
 
   const [activeCreativeIndex, setActiveCreativeIndex] = React.useState(0);
 
