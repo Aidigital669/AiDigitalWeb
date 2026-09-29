@@ -8,6 +8,7 @@ import {
   updateGroupVisibility,
   resetAllVisibility,
   upsertCustomVisibilityItem,
+  seedAllDefaultVisibilityItems,
 } from "../../../../lib/visibility";
 
 export async function GET() {
@@ -43,7 +44,16 @@ export async function PUT(req) {
   try {
     const body = await req.json();
 
+    if (body.action === "reseed") {
+      await seedAllDefaultVisibilityItems();
+      return NextResponse.json({
+        success: true,
+        message: "All 40 default pages, sections and widgets synchronized into database!",
+      });
+    }
+
     if (body.action === "reset_all") {
+      await seedAllDefaultVisibilityItems();
       await resetAllVisibility();
       return NextResponse.json({
         success: true,

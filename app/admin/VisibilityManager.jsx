@@ -52,15 +52,15 @@ const GROUP_CONFIG = {
     previewUrl: "/careers",
   },
   checkout: {
-    title: "Cart & Checkout (/cart, /checkout)",
+    title: "Cart & Checkout Flow",
     subtitle: "Shopping cart verification and payment gateway",
     icon: "shopping_cart_checkout",
     color: "#06B6D4",
-    pageId: "page_checkout",
-    previewUrl: "/checkout",
+    pageId: null,
+    previewUrl: "/cart",
   },
   global: {
-    title: "Global Elements & Floating Widgets",
+    title: "Global Header, Footer & Floating Widgets",
     subtitle: "Header nav, footer, WhatsApp launcher, and AI live chat",
     icon: "widgets",
     color: "#FD7E14",
@@ -96,16 +96,32 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
 
   const lastReportedCountsRef = useRef(null);
 
+  // Compute live counts from items array if counts object is 0 or uninitialized
+  const displayCounts = useMemo(() => {
+    if (counts && counts.total > 0) return counts;
+    if (items && items.length > 0) {
+      return {
+        total: items.length,
+        visible: items.filter((i) => i.is_visible).length,
+        hidden: items.filter((i) => !i.is_visible).length,
+        pages: items.filter((i) => i.type === "page").length,
+        sections: items.filter((i) => i.type === "section").length,
+        widgets: items.filter((i) => i.type === "widget").length,
+      };
+    }
+    return counts;
+  }, [counts, items]);
+
   // Safely notify parent (AdminPage) of count updates outside the render phase
   useEffect(() => {
-    if (typeof onCountUpdate === "function" && counts && counts.total > 0) {
-      const serialized = JSON.stringify(counts);
+    if (typeof onCountUpdate === "function" && displayCounts && displayCounts.total > 0) {
+      const serialized = JSON.stringify(displayCounts);
       if (lastReportedCountsRef.current !== serialized) {
         lastReportedCountsRef.current = serialized;
-        onCountUpdate(counts);
+        onCountUpdate(displayCounts);
       }
     }
-  }, [counts, onCountUpdate]);
+  }, [displayCounts, onCountUpdate]);
 
   const loadData = async () => {
     try {
@@ -115,14 +131,45 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
         const data = await res.json();
         if (data.success) {
           setItems(data.items || []);
-          if (data.counts) {
+          if (data.counts && data.counts.total > 0) {
             setCounts(data.counts);
+          } else if (data.items && data.items.length > 0) {
+            setCounts({
+              total: data.items.length,
+              visible: data.items.filter((i) => i.is_visible).length,
+              hidden: data.items.filter((i) => !i.is_visible).length,
+              pages: data.items.filter((i) => i.type === "page").length,
+              sections: data.items.filter((i) => i.type === "section").length,
+              widgets: data.items.filter((i) => i.type === "widget").length,
+            });
           }
         }
       }
     } catch (err) {
       console.warn("Failed to load visibility:", err);
       showToast("Error loading visibility configuration", "error");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleReseed = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/admin/visibility", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reseed" }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        showToast(data.message || "All 40 default elements synchronized successfully!");
+        await loadData();
+      } else {
+        showToast(data.error || "Failed to re-sync elements", "error");
+      }
+    } catch (err) {
+      showToast("Network error re-syncing elements", "error");
     } finally {
       setLoading(false);
     }
@@ -397,6 +444,19 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
           </button>
 
           <button
+            onClick={handleReseed}
+            style={{
+              ...actionBtnStyle,
+              background: "rgba(37, 99, 235, 0.15)",
+              borderColor: "rgba(37, 99, 235, 0.4)",
+              color: "#93c5fd",
+            }}
+            title="Auto-seed and re-sync all 40 default website elements to database"
+          >
+            <Icon name="cloud_sync" style={{ fontSize: "18px" }} /> Sync Defaults
+          </button>
+
+          <button
             onClick={handleResetAll}
             style={{
               ...actionBtnStyle,
@@ -425,10 +485,10 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
             <Icon name="layers" style={{ color: "#60A5FA", fontSize: "20px" }} />
           </div>
           <div style={{ fontSize: "28px", fontWeight: "800", color: "#fff", marginTop: "8px" }}>
-            {counts.total}
+            {displayCounts.total}
           </div>
           <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px" }}>
-            {counts.pages} Pages • {counts.sections} Sections • {counts.widgets} Widgets
+            {displayCounts.pages} Pages • {displayCounts.sections} Sections • {displayCounts.widgets} Widgets
           </div>
         </div>
 
@@ -438,45 +498,45 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
             <Icon name="visibility" style={{ color: "#10B981", fontSize: "20px" }} />
           </div>
           <div style={{ fontSize: "28px", fontWeight: "800", color: "#10B981", marginTop: "8px", display: "flex", alignItems: "center", gap: "8px" }}>
-            {counts.visible}
+            {displayCounts.visible}
             <span style={{ width: "8px", height: "8px", borderRadius: "50%", background: "#10B981", boxShadow: "0 0 10px #10B981" }} />
           </div>
           <div style={{ fontSize: "12px", color: "#10B981", marginTop: "4px" }}>
-            {counts.total > 0 ? Math.round((counts.visible / counts.total) * 100) : 0}% of site visible
+            {displayCounts.total > 0 ? Math.round((displayCounts.visible / displayCounts.total) * 100) : 100}% of site visible
           </div>
         </div>
 
         <div
           style={{
             ...statCardStyle,
-            borderColor: counts.hidden > 0 ? "rgba(239, 68, 68, 0.4)" : "rgba(255, 255, 255, 0.08)",
-            background: counts.hidden > 0 ? "rgba(239, 68, 68, 0.06)" : "rgba(255, 255, 255, 0.02)",
+            borderColor: displayCounts.hidden > 0 ? "rgba(239, 68, 68, 0.4)" : "rgba(255, 255, 255, 0.08)",
+            background: displayCounts.hidden > 0 ? "rgba(239, 68, 68, 0.06)" : "rgba(255, 255, 255, 0.02)",
             cursor: "pointer",
           }}
           onClick={() => setFilterGroup(filterGroup === "hidden" ? "all" : "hidden")}
           title="Click to toggle hidden filter"
         >
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <span style={{ fontSize: "12px", color: counts.hidden > 0 ? "#fca5a5" : "#94a3b8", fontWeight: "600", textTransform: "uppercase" }}>
+            <span style={{ fontSize: "12px", color: displayCounts.hidden > 0 ? "#fca5a5" : "#94a3b8", fontWeight: "600", textTransform: "uppercase" }}>
               Hidden (Offline)
             </span>
-            <Icon name="visibility_off" style={{ color: counts.hidden > 0 ? "#ef4444" : "#64748b", fontSize: "20px" }} />
+            <Icon name="visibility_off" style={{ color: displayCounts.hidden > 0 ? "#ef4444" : "#64748b", fontSize: "20px" }} />
           </div>
-          <div style={{ fontSize: "28px", fontWeight: "800", color: counts.hidden > 0 ? "#ef4444" : "#64748b", marginTop: "8px" }}>
-            {counts.hidden}
+          <div style={{ fontSize: "28px", fontWeight: "800", color: displayCounts.hidden > 0 ? "#ef4444" : "#64748b", marginTop: "8px" }}>
+            {displayCounts.hidden}
           </div>
-          <div style={{ fontSize: "12px", color: counts.hidden > 0 ? "#f87171" : "#64748b", marginTop: "4px" }}>
-            {counts.hidden > 0 ? "Click to view hidden items" : "All elements are visible"}
+          <div style={{ fontSize: "12px", color: displayCounts.hidden > 0 ? "#f87171" : "#64748b", marginTop: "4px" }}>
+            {displayCounts.hidden > 0 ? "Click to view hidden items" : "All elements are visible"}
           </div>
         </div>
 
         <div style={statCardStyle}>
           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <span style={{ fontSize: "12px", color: "#94a3b8", fontWeight: "600", textTransform: "uppercase" }}>Site Status</span>
-            <Icon name="verified_user" style={{ color: counts.hidden === 0 ? "#10B981" : "#F59E0B", fontSize: "20px" }} />
+            <Icon name="verified_user" style={{ color: displayCounts.hidden === 0 ? "#10B981" : "#F59E0B", fontSize: "20px" }} />
           </div>
-          <div style={{ fontSize: "18px", fontWeight: "700", color: counts.hidden === 0 ? "#10B981" : "#F59E0B", marginTop: "12px" }}>
-            {counts.hidden === 0 ? "100% Fully Live" : "Partially Tailored"}
+          <div style={{ fontSize: "18px", fontWeight: "700", color: displayCounts.hidden === 0 ? "#10B981" : "#F59E0B", marginTop: "12px" }}>
+            {displayCounts.hidden === 0 ? "100% Fully Live" : "Partially Tailored"}
           </div>
           <div style={{ fontSize: "12px", color: "#64748b", marginTop: "4px" }}>
             Live sync to Database & JSON
@@ -565,7 +625,7 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
             { key: "careers", label: "Careers", icon: "work", count: items.filter((i) => i.page_group === "careers").length },
             { key: "checkout", label: "Cart / Checkout", icon: "shopping_cart", count: items.filter((i) => i.page_group === "checkout").length },
             { key: "global", label: "Global / Widgets", icon: "widgets", count: items.filter((i) => i.page_group === "global").length },
-            { key: "hidden", label: `Hidden (${counts.hidden})`, icon: "visibility_off", count: counts.hidden },
+            { key: "hidden", label: `Hidden`, icon: "visibility_off", count: displayCounts.hidden },
           ].map((pill) => {
             const isActive = filterGroup === pill.key;
             return (
@@ -588,7 +648,18 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
                 }}
               >
                 <Icon name={pill.icon} style={{ fontSize: "15px" }} />
-                {pill.label}
+                <span>{pill.label}</span>
+                <span
+                  style={{
+                    backgroundColor: isActive ? "rgba(255, 255, 255, 0.2)" : "rgba(255, 255, 255, 0.06)",
+                    padding: "1px 6px",
+                    borderRadius: "10px",
+                    fontSize: "10px",
+                    marginLeft: "2px",
+                  }}
+                >
+                  {pill.count}
+                </span>
               </button>
             );
           })}
@@ -597,14 +668,52 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
 
       {/* Main Groups List */}
       <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+        {items.length === 0 && !loading && (
+          <div
+            style={{
+              backgroundColor: "rgba(239, 68, 68, 0.06)",
+              border: "1px solid rgba(239, 68, 68, 0.25)",
+              borderRadius: "16px",
+              padding: "40px 24px",
+              textAlign: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "12px",
+            }}
+          >
+            <Icon name="dns" style={{ fontSize: "48px", color: "#f87171" }} />
+            <h3 style={{ fontSize: "20px", fontWeight: "700", margin: 0, color: "#fff" }}>
+              No Visibility Elements Detected on Server
+            </h3>
+            <p style={{ color: "#94a3b8", fontSize: "14px", maxWidth: "560px", margin: 0 }}>
+              The server database or storage has not initialized the catalog yet. Click below to automatically seed all 40 default pages, sections, and floating widgets into MySQL.
+            </p>
+            <button
+              onClick={handleReseed}
+              style={{
+                ...actionBtnStyle,
+                background: "#2563EB",
+                borderColor: "#3b82f6",
+                color: "#fff",
+                padding: "10px 24px",
+                fontSize: "14px",
+                marginTop: "8px",
+              }}
+            >
+              <Icon name="auto_fix_high" style={{ fontSize: "18px" }} /> Auto-Populate & Sync All 40 Elements Now
+            </button>
+          </div>
+        )}
+
         {Object.entries(GROUP_CONFIG).map(([groupKey, conf]) => {
           const groupItems = groupedData[groupKey] || [];
           if (groupItems.length === 0) return null;
 
-          // Find if there is a main page item for this group
-          const pageItem = groupItems.find((i) => i.type === "page" || i.id === conf.pageId);
+          // Find if there is a master Page switch for this group
+          const pageItem = conf.pageId ? groupItems.find((i) => i.id === conf.pageId) : null;
           const isPageOff = pageItem && !pageItem.is_visible;
-          const sectionItems = groupItems.filter((i) => i.id !== pageItem?.id);
+          const sectionItems = pageItem ? groupItems.filter((i) => i.id !== pageItem.id) : groupItems;
 
           return (
             <div

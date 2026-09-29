@@ -1,5 +1,4 @@
 {
-  "updated_at": "2026-09-29T07:41:51.025Z",
   "settings": {
     "page_home": true,
     "home_hero": true,
@@ -309,7 +308,7 @@
       "type": "section",
       "page_group": "careers",
       "name": "Careers Hero Banner",
-      "description": "'Build the Future of Digital' hero section",
+      "description": "\"Build the Future of Digital\" hero section",
       "is_visible": true,
       "sort_order": 30
     },
@@ -403,5 +402,6 @@
       "is_visible": true,
       "sort_order": 40
     }
-  ]
+  ],
+  "updated_at": "2026-09-29T08:54:28.626Z"
 }
