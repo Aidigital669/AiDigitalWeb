@@ -11,6 +11,8 @@ import useScrollReveal from "./hooks/useScrollReveal";
 import ClientCarousel from "./components/ClientCarousel";
 import FaqSection from "./components/FaqSection";
 import Testimonials from "./components/Testimonials";
+import { useVisibility } from "./context/VisibilityContext";
+import PageHiddenNotice from "./components/PageHiddenNotice";
 
 const services = [
   {
@@ -127,6 +129,7 @@ const whyItems = [
 ];
 
 export default function Home() {
+  const { isVisible, isPageVisible } = useVisibility();
   const [homeBlogs, setHomeBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const blogContainerRef = useRef(null);
@@ -183,170 +186,185 @@ export default function Home() {
     }
   };
 
+  if (!isPageVisible("home")) {
+    return <PageHiddenNotice pageName="Home Page" />;
+  }
+
   return (
     <main id="top">
       <SiteHeader active="home" />
 
       {/* 1. Introduction */}
-      <header className="hero section">
-        <div className="hero-copy reveal">
-          <h1>
-            AI-Powered Digital Marketing Agency | <span>Your Success Our Business</span>
-          </h1>
-          <p>
-            AI Digital helps businesses grow By adopting 360 Degress approach through SMO,Google Ads,SEO,Website and analytics powered by AI
-          </p>
-          <div className="hero-actions reveal reveal-delay-1">
-            <a className="button button-primary" href="#contact">Get Free Growth Audit</a>
-            <a className="button button-ghost" href="#services">View Services</a>
+      {isVisible("home_hero") && (
+        <header className="hero section">
+          <div className="hero-copy reveal">
+            <h1>
+              AI-Powered Digital Marketing Agency | <span>Your Success Our Business</span>
+            </h1>
+            <p>
+              AI Digital helps businesses grow By adopting 360 Degress approach through SMO,Google Ads,SEO,Website and analytics powered by AI
+            </p>
+            <div className="hero-actions reveal reveal-delay-1">
+              <a className="button button-primary" href="#contact">Get Free Growth Audit</a>
+              <a className="button button-ghost" href="#services">View Services</a>
+            </div>
           </div>
-        </div>
 
-        {/* Managed cleanly entirely through DOM API layer references inside */}
-        <HeroOrbit />
-      </header>
+          <HeroOrbit />
+        </header>
+      )}
 
-      <section className="trust-strip">
-        <p>Built for startups, local businesses, service brands and growth-focused companies.</p>
-        <div className="trust-grid">
-          <div><Icon name="smart_toy" /><span>AI-Assisted Strategy</span></div>
-          <div><Icon name="query_stats" /><span>Performance Tracking</span></div>
-          <div><Icon name="summarize" /><span>Transparent Reporting</span></div>
-          <div><Icon name="rocket_launch" /><span>Growth-Focused Execution</span></div>
-        </div>
-      </section>
+      {isVisible("home_trust_strip") && (
+        <section className="trust-strip">
+          <p>Built for startups, local businesses, service brands and growth-focused companies.</p>
+          <div className="trust-grid">
+            <div><Icon name="smart_toy" /><span>AI-Assisted Strategy</span></div>
+            <div><Icon name="query_stats" /><span>Performance Tracking</span></div>
+            <div><Icon name="summarize" /><span>Transparent Reporting</span></div>
+            <div><Icon name="rocket_launch" /><span>Growth-Focused Execution</span></div>
+          </div>
+        </section>
+      )}
 
-      <ClientCarousel />
+      {isVisible("home_client_carousel") && <ClientCarousel />}
 
       {/* 2. Choose the Right Services for Your Growth Goal */}
-      <section id="services" className="section section-muted campaigns">
-        <div className="section-heading">
-          <span className="eyebrow">AI-powered marketing services</span>
-          <h2>Choose the Right Services for Your Growth Goal</h2>
-          <p>
-            From search visibility to lead generation, AI Digital creates
-            strategy, execution and analytics to help businesses grow with
-            measurable campaigns.
-          </p>
-        </div>
-        <div className="campaign-grid">
-          {campaigns.map((campaign, i) => (
-            <article className={`campaign-card reveal reveal-delay-${(i % 3) + 1}`} key={campaign.title}>
-              <Icon name={campaign.icon} />
-              <h3>{campaign.title}</h3>
-              <p>{campaign.body}</p>
-              <div className="tag-row">
-                {campaign.tags.map((tag) => <span key={tag}>{tag}</span>)}
-              </div>
-              <small>Recommended for: {campaign.fit}</small>
-              <a href={campaign.link} className="campaign-pricing-btn">Check Pricing</a>
-            </article>
-          ))}
-        </div>
-      </section>
+      {isVisible("home_services") && (
+        <section id="services" className="section section-muted campaigns">
+          <div className="section-heading">
+            <span className="eyebrow">AI-powered marketing services</span>
+            <h2>Choose the Right Services for Your Growth Goal</h2>
+            <p>
+              From search visibility to lead generation, AI Digital creates
+              strategy, execution and analytics to help businesses grow with
+              measurable campaigns.
+            </p>
+          </div>
+          <div className="campaign-grid">
+            {campaigns.map((campaign, i) => (
+              <article className={`campaign-card reveal reveal-delay-${(i % 3) + 1}`} key={campaign.title}>
+                <Icon name={campaign.icon} />
+                <h3>{campaign.title}</h3>
+                <p>{campaign.body}</p>
+                <div className="tag-row">
+                  {campaign.tags.map((tag) => <span key={tag}>{tag}</span>)}
+                </div>
+                <small>Recommended for: {campaign.fit}</small>
+                <a href={campaign.link} className="campaign-pricing-btn">Check Pricing</a>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* 3. Advantages */}
-      <section id="why" className="section why">
-        <div className="section-heading compact">
-          <h2>Why Choose AI Digital</h2>
-        </div>
-        <div className="why-grid">
-          {whyItems.map((item, i) => (
-            <article key={item.title} className={`why-item reveal reveal-delay-${(i % 3) + 1}`}>
-              <Icon name={item.icon} />
-              <div>
-                <h3>{item.title}</h3>
-                <p>{item.body}</p>
-              </div>
-            </article>
-          ))}
-        </div>
-      </section>
+      {isVisible("home_why_us") && (
+        <section id="why" className="section why">
+          <div className="section-heading compact">
+            <h2>Why Choose AI Digital</h2>
+          </div>
+          <div className="why-grid">
+            {whyItems.map((item, i) => (
+              <article key={item.title} className={`why-item reveal reveal-delay-${(i % 3) + 1}`}>
+                <Icon name={item.icon} />
+                <div>
+                  <h3>{item.title}</h3>
+                  <p>{item.body}</p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* 4. Client Goal */}
-      <GoalSelector />
+      {isVisible("home_goal_selector") && <GoalSelector />}
 
       {/* Other (Insights & Contact) */}
-      <section id="insights" className="section section-muted insights">
-        <div className="split-heading">
-          <h2>Latest Insights</h2>
-          <Link href="/blog">View All <Icon name="arrow_forward" /></Link>
-        </div>
-        <div className="creative-slider-wrapper">
-          <button
-            type="button"
-            className="slider-nav-btn prev"
-            onClick={() => handleBlogScroll("left")}
-            aria-label="Scroll left"
-          >
-            <span className="material-symbols-outlined">chevron_left</span>
-          </button>
-
-          <div className="insight-grid" ref={blogContainerRef}>
-            {loading ? (
-              <div style={{ padding: "40px 0", textAlign: "center", width: "100%", color: "#64748b", fontWeight: "600" }}>
-                Loading latest insights...
-              </div>
-            ) : homeBlogs.length === 0 ? (
-              <div style={{ padding: "40px 0", textAlign: "center", width: "100%", color: "#64748b", fontWeight: "600" }}>
-                No insights found. Check back later!
-              </div>
-            ) : (
-              homeBlogs.map((post) => {
-                const url = getBlogLink(post);
-                const isExternal = url.startsWith("http://") || url.startsWith("https://");
-
-                const CardTag = isExternal ? "a" : Link;
-                const cardProps = isExternal
-                  ? { href: url, target: "_blank", rel: "noopener noreferrer" }
-                  : { href: url };
-
-                return (
-                  <CardTag
-                    {...cardProps}
-                    key={post.id}
-                    className="insight-card-link reveal"
-                  >
-                    <article className="insight-card" style={{ height: "100%", minHeight: "280px" }}>
-                      <div className="insight-image" style={{ position: "relative", height: "160px" }}>
-                        <Image
-                          src={post.coverImage || "/creative_content/Creative1.jpeg"}
-                          alt={post.title}
-                          fill
-                          unoptimized={post.coverImage?.startsWith("http")}
-                          style={{ objectFit: "cover" }}
-                        />
-                      </div>
-                      <div className="insight-body" style={{ padding: "14px" }}>
-                        <span>{post.category}</span>
-                        <h3>{post.title}</h3>
-                        <p>{post.excerpt}</p>
-                      </div>
-                    </article>
-                  </CardTag>
-                );
-              })
-            )}
+      {isVisible("home_insights") && (
+        <section id="insights" className="section section-muted insights">
+          <div className="split-heading">
+            <h2>Latest Insights</h2>
+            <Link href="/blog">View All <Icon name="arrow_forward" /></Link>
           </div>
+          <div className="creative-slider-wrapper">
+            <button
+              type="button"
+              className="slider-nav-btn prev"
+              onClick={() => handleBlogScroll("left")}
+              aria-label="Scroll left"
+            >
+              <span className="material-symbols-outlined">chevron_left</span>
+            </button>
 
-          <button
-            type="button"
-            className="slider-nav-btn next"
-            onClick={() => handleBlogScroll("right")}
-            aria-label="Scroll right"
-          >
-            <span className="material-symbols-outlined">chevron_right</span>
-          </button>
-        </div>
-      </section>
+            <div className="insight-grid" ref={blogContainerRef}>
+              {loading ? (
+                <div style={{ padding: "40px 0", textAlign: "center", width: "100%", color: "#64748b", fontWeight: "600" }}>
+                  Loading latest insights...
+                </div>
+              ) : homeBlogs.length === 0 ? (
+                <div style={{ padding: "40px 0", textAlign: "center", width: "100%", color: "#64748b", fontWeight: "600" }}>
+                  No insights found. Check back later!
+                </div>
+              ) : (
+                homeBlogs.map((post) => {
+                  const url = getBlogLink(post);
+                  const isExternal = url.startsWith("http://") || url.startsWith("https://");
 
-      <Testimonials />
+                  const CardTag = isExternal ? "a" : Link;
+                  const cardProps = isExternal
+                    ? { href: url, target: "_blank", rel: "noopener noreferrer" }
+                    : { href: url };
 
-      <FaqSection />
+                  return (
+                    <CardTag
+                      {...cardProps}
+                      key={post.id}
+                      className="insight-card-link reveal"
+                    >
+                      <article className="insight-card" style={{ height: "100%", minHeight: "280px" }}>
+                        <div className="insight-image" style={{ position: "relative", height: "160px" }}>
+                          <Image
+                            src={post.coverImage || "/creative_content/Creative1.jpeg"}
+                            alt={post.title}
+                            fill
+                            unoptimized={post.coverImage?.startsWith("http")}
+                            style={{ objectFit: "cover" }}
+                          />
+                        </div>
+                        <div className="insight-body" style={{ padding: "14px" }}>
+                          <span>{post.category}</span>
+                          <h3>{post.title}</h3>
+                          <p>{post.excerpt}</p>
+                        </div>
+                      </article>
+                    </CardTag>
+                  );
+                })
+              )}
+            </div>
 
-      <section id="contact" className="section contact-section">
-        <ContactForm />
-      </section>
+            <button
+              type="button"
+              className="slider-nav-btn next"
+              onClick={() => handleBlogScroll("right")}
+              aria-label="Scroll right"
+            >
+              <span className="material-symbols-outlined">chevron_right</span>
+            </button>
+          </div>
+        </section>
+      )}
+
+      {isVisible("home_testimonials") && <Testimonials />}
+
+      {isVisible("home_faq") && <FaqSection />}
+
+      {isVisible("home_contact") && (
+        <section id="contact" className="section contact-section">
+          <ContactForm />
+        </section>
+      )}
 
       <SiteFooter />
     </main>

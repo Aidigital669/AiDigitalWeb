@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { isValidEmail, isValidMobileNumber } from "../../lib/validation";
+import VisibilityManager from "./VisibilityManager";
 
 function Icon({ name, className = "" }) {
   return (
@@ -128,6 +129,21 @@ export default function AdminPage() {
   const [visitorPage, setVisitorPage] = useState(1);
   const [visitorAutoRefresh, setVisitorAutoRefresh] = useState("30");
   const [isLoadingVisitors, setIsLoadingVisitors] = useState(false);
+
+  // Page & Section Visibility State
+  const [visibilityCounts, setVisibilityCounts] = useState({ total: 0, visible: 0, hidden: 0, pages: 0, sections: 0, widgets: 0 });
+
+  const loadVisibilityStats = async () => {
+    try {
+      const res = await fetch("/api/admin/visibility?t=" + Date.now(), { cache: "no-store" });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.counts) setVisibilityCounts(data.counts);
+      }
+    } catch (err) {
+      console.warn("Failed to load visibility stats:", err);
+    }
+  };
 
   const loadPromoData = async () => {
     try {
@@ -472,6 +488,7 @@ export default function AdminPage() {
       loadRemindersData();
       loadPromoData();
       loadVisitorsData();
+      loadVisibilityStats();
     } catch (err) {
       showToast("Failed to load configuration data", "error");
     }
@@ -1225,6 +1242,32 @@ export default function AdminPage() {
           </button>
 
           <button
+            onClick={() => { setActiveTab("visibility"); setEditingBlog(null); loadVisibilityStats(); }}
+            style={{ ...styles.sidebarBtn, ...(activeTab === "visibility" ? styles.sidebarBtnActive : {}) }}
+          >
+            <Icon name="tune" /> Page & Section Controls
+            {visibilityCounts.hidden > 0 ? (
+              <span
+                style={{
+                  marginLeft: "auto",
+                  backgroundColor: "#ef4444",
+                  color: "#fff",
+                  fontSize: "10px",
+                  fontWeight: "800",
+                  padding: "2px 7px",
+                  borderRadius: "10px",
+                }}
+              >
+                {visibilityCounts.hidden} HIDDEN
+              </span>
+            ) : (
+              <span style={{ marginLeft: "auto", color: "#10B981", fontSize: "11px", fontWeight: "700" }}>
+                Active
+              </span>
+            )}
+          </button>
+
+          <button
             onClick={() => { setActiveTab("portfolio"); setEditingBlog(null); }}
             style={{ ...styles.sidebarBtn, ...(activeTab === "portfolio" ? styles.sidebarBtnActive : {}) }}
           >
@@ -1345,6 +1388,24 @@ export default function AdminPage() {
                     </div>
                     <span style={{ fontSize: "12px", color: "#10B981", fontWeight: "600", display: "flex", alignItems: "center", gap: "4px" }}>
                       View Live Traffic Analytics →
+                    </span>
+                  </div>
+
+                  <div 
+                    style={{ ...styles.miniCard, cursor: "pointer", border: "1px solid rgba(59, 130, 246, 0.3)", backgroundColor: "rgba(59, 130, 246, 0.05)" }}
+                    onClick={() => { setActiveTab("visibility"); setEditingBlog(null); }}
+                    title="Click to manage Page & Section Visibility"
+                  >
+                    <div style={styles.miniCardHeader}>
+                      <Icon name="tune" style={{ color: "#3B82F6" }} />
+                      <h4 style={{ margin: 0, color: "#60A5FA" }}>Site Visibility</h4>
+                    </div>
+                    <div style={{ display: "flex", alignItems: "baseline", gap: "8px" }}>
+                      <p style={styles.statNumber}>{visibilityCounts.visible}</p>
+                      <span style={{ color: "#94a3b8", fontSize: "13px" }}>/ {visibilityCounts.total} active</span>
+                    </div>
+                    <span style={{ fontSize: "12px", color: visibilityCounts.hidden > 0 ? "#ef4444" : "#10B981", fontWeight: "600", display: "flex", alignItems: "center", gap: "4px" }}>
+                      {visibilityCounts.hidden > 0 ? `⚠️ ${visibilityCounts.hidden} hidden element(s)` : "✓ All elements live"} →
                     </span>
                   </div>
 
@@ -3869,6 +3930,13 @@ export default function AdminPage() {
                 )}
               </div>
             </div>
+          )}
+
+          {activeTab === "visibility" && (
+            <VisibilityManager
+              showToast={showToast}
+              onCountUpdate={setVisibilityCounts}
+            />
           )}
         </section>
       </main>

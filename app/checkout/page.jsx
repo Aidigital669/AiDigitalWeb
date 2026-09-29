@@ -5,6 +5,8 @@ import { useSearchParams } from "next/navigation";
 import { useCart } from "../hooks/useCart";
 import { Icon, SiteFooter, SiteHeader } from "../components/SiteChrome";
 import { isValidEmail, isValidMobileNumber, isValidName } from "../../lib/validation";
+import { useVisibility } from "../context/VisibilityContext";
+import PageHiddenNotice from "../components/PageHiddenNotice";
 
 // Define valid referral codes and their discount percentages
 const REFERRAL_CODES = {
@@ -15,9 +17,14 @@ const REFERRAL_CODES = {
 };
 
 function CheckoutContent() {
+  const { isPageVisible } = useVisibility();
   const { items, addToCart, clearCart } = useCart();
   const [mounted, setMounted] = useState(false);
   const searchParams = useSearchParams();
+
+  if (!isPageVisible("checkout")) {
+    return <PageHiddenNotice pageName="Checkout" />;
+  }
   const planName = searchParams.get("plan");
   const planPrice = searchParams.get("price");
 

@@ -1,8 +1,12 @@
 "use client";
 
 import React from "react";
+import { useVisibility } from "../context/VisibilityContext";
 
 export default function WhatsAppFloating() {
+  const { isVisible } = useVisibility();
+  if (!isVisible("widget_whatsapp")) return null;
+
   const whatsappNumber = "919096090701";
   const defaultMessage = encodeURIComponent("Hi! I would like to get more information about AI Digital services.");
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${defaultMessage}`;

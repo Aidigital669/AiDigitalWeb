@@ -1,9 +1,13 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { useVisibility } from "../context/VisibilityContext";
 
 export default function BackToTop() {
+  const { isVisible: isFeatureVisible } = useVisibility();
   const [isVisible, setIsVisible] = useState(false);
+
+  if (!isFeatureVisible("widget_back_to_top")) return null;
 
   useEffect(() => {
     const handleScroll = () => {

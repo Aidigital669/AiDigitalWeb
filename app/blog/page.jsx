@@ -3,8 +3,11 @@
 import React, { useState, useEffect } from "react";
 import { SiteHeader, SiteFooter, Icon } from "../components/SiteChrome";
 import Link from "next/link";
+import { useVisibility } from "../context/VisibilityContext";
+import PageHiddenNotice from "../components/PageHiddenNotice";
 
 export default function BlogListingPage() {
+  const { isVisible, isPageVisible } = useVisibility();
   const [blogs, setBlogs] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
@@ -54,22 +57,29 @@ export default function BlogListingPage() {
     return `/blog/${post.slug}`;
   };
 
+  if (!isPageVisible("blog")) {
+    return <PageHiddenNotice pageName="Blogs" />;
+  }
+
   return (
     <div style={styles.pageWrapper}>
       <SiteHeader active="blog" />
 
       {/* Hero Header Section */}
-      <section style={styles.heroSection}>
-        <div style={styles.eyebrow}>Insights & Knowledge</div>
-        <h1 style={styles.mainTitle}>
-          AI Digital <span>Blogs</span>
-        </h1>
-        <p style={styles.subtitle}>
-          Stay ahead with the latest strategies in AI-driven marketing, web development frameworks, and SEO conversions.
-        </p>
-      </section>
+      {isVisible("blog_hero") && (
+        <section style={styles.heroSection}>
+          <div style={styles.eyebrow}>Insights & Knowledge</div>
+          <h1 style={styles.mainTitle}>
+            AI Digital <span>Blogs</span>
+          </h1>
+          <p style={styles.subtitle}>
+            Stay ahead with the latest strategies in AI-driven marketing, web development frameworks, and SEO conversions.
+          </p>
+        </section>
+      )}
 
       {/* Blogs Main Grid */}
+      {isVisible("blog_grid") && (
       <section style={styles.gridSection}>
         {loading ? (
           <div style={styles.loader}>Loading blogs...</div>
@@ -149,6 +159,7 @@ export default function BlogListingPage() {
           </>
         )}
       </section>
+      )}
 
       <SiteFooter />
     </div>

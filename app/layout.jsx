@@ -7,6 +7,7 @@ import WhatsAppFloating from "./components/WhatsAppFloating";
 import BackToTop from "./components/BackToTop";
 import GlobalCursorGlow from "./components/GlobalCursorGlow";
 import VisitorTracker from "./components/VisitorTracker";
+import { VisibilityProvider } from "./context/VisibilityContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -174,14 +175,16 @@ export default function RootLayout({ children }) {
             alt=""
           />
         </noscript>
-        <GlobalCursorGlow />
-        <Suspense fallback={null}>
-          <VisitorTracker />
-        </Suspense>
-        {children}
-        <ChatWidget />
-        <WhatsAppFloating />
-        <BackToTop />
+        <VisibilityProvider>
+          <GlobalCursorGlow />
+          <Suspense fallback={null}>
+            <VisitorTracker />
+          </Suspense>
+          {children}
+          <ChatWidget />
+          <WhatsAppFloating />
+          <BackToTop />
+        </VisibilityProvider>
       </body>
     </html>
   );

@@ -1,9 +1,13 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useVisibility } from "../context/VisibilityContext";
 
 export default function ChatWidget() {
+  const { isVisible } = useVisibility();
   const [isOpen, setIsOpen] = useState(false);
+
+  if (!isVisible("widget_chat")) return null;
   const [messages, setMessages] = useState([
     {
       sender: "model",

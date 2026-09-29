@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import { useVisibility } from "../context/VisibilityContext";
 
 const footerGroups = [
   {
@@ -48,6 +49,7 @@ export function Logo() {
 }
 
 export function SiteHeader({ active = "home" }) {
+  const { isVisible } = useVisibility();
   const [currentActive, setCurrentActive] = useState(active);
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -108,11 +110,24 @@ export function SiteHeader({ active = "home" }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, [active]);
 
+  if (!isVisible("global_header")) return null;
+
+  const visibleNavItems = navItems.filter((item) => {
+    if (item.key === "home") return isVisible("page_home");
+    if (item.key === "services") return isVisible("home_services");
+    if (item.key === "why") return isVisible("home_why_us");
+    if (item.key === "pricing") return isVisible("page_pricing");
+    if (item.key === "portfolio") return isVisible("page_portfolio");
+    if (item.key === "careers") return isVisible("page_careers");
+    if (item.key === "blogs") return isVisible("page_blog");
+    return true;
+  });
+
   return (
     <nav className="top-nav">
       <Logo />
       <div className="nav-links" aria-label="Main navigation">
-        {navItems.map((item) => (
+        {visibleNavItems.map((item) => (
           <a
             href={item.href}
             key={item.key}
@@ -124,7 +139,9 @@ export function SiteHeader({ active = "home" }) {
         ))}
       </div>
       <div className="nav-actions-wrapper">
-        <a className="nav-button" href="/#contact">Contact Us</a>
+        {isVisible("home_contact") ? (
+          <a className="nav-button" href="/#contact">Contact Us</a>
+        ) : null}
       </div>
       <details className="mobile-menu" open={menuOpen} onToggle={(e) => setMenuOpen(e.target.open)}>
         <summary className="mobile-menu-button" aria-label="Open navigation menu">
@@ -132,7 +149,7 @@ export function SiteHeader({ active = "home" }) {
           <span className="material-symbols-outlined close-icon" aria-hidden="true">close</span>
         </summary>
         <div className="mobile-menu-panel">
-          {navItems.map((item) => (
+          {visibleNavItems.map((item) => (
             <a
               href={item.href}
               key={item.key}
@@ -143,7 +160,9 @@ export function SiteHeader({ active = "home" }) {
               {item.label}
             </a>
           ))}
-          <a className="mobile-menu-cta" href="/#contact" onClick={() => setMenuOpen(false)}>Contact Us</a>
+          {isVisible("home_contact") && (
+            <a className="mobile-menu-cta" href="/#contact" onClick={() => setMenuOpen(false)}>Contact Us</a>
+          )}
         </div>
       </details>
     </nav>
@@ -151,6 +170,22 @@ export function SiteHeader({ active = "home" }) {
 }
 
 export function SiteFooter() {
+  const { isVisible } = useVisibility();
+
+  if (!isVisible("global_footer")) return null;
+
+  const isFooterItemVisible = (item) => {
+    if (item === "Pricing") return isVisible("page_pricing");
+    if (item === "Our Portfolio") return isVisible("page_portfolio");
+    if (item === "Articles") return isVisible("page_blog");
+    if (item === "Google Ads") return isVisible("pricing_google");
+    if (item === "Meta Ads") return isVisible("pricing_facebook");
+    if (item === "Website Development") return isVisible("pricing_websites");
+    if (item === "AI Video Production") return isVisible("pricing_aivideo");
+    if (item === "SEO Growth") return isVisible("pricing_creative");
+    return true;
+  };
+
   const getHref = (item) => {
     if (item === "Pricing") return "/pricing";
     if (item === "Our Portfolio") return "/portfolio";
@@ -214,14 +249,18 @@ export function SiteFooter() {
             </address>
           </div>
         </div>
-        {footerGroups.map((group) => (
-          <div className="footer-column" key={group.title}>
-            <h3>{group.title}</h3>
-            {group.items.map((item) => (
-              <a href={getHref(item)} key={item}>{item}</a>
-            ))}
-          </div>
-        ))}
+        {footerGroups.map((group) => {
+          const visibleItems = group.items.filter(isFooterItemVisible);
+          if (visibleItems.length === 0) return null;
+          return (
+            <div className="footer-column" key={group.title}>
+              <h3>{group.title}</h3>
+              {visibleItems.map((item) => (
+                <a href={getHref(item)} key={item}>{item}</a>
+              ))}
+            </div>
+          );
+        })}
       </div>
       <div className="copyright">Copyright 2013-2026 AI Digital, All Right Reserved</div>
     </footer>

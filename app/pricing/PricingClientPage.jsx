@@ -7,6 +7,8 @@ import { useCart } from "../hooks/useCart";
 import { useRouter } from "next/navigation";
 import useScrollReveal from "../hooks/useScrollReveal";
 import TiltCard from "../components/TiltCard";
+import { useVisibility } from "../context/VisibilityContext";
+import PageHiddenNotice from "../components/PageHiddenNotice";
 
 const getWhatsAppLink = (planName, price, period = "") => {
   const message = `Hi! I would like to buy the ${planName} plan priced at ₹${price}${period} from AI Digital.`;
@@ -14,6 +16,7 @@ const getWhatsAppLink = (planName, price, period = "") => {
 };
 
 export default function PricingClientPage() {
+  const { isVisible, isPageVisible } = useVisibility();
   const { addToCart, clearCart } = useCart();
   useScrollReveal([]);
   const router = useRouter();
@@ -50,33 +53,42 @@ export default function PricingClientPage() {
     router.push("/checkout");
   };
 
+  if (!isPageVisible("pricing")) {
+    return <PageHiddenNotice pageName="Pricing Plans" />;
+  }
+
   return (
     <div className="pricing-page-wrapper">
       <SiteHeader active="pricing" />
 
       {/* Category Anchor Sub-nav */}
-      <div className="pricing-sub-nav">
-        <a href="#facebook" className="sub-nav-link">Meta Ads Plans</a>
-        <a href="#google" className="sub-nav-link">Google Plans</a>
-        <a href="#combine" className="sub-nav-link">Combine Plans</a>
-        <a href="#websites" className="sub-nav-link">Websites</a>
-        <a href="#creative" className="sub-nav-link">Creative</a>
-        <a href="#aivideo" className="sub-nav-link">AI Video</a>
-        <a href="#realestate" className="sub-nav-link">Real Estate</a>
-      </div>
+      {isVisible("pricing_subnav") && (
+        <div className="pricing-sub-nav">
+          {isVisible("pricing_facebook") && <a href="#facebook" className="sub-nav-link">Meta Ads Plans</a>}
+          {isVisible("pricing_google") && <a href="#google" className="sub-nav-link">Google Plans</a>}
+          {isVisible("pricing_combine") && <a href="#combine" className="sub-nav-link">Combine Plans</a>}
+          {isVisible("pricing_websites") && <a href="#websites" className="sub-nav-link">Websites</a>}
+          {isVisible("pricing_creative") && <a href="#creative" className="sub-nav-link">Creative</a>}
+          {isVisible("pricing_aivideo") && <a href="#aivideo" className="sub-nav-link">AI Video</a>}
+          {isVisible("pricing_realestate") && <a href="#realestate" className="sub-nav-link">Real Estate</a>}
+        </div>
+      )}
 
       {/* Top Banner Section */}
-      <section className="pricing-hero">
-        <div className="badge-pill reveal">Your Success, Our Business</div>
-        <h1 className="pricing-main-title reveal delay-100">
-          AiDigital <span>Plans</span>
-        </h1>
-        <p className="pricing-hero-sub reveal delay-200">
-          Unlock growth with data-driven marketing and high-performance assets tailored for your business needs.
-        </p>
-      </section>
+      {isVisible("pricing_hero") && (
+        <section className="pricing-hero">
+          <div className="badge-pill reveal">Your Success, Our Business</div>
+          <h1 className="pricing-main-title reveal delay-100">
+            AiDigital <span>Plans</span>
+          </h1>
+          <p className="pricing-hero-sub reveal delay-200">
+            Unlock growth with data-driven marketing and high-performance assets tailored for your business needs.
+          </p>
+        </section>
+      )}
 
       {/* Meta Ads Plans Section */}
+      {isVisible("pricing_facebook") && (
       <section id="facebook" className="pricing-section section-muted-light">
         <div className="section-title-wrapper">
           <h2 className="section-title-text">
@@ -124,8 +136,10 @@ export default function PricingClientPage() {
           })}
         </div>
       </section>
+      )}
 
       {/* Google Ads Plans Section */}
+      {isVisible("pricing_google") && (
       <section id="google" className="pricing-section">
         <div className="section-title-wrapper">
           <h2 className="section-title-text">
@@ -173,8 +187,10 @@ export default function PricingClientPage() {
           })}
         </div>
       </section>
+      )}
 
       {/* Combine Plans Section */}
+      {isVisible("pricing_combine") && (
       <section id="combine" className="pricing-section section-muted-light">
         <div className="section-title-wrapper">
           <h2 className="section-title-text">
@@ -222,8 +238,10 @@ export default function PricingClientPage() {
           })}
         </div>
       </section>
+      )}
 
       {/* Website Design & Development Section */}
+      {isVisible("pricing_websites") && (
       <section id="websites" className="pricing-section websites-section">
         <div className="websites-layout-grid">
           {/* Left Column Description */}
@@ -276,8 +294,10 @@ export default function PricingClientPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* Creative Design Packs Section */}
+      {isVisible("pricing_creative") && (
       <section id="creative" className="pricing-section section-muted-light creative-packs-section">
         <div className="section-title-wrapper creative-title-wrapper">
           <h2 className="section-title-text text-blue">Creative Design Packs</h2>
@@ -455,8 +475,10 @@ export default function PricingClientPage() {
           </div>
         </div>
       </section>
+      )}
 
       {/* AI Video Plans Section */}
+      {isVisible("pricing_aivideo") && (
       <section id="aivideo" className="pricing-section aivideo-section">
         <div className="section-title-wrapper">
           <h2 className="section-title-text">AI Video Plans</h2>
@@ -520,8 +542,10 @@ export default function PricingClientPage() {
           })}
         </div>
       </section>
+      )}
 
       {/* Real Estate Plans Section */}
+      {isVisible("pricing_realestate") && (
       <section id="realestate" className="pricing-section section-muted-light">
         <div className="section-title-wrapper" style={{ marginBottom: "20px" }}>
           <h2 className="section-title-text" style={{ color: "#0F172A" }}>Real Estate Plans</h2>
@@ -589,6 +613,7 @@ export default function PricingClientPage() {
           })}
         </div>
       </section>
+      )}
 
       <SiteFooter />
     </div>

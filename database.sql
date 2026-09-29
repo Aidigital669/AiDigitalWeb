@@ -265,3 +265,62 @@ CREATE TABLE IF NOT EXISTS `website_visitors` (
   INDEX `idx_page_path` (`page_path`),
   INDEX `idx_last_active` (`last_active_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+-- Table structure for table `site_visibility`
+-- --------------------------------------------------------
+
+DROP TABLE IF EXISTS `site_visibility`;
+CREATE TABLE `site_visibility` (
+  `id` VARCHAR(100) NOT NULL PRIMARY KEY,
+  `type` ENUM('page', 'section', 'widget') NOT NULL DEFAULT 'section',
+  `page_group` VARCHAR(100) NOT NULL,
+  `name` VARCHAR(150) NOT NULL,
+  `description` VARCHAR(255) DEFAULT NULL,
+  `is_visible` TINYINT(1) NOT NULL DEFAULT 1,
+  `sort_order` INT NOT NULL DEFAULT 0,
+  `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+INSERT INTO `site_visibility` (`id`, `type`, `page_group`, `name`, `description`, `is_visible`, `sort_order`) VALUES
+('page_home', 'page', 'home', 'Home Page (/)', 'Main landing page of the website', 1, 1),
+('home_hero', 'section', 'home', 'Hero Header & CTA', 'Main headline, 3D HeroOrbit sphere, and primary CTA buttons', 1, 2),
+('home_trust_strip', 'section', 'home', 'Trust & Capabilities Strip', 'Strip highlighting AI Strategy, Performance Tracking, Reporting & Execution', 1, 3),
+('home_client_carousel', 'section', 'home', 'Client Brands Carousel', 'Continuous scrolling carousel of client brand logos', 1, 4),
+('home_services', 'section', 'home', 'Services & Campaigns', 'Choose the Right Services with cards for Google Ads, Meta Ads, SEO Web, AI Video, Social', 1, 5),
+('home_why_us', 'section', 'home', 'Why Choose AI Digital', '6 core value pillars and AI market advantages', 1, 6),
+('home_goal_selector', 'section', 'home', 'Interactive Goal Selector', 'Interactive business goal picker widget', 1, 7),
+('home_insights', 'section', 'home', 'Latest Insights / Blog Slider', 'Horizontal carousel showcasing latest blog articles', 1, 8),
+('home_testimonials', 'section', 'home', 'Client Testimonials', 'Client reviews, ratings, and quotes', 1, 9),
+('home_faq', 'section', 'home', 'FAQ Section', 'Frequently asked questions accordion', 1, 10),
+('home_contact', 'section', 'home', 'Contact & Growth Audit Form', 'Free growth audit inquiry form', 1, 11),
+('page_pricing', 'page', 'pricing', 'Pricing Page (/pricing)', 'Dedicated pricing plans and packages page', 1, 12),
+('pricing_subnav', 'section', 'pricing', 'Category Sticky Navigation', 'Quick anchor navigation buttons for all plan types', 1, 13),
+('pricing_hero', 'section', 'pricing', 'Pricing Hero Banner', 'Header title and subtitle on pricing page', 1, 14),
+('pricing_facebook', 'section', 'pricing', 'Meta Ads Plans', 'Facebook & Instagram advertising packages', 1, 15),
+('pricing_google', 'section', 'pricing', 'Google Ads Plans', 'Google Search, PPC and performance marketing plans', 1, 16),
+('pricing_combine', 'section', 'pricing', 'Meta + Google Combine Plans', 'Cross-platform unified marketing plans', 1, 17),
+('pricing_websites', 'section', 'pricing', 'Website Development Plans', 'Static and dynamic high-performance website packages', 1, 18),
+('pricing_creative', 'section', 'pricing', 'Creative Content Packs', 'Social media creatives, banners, and graphic design bundles', 1, 19),
+('pricing_aivideo', 'section', 'pricing', 'AI Video Production Plans', 'AI-generated short-form video reels and commercial packs', 1, 20),
+('pricing_realestate', 'section', 'pricing', 'Real Estate Specialty Plans', 'Tailored property marketing and lead generation solutions', 1, 21),
+('pricing_faq', 'section', 'pricing', 'Pricing FAQ Section', 'Frequently asked questions about pricing and payments', 1, 22),
+('page_portfolio', 'page', 'portfolio', 'Portfolio Page (/portfolio)', 'Client case studies and portfolio showcases', 1, 23),
+('portfolio_showcase', 'section', 'portfolio', 'Industry Metric Showcase', 'Key client results with metrics (+142% organic traffic, 3.8x ROAS)', 1, 24),
+('portfolio_featured', 'section', 'portfolio', 'Featured Work Gallery', 'Interactive tabs by industry (Real Estate, Healthcare, Finance, etc.)', 1, 25),
+('page_blog', 'page', 'blog', 'Blogs Page (/blog)', 'Articles, industry updates, and digital marketing insights', 1, 26),
+('blog_hero', 'section', 'blog', 'Blog Header & Filter', 'Header title and category filter tabs', 1, 27),
+('blog_grid', 'section', 'blog', 'Articles Grid & Pagination', 'List of published blog articles with pagination', 1, 28),
+('page_careers', 'page', 'careers', 'Careers Page (/careers)', 'Agency job openings and hiring application page', 1, 29),
+('careers_hero', 'section', 'careers', 'Careers Hero Banner', '\"Build the Future of Digital\" hero section', 1, 30),
+('careers_perks', 'section', 'careers', 'Perks & Culture Pillars', 'Fast Growth, Great Culture, and Modern Tech highlights', 1, 31),
+('careers_openings', 'section', 'careers', 'Open Job Positions', 'Job vacancy cards with experience requirements and direct apply buttons', 1, 32),
+('careers_apply_modal', 'section', 'careers', 'Job Application Modal', 'Interactive modal form to apply for open positions', 1, 33),
+('page_cart', 'page', 'checkout', 'Cart Page (/cart)', 'Shopping cart redirect and plan selection verification', 1, 34),
+('page_checkout', 'page', 'checkout', 'Checkout Page (/checkout)', 'Secure order completion, promo code, and payment gateway', 1, 35),
+('global_header', 'widget', 'global', 'Top Navigation Header', 'Global website header with logo, navigation links, and Contact CTA', 1, 36),
+('global_footer', 'widget', 'global', 'Global Website Footer', 'Global footer with quick links, office address, and social profiles', 1, 37),
+('widget_whatsapp', 'widget', 'global', 'Floating WhatsApp Button', 'Bottom-right floating WhatsApp quick chat button', 1, 38),
+('widget_chat', 'widget', 'global', 'AI Live Chatbot Widget', 'Bottom floating AI digital marketing assistant popup', 1, 39),
+('widget_back_to_top', 'widget', 'global', 'Back To Top Button', 'Floating button to smoothly scroll to top of page', 1, 40);
+

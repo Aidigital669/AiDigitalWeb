@@ -1,6 +1,4 @@
-import FeaturedWork from "../components/FeaturedWork";
-import PortfolioShowcase from "../components/PortfolioShowcase";
-import { SiteFooter, SiteHeader } from "../components/SiteChrome";
+import PortfolioClientPage from "./PortfolioClientPage";
 
 export const metadata = {
   title: "Portfolio | AI Digital",
@@ -12,12 +10,5 @@ export const metadata = {
 };
 
 export default function PortfolioPage() {
-  return (
-    <main id="top">
-      <SiteHeader active="portfolio" />
-      <PortfolioShowcase />
-      <FeaturedWork />
-      <SiteFooter />
-    </main>
-  );
+  return <PortfolioClientPage />;
 }
