@@ -1,6 +1,36 @@
 "use client";
 import { useEffect, useRef, useState, useMemo } from "react";
 import Image from "next/image";
+import { useVisibility } from "../context/VisibilityContext";
+
+const industryVisibilityMap = {
+  "Real Estate": "portfolio_ind_realestate",
+  "Education": "portfolio_ind_education",
+  "Healthcare": "portfolio_ind_healthcare",
+  "Finance": "portfolio_ind_finance",
+  "Hotels and Resorts": "portfolio_ind_hospitality",
+  "Hospitality": "portfolio_ind_hospitality",
+  "Hospitality & Food": "portfolio_ind_hospitality",
+  "Solar": "portfolio_ind_solar",
+  "Interior Design": "portfolio_ind_interior",
+  "Technology & Apps": "portfolio_ind_tech",
+  "Tours & Travels": "portfolio_ind_travel",
+  "Agriculture": "portfolio_ind_agriculture",
+  "Sports": "portfolio_ind_sports",
+  "Car Dealership": "portfolio_ind_cars",
+  "Digital Marketing": "portfolio_ind_marketing",
+  "Construction": "portfolio_ind_construction",
+  "E-Commerce": "portfolio_ind_ecommerce",
+};
+
+const typeVisibilityMap = {
+  website: "portfolio_type_websites",
+  campaign: "portfolio_type_campaigns",
+  video: "portfolio_type_aivideos",
+  youtube: "portfolio_type_aivideos",
+  image: "portfolio_type_creatives",
+  reel: "portfolio_type_reels",
+};
 const creativeGroups = [
   {
     industry: "Real Estate",
@@ -268,10 +298,18 @@ const CATEGORIES = [
   }
 ];
 export default function CreativeGrid({ activeFilter = "All", setActiveFilter, searchQuery = "", setSearchQuery, onlyShowOtherCreative = false }) {
+  const { isVisible } = useVisibility();
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const scrollContainers = useRef({});
   const [creativeGroupsState, setCreativeGroupsState] = useState(creativeGroups);
   const [videoErrors, setVideoErrors] = useState({});
+
+  const visibleCategories = useMemo(() => {
+    return CATEGORIES.filter(cat => {
+      const visibilityKey = typeVisibilityMap[cat.id];
+      return !visibilityKey || isVisible(visibilityKey);
+    });
+  }, [isVisible]);
   const getMediaType = (type, src, category) => {
     if (category === "image" || category === "video" || category === "reel" || category === "website" || category === "campaign") {
       return category;
@@ -520,11 +558,20 @@ export default function CreativeGrid({ activeFilter = "All", setActiveFilter, se
       return result;
     };
     return creativeGroupsState.filter(group => {
-      if (onlyShowOtherCreative) return group.industry === "Car Dealership";
-      return group.industry !== "Car Dealership";
+      if (onlyShowOtherCreative) {
+        if (group.industry !== "Car Dealership") return false;
+      } else {
+        if (group.industry === "Car Dealership") return false;
+      }
+      const indKey = industryVisibilityMap[group.industry];
+      if (indKey && !isVisible(indKey)) return false;
+      return true;
     }).map(group => {
       const filteredImages = group.images.filter(img => {
         const type = getMediaType(img.type, img.src, img.category);
+        const typeKey = typeVisibilityMap[type];
+        if (typeKey && !isVisible(typeKey)) return false;
+
         let matchesCategory = true;
         if (activeFilter === "Creative Content") matchesCategory = type === "image";
         else if (activeFilter === "AI Videos") matchesCategory = type === "video";
@@ -555,8 +602,13 @@ export default function CreativeGrid({ activeFilter = "All", setActiveFilter, se
         ...group,
         images: finalImages
       };
-    }).filter(group => group.images.length > 0);
-  }, [activeFilter, searchQuery, creativeGroupsState, onlyShowOtherCreative]);
+    }).filter(group => {
+      if (activeFilter === "All" && !q) {
+        return visibleCategories.length > 0;
+      }
+      return group.images.length > 0;
+    });
+  }, [activeFilter, searchQuery, creativeGroupsState, onlyShowOtherCreative, isVisible, visibleCategories]);
   const visibleItems = useMemo(() => {
     return filteredGroups.flatMap(group => group.images);
   }, [filteredGroups]);
@@ -628,7 +680,7 @@ export default function CreativeGrid({ activeFilter = "All", setActiveFilter, se
           </div>
           {activeFilter === "All" && !searchQuery.trim() ? (
             <div className="industry-boxes-grid">
-              {CATEGORIES.map((cat, idx) => {
+              {visibleCategories.map((cat, idx) => {
                 const proj = getCategoryProject(group, cat.id);
                 const handleClick = (e) => {
                   if (setActiveFilter) {

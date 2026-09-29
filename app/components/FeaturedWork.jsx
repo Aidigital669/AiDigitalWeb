@@ -136,34 +136,92 @@ const otherProjects = [
   { title: "Custom Dashboard Integration", type: "Website & SEO" }
 ];
 
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
+import CreativeGrid from "./CreativeGrid";
+import { useVisibility } from "../context/VisibilityContext";
+
+const filterTypeKeyMap = {
+  "Website & SEO": "portfolio_type_websites",
+  "Campaigns": "portfolio_type_campaigns",
+  "AI Videos": "portfolio_type_aivideos",
+  "Creative Content": "portfolio_type_creatives",
+  "Reels": "portfolio_type_reels",
+};
+
+const industryKeyMap = {
+  "Real Estate": "portfolio_ind_realestate",
+  "Education": "portfolio_ind_education",
+  "Healthcare": "portfolio_ind_healthcare",
+  "Finance": "portfolio_ind_finance",
+  "Hospitality": "portfolio_ind_hospitality",
+  "Hotels and Resorts": "portfolio_ind_hospitality",
+  "Hospitality & Food": "portfolio_ind_hospitality",
+  "Solar": "portfolio_ind_solar",
+  "Agriculture": "portfolio_ind_agriculture",
+  "Construction": "portfolio_ind_construction",
+  "E-Commerce": "portfolio_ind_ecommerce",
+  "Interior Design": "portfolio_ind_interior",
+  "Technology & Apps": "portfolio_ind_tech",
+  "Tours & Travels": "portfolio_ind_travel",
+  "Sports": "portfolio_ind_sports",
+  "Car Dealership": "portfolio_ind_cars",
+  "Digital Marketing": "portfolio_ind_marketing",
+};
 
 export default function FeaturedWork() {
+  const { isVisible } = useVisibility();
   const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [showOthers, setShowOthers] = useState(false);
   const [industriesState, setIndustriesState] = useState(industries);
   const [otherProjectsState, setOtherProjectsState] = useState(otherProjects);
 
-  const visibleIndustries = useMemo(() => {
-    if (activeFilter === "All") {
-      return industriesState;
-    }
+  // Filter out any service filter pill whose type is hidden in admin
+  const availableFilters = useMemo(() => {
+    return filters.filter((filter) => {
+      if (filter === "All") return true;
+      const key = filterTypeKeyMap[filter];
+      return key ? isVisible(key) : true;
+    });
+  }, [isVisible]);
 
+  // If current active filter gets hidden, auto-fallback to "All"
+  useEffect(() => {
+    if (activeFilter !== "All") {
+      const key = filterTypeKeyMap[activeFilter];
+      if (key && !isVisible(key)) {
+        setActiveFilter("All");
+      }
+    }
+  }, [activeFilter, isVisible]);
+
+  const visibleIndustries = useMemo(() => {
     return industriesState
+      .filter((industry) => {
+        const indKey = industryKeyMap[industry.name];
+        if (indKey && !isVisible(indKey)) return false;
+        return true;
+      })
       .map((industry) => ({
         ...industry,
-        projects: industry.projects.filter((project) => project.type === activeFilter)
+        projects: industry.projects.filter((project) => {
+          const typeKey = filterTypeKeyMap[project.type];
+          if (typeKey && !isVisible(typeKey)) return false;
+          if (activeFilter === "All") return true;
+          return project.type === activeFilter;
+        })
       }))
       .filter((industry) => industry.projects.length > 0);
-  }, [activeFilter, industriesState]);
+  }, [activeFilter, industriesState, isVisible]);
 
   const visibleOtherProjects = useMemo(() => {
-    if (activeFilter === "All") {
-      return otherProjectsState;
-    }
-    return otherProjectsState.filter((project) => project.type === activeFilter);
-  }, [activeFilter, otherProjectsState]);
+    return otherProjectsState.filter((project) => {
+      const typeKey = filterTypeKeyMap[project.type];
+      if (typeKey && !isVisible(typeKey)) return false;
+      if (activeFilter === "All") return true;
+      return project.type === activeFilter;
+    });
+  }, [activeFilter, otherProjectsState, isVisible]);
 
   return (
     <section id="portfolio" className="section featured-work">
@@ -174,46 +232,50 @@ export default function FeaturedWork() {
         </p>
       </div>
 
-      <div className="project-search-row">
-        <div className="project-search-bar">
-          <span className="material-symbols-outlined search-icon" aria-hidden="true">
-            search
-          </span>
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search projects by title, keyword, or industry..."
-            aria-label="Search projects"
-          />
-          {searchQuery && (
+      {isVisible("portfolio_search_bar") && (
+        <div className="project-search-row">
+          <div className="project-search-bar">
+            <span className="material-symbols-outlined search-icon" aria-hidden="true">
+              search
+            </span>
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              placeholder="Search projects by title, keyword, or industry..."
+              aria-label="Search projects"
+            />
+            {searchQuery && (
+              <button
+                type="button"
+                className="search-clear-btn"
+                onClick={() => setSearchQuery("")}
+                aria-label="Clear search"
+              >
+                <span className="material-symbols-outlined">close</span>
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {isVisible("portfolio_filter_bar") && (
+        <div className="work-filter-row" aria-label="Service filters">
+          {availableFilters.map((filter) => (
             <button
               type="button"
-              className="search-clear-btn"
-              onClick={() => setSearchQuery("")}
-              aria-label="Clear search"
+              key={filter}
+              className={activeFilter === filter ? "active" : ""}
+              aria-pressed={activeFilter === filter}
+              onClick={() => setActiveFilter(filter)}
             >
-              <span className="material-symbols-outlined">close</span>
+              {filter}
             </button>
-          )}
+          ))}
         </div>
-      </div>
+      )}
 
-      <div className="work-filter-row" aria-label="Service filters">
-        {filters.map((filter) => (
-          <button
-            type="button"
-            key={filter}
-            className={activeFilter === filter ? "active" : ""}
-            aria-pressed={activeFilter === filter}
-            onClick={() => setActiveFilter(filter)}
-          >
-            {filter}
-          </button>
-        ))}
-      </div>
-
-      {activeFilter === "Website & SEO" && (
+      {activeFilter === "Website & SEO" && isVisible("portfolio_type_websites") && (
         <div className="website-type-row" aria-label="Website and SEO project types">
           {websiteTypes.map((type) => (
             <span key={type}>{type}</span>
@@ -254,7 +316,7 @@ export default function FeaturedWork() {
           </>
         )}
 
-        {visibleOtherProjects.length > 0 && (
+        {isVisible("portfolio_other_projects") && visibleOtherProjects.length > 0 && (
           <div className="others-toggle-container">
             <button
               type="button"
@@ -270,7 +332,7 @@ export default function FeaturedWork() {
           </div>
         )}
 
-        {showOthers && (
+        {isVisible("portfolio_other_projects") && showOthers && (
           <CreativeGrid
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}

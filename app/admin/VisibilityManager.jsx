@@ -84,6 +84,7 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
   const [filterGroup, setFilterGroup] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [updatingIds, setUpdatingIds] = useState(new Set());
+  const [portfolioSubFilter, setPortfolioSubFilter] = useState("all");
   const [showAddModal, setShowAddModal] = useState(false);
   const [newForm, setNewForm] = useState({
     id: "",
@@ -882,6 +883,91 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
                 </div>
               )}
 
+              {/* Portfolio Sub-Category Filter Toolbar */}
+              {groupKey === "portfolio" && (
+                <div
+                  style={{
+                    padding: "12px 24px",
+                    background: "rgba(139, 92, 246, 0.08)",
+                    borderBottom: "1px solid rgba(139, 92, 246, 0.18)",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    gap: "12px",
+                    flexWrap: "wrap",
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px", flexWrap: "wrap" }}>
+                    <span style={{ fontSize: "12px", color: "#c084fc", fontWeight: "700", display: "inline-flex", alignItems: "center", gap: "5px" }}>
+                      <Icon name="filter_list" style={{ fontSize: "16px" }} /> Portfolio Categories:
+                    </span>
+                    {[
+                      { key: "all", label: "All Elements", count: sectionItems.length },
+                      {
+                        key: "sections",
+                        label: "Core Page Sections",
+                        count: sectionItems.filter((i) => !i.id.startsWith("portfolio_type_") && !i.id.startsWith("portfolio_ind_")).length,
+                      },
+                      {
+                        key: "types",
+                        label: "Component & Media Types",
+                        count: sectionItems.filter((i) => i.id.startsWith("portfolio_type_")).length,
+                      },
+                      {
+                        key: "industries",
+                        label: "Industry Sectors",
+                        count: sectionItems.filter((i) => i.id.startsWith("portfolio_ind_")).length,
+                      },
+                    ].map((sub) => {
+                      const active = portfolioSubFilter === sub.key;
+                      return (
+                        <button
+                          key={sub.key}
+                          onClick={() => setPortfolioSubFilter(sub.key)}
+                          style={{
+                            background: active ? "#8B5CF6" : "rgba(255, 255, 255, 0.06)",
+                            border: active ? "1px solid #a78bfa" : "1px solid rgba(255, 255, 255, 0.1)",
+                            color: active ? "#fff" : "#cbd5e1",
+                            padding: "4px 12px",
+                            borderRadius: "14px",
+                            fontSize: "12px",
+                            fontWeight: "600",
+                            cursor: "pointer",
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: "6px",
+                            transition: "all 0.15s ease",
+                          }}
+                        >
+                          <span>{sub.label}</span>
+                          <span
+                            style={{
+                              background: active ? "rgba(255, 255, 255, 0.25)" : "rgba(255, 255, 255, 0.08)",
+                              padding: "1px 6px",
+                              borderRadius: "10px",
+                              fontSize: "10px",
+                            }}
+                          >
+                            {sub.count}
+                          </span>
+                        </button>
+                      );
+                    })}
+                  </div>
+
+                  <span style={{ fontSize: "11px", color: "#94a3b8" }}>
+                    Showing {
+                      sectionItems.filter((item) => {
+                        if (portfolioSubFilter === "sections") return !item.id.startsWith("portfolio_type_") && !item.id.startsWith("portfolio_ind_");
+                        if (portfolioSubFilter === "types") return item.id.startsWith("portfolio_type_");
+                        if (portfolioSubFilter === "industries") return item.id.startsWith("portfolio_ind_");
+                        return true;
+                      }).length
+                    } of {sectionItems.length} controls
+                  </span>
+                </div>
+              )}
+
               {/* Grid of Sections */}
               <div
                 style={{
@@ -891,9 +977,42 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
                   gap: "16px",
                 }}
               >
-                {sectionItems.map((item) => {
+                {sectionItems
+                  .filter((item) => {
+                    if (groupKey === "portfolio") {
+                      if (portfolioSubFilter === "sections") {
+                        return !item.id.startsWith("portfolio_type_") && !item.id.startsWith("portfolio_ind_");
+                      }
+                      if (portfolioSubFilter === "types") {
+                        return item.id.startsWith("portfolio_type_");
+                      }
+                      if (portfolioSubFilter === "industries") {
+                        return item.id.startsWith("portfolio_ind_");
+                      }
+                    }
+                    return true;
+                  })
+                  .map((item) => {
                   const isUpdating = updatingIds.has(item.id);
                   const isWidget = item.type === "widget";
+
+                  let badgeLabel = item.type;
+                  let badgeBg = isWidget ? "rgba(245, 158, 11, 0.15)" : "rgba(59, 130, 246, 0.15)";
+                  let badgeColor = isWidget ? "#fbbf24" : "#60a5fa";
+
+                  if (item.id.startsWith("portfolio_type_")) {
+                    badgeLabel = "MEDIA / COMPONENT";
+                    badgeBg = "rgba(168, 85, 247, 0.2)";
+                    badgeColor = "#c084fc";
+                  } else if (item.id.startsWith("portfolio_ind_")) {
+                    badgeLabel = "INDUSTRY SECTOR";
+                    badgeBg = "rgba(16, 185, 129, 0.2)";
+                    badgeColor = "#34d399";
+                  } else if (item.page_group === "portfolio") {
+                    badgeLabel = "PAGE SECTION";
+                    badgeBg = "rgba(59, 130, 246, 0.2)";
+                    badgeColor = "#60a5fa";
+                  }
 
                   return (
                     <div
@@ -925,13 +1044,11 @@ export default function VisibilityManager({ showToast, onCountUpdate }) {
                                 textTransform: "uppercase",
                                 padding: "2px 6px",
                                 borderRadius: "4px",
-                                background: isWidget
-                                  ? "rgba(245, 158, 11, 0.15)"
-                                  : "rgba(59, 130, 246, 0.15)",
-                                color: isWidget ? "#fbbf24" : "#60a5fa",
+                                background: badgeBg,
+                                color: badgeColor,
                               }}
                             >
-                              {item.type}
+                              {badgeLabel}
                             </span>
                             <h4
                               style={{
