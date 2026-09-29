@@ -603,7 +603,7 @@ export default function CreativeGrid({ activeFilter = "All", setActiveFilter, se
         images: finalImages
       };
     }).filter(group => {
-      if (activeFilter === "All" && !q) {
+      if (activeFilter === "All" && !q && isVisible("portfolio_category_boxes")) {
         return visibleCategories.length > 0;
       }
       return group.images.length > 0;
@@ -678,7 +678,7 @@ export default function CreativeGrid({ activeFilter = "All", setActiveFilter, se
             <h3>{group.industry}</h3>
             <p>{group.description}</p>
           </div>
-          {activeFilter === "All" && !searchQuery.trim() ? (
+          {activeFilter === "All" && !searchQuery.trim() && isVisible("portfolio_category_boxes") ? (
             <div className="industry-boxes-grid">
               {visibleCategories.map((cat, idx) => {
                 const proj = getCategoryProject(group, cat.id);

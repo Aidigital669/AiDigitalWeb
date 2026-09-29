@@ -26,6 +26,7 @@
     "portfolio_showcase": true,
     "portfolio_search_bar": true,
     "portfolio_filter_bar": true,
+    "portfolio_category_boxes": true,
     "portfolio_featured": true,
     "portfolio_other_projects": true,
     "portfolio_type_websites": true,
@@ -295,9 +296,18 @@
       "type": "section",
       "page_group": "portfolio",
       "name": "Service Category Filter Tabs",
-      "description": "Filter tabs bar (All, Website & SEO, Campaigns, AI Videos, Creatives, Reels)",
+      "description": "Top filter tabs bar (All, Website & SEO, Campaigns, AI Videos, Creatives, Reels)",
       "is_visible": true,
       "sort_order": 26
+    },
+    {
+      "id": "portfolio_category_boxes",
+      "type": "section",
+      "page_group": "portfolio",
+      "name": "Industry Category Overview Cards",
+      "description": "Show or hide the 5 category summary boxes (Website, Campaigns, AI Videos, Creatives, Reels) under each industry",
+      "is_visible": true,
+      "sort_order": 27
     },
     {
       "id": "portfolio_featured",
