@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import CreativeGrid from "./CreativeGrid";
+import { useVisibility } from "../context/VisibilityContext";
 
 const filters = [
   "All",
@@ -136,9 +137,6 @@ const otherProjects = [
   { title: "Custom Dashboard Integration", type: "Website & SEO" }
 ];
 
-import { useEffect, useMemo, useState } from "react";
-import CreativeGrid from "./CreativeGrid";
-import { useVisibility } from "../context/VisibilityContext";
 
 const filterTypeKeyMap = {
   "Website & SEO": "portfolio_type_websites",
