@@ -72,29 +72,10 @@ const showcaseProjects = [
 ];
 
 export default function PortfolioShowcase() {
-  const [showcaseProjectsState, setShowcaseProjectsState] = useState(showcaseProjects);
+  const [showcaseProjectsState] = useState(showcaseProjects);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef(null);
-
-  useEffect(() => {
-    let isMounted = true;
-    async function loadDynamicShowcase() {
-      try {
-        const res = await fetch("/api/portfolio?t=" + Date.now(), { cache: "no-store" });
-        if (res.ok) {
-          const data = await res.json();
-          if (isMounted && data.showcaseProjects && Array.isArray(data.showcaseProjects) && data.showcaseProjects.length > 0) {
-            setShowcaseProjectsState(data.showcaseProjects);
-          }
-        }
-      } catch (err) {
-        console.warn("Could not load dynamic showcase projects, using fallback:", err);
-      }
-    }
-    loadDynamicShowcase();
-    return () => { isMounted = false; };
-  }, []);
 
   const activeProject = showcaseProjectsState[activeIndex] || showcaseProjectsState[0] || { tags: [] };
 

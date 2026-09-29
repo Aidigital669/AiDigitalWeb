@@ -304,25 +304,6 @@ export default function CreativeGrid({ activeFilter = "All", setActiveFilter, se
   const [creativeGroupsState, setCreativeGroupsState] = useState(creativeGroups);
   const [videoErrors, setVideoErrors] = useState({});
 
-  useEffect(() => {
-    let isMounted = true;
-    async function loadDynamicPortfolio() {
-      try {
-        const res = await fetch("/api/portfolio?t=" + Date.now(), { cache: "no-store" });
-        if (res.ok) {
-          const data = await res.json();
-          if (isMounted && data.creativeGroups && Array.isArray(data.creativeGroups) && data.creativeGroups.length > 0) {
-            setCreativeGroupsState(data.creativeGroups);
-          }
-        }
-      } catch (err) {
-        console.warn("Could not load dynamic creative groups, using static fallback:", err);
-      }
-    }
-    loadDynamicPortfolio();
-    return () => { isMounted = false; };
-  }, []);
-
   const visibleCategories = useMemo(() => {
     return CATEGORIES.filter(cat => {
       const visibilityKey = typeVisibilityMap[cat.id];

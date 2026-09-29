@@ -8,13 +8,7 @@
       "pillClass": "basic-pill",
       "price": 4999,
       "period": "/month",
-      "features": [
-        "Google Ads",
-        "Creative - 3",
-        "AI Video - 1",
-        "Reels/Shorts - 1",
-        "Weekly Report"
-      ],
+      "features": ["Google Ads", "Creative - 3", "AI Video - 1", "Reels/Shorts - 1", "Weekly Report"],
       "buttonText": "Select Plan",
       "isPopular": false,
       "serviceName": "Performance Marketing",
@@ -30,13 +24,7 @@
       "pillClass": "standard-pill",
       "price": 13499,
       "period": "/3 months",
-      "features": [
-        "Google Ads",
-        "Creative - 9",
-        "AI Video - 3",
-        "Reels/Shorts - 3",
-        "Weekly Report"
-      ],
+      "features": ["Google Ads", "Creative - 9", "AI Video - 3", "Reels/Shorts - 3", "Weekly Report"],
       "buttonText": "Select Plan",
       "isPopular": true,
       "serviceName": "Performance Marketing",
@@ -52,13 +40,7 @@
       "pillClass": "premium-pill",
       "price": 23999,
       "period": "/6 months",
-      "features": [
-        "Google Ads",
-        "Creative - 18",
-        "AI Video - 6",
-        "Reels/Shorts - 6",
-        "Weekly Report"
-      ],
+      "features": ["Google Ads", "Creative - 18", "AI Video - 6", "Reels/Shorts - 6", "Weekly Report"],
       "buttonText": "Select Plan",
       "isPopular": false,
       "serviceName": "Performance Marketing",
@@ -76,13 +58,7 @@
       "pillClass": "basic-pill",
       "price": 3499,
       "period": "/month",
-      "features": [
-        "Meta Ads",
-        "Creative - 3",
-        "AI Video - 1",
-        "Reels/Shorts - 1",
-        "Weekly Report"
-      ],
+      "features": ["Meta Ads", "Creative - 3", "AI Video - 1", "Reels/Shorts - 1", "Weekly Report"],
       "buttonText": "Select Plan",
       "isPopular": false,
       "serviceName": "Performance Marketing",
@@ -98,13 +74,7 @@
       "pillClass": "standard-pill",
       "price": 4999,
       "period": "/2 months",
-      "features": [
-        "Meta Ads",
-        "Creative - 6",
-        "AI Video - 2",
-        "Reels/Shorts - 2",
-        "Weekly Report"
-      ],
+      "features": ["Meta Ads", "Creative - 6", "AI Video - 2", "Reels/Shorts - 2", "Weekly Report"],
       "buttonText": "Select Plan",
       "isPopular": true,
       "serviceName": "Performance Marketing",
@@ -120,13 +90,7 @@
       "pillClass": "premium-pill",
       "price": 6899,
       "period": "/3 months",
-      "features": [
-        "Meta Ads",
-        "Creative - 9",
-        "AI Video - 3",
-        "Reels/Shorts - 3",
-        "Weekly Report"
-      ],
+      "features": ["Meta Ads", "Creative - 9", "AI Video - 3", "Reels/Shorts - 3", "Weekly Report"],
       "buttonText": "Select Plan",
       "isPopular": false,
       "serviceName": "Performance Marketing",
@@ -144,13 +108,7 @@
       "pillClass": "basic-pill",
       "price": 6999,
       "period": "/month",
-      "features": [
-        "Meta Ads + Google Ads",
-        "Creative - 7",
-        "AI Video - 2",
-        "Reels/Shorts - 5",
-        "Weekly Report"
-      ],
+      "features": ["Meta Ads + Google Ads", "Creative - 7", "AI Video - 2", "Reels/Shorts - 5", "Weekly Report"],
       "buttonText": "Select Plan",
       "isPopular": false,
       "serviceName": "Performance Marketing",
@@ -166,13 +124,7 @@
       "pillClass": "standard-pill",
       "price": 19499,
       "period": "/3 months",
-      "features": [
-        "Meta Ads + Google Ads",
-        "Creative - 21",
-        "AI Video - 6",
-        "Reels/Shorts - 15",
-        "Weekly Report"
-      ],
+      "features": ["Meta Ads + Google Ads", "Creative - 21", "AI Video - 6", "Reels/Shorts - 15", "Weekly Report"],
       "buttonText": "Select Plan",
       "isPopular": true,
       "serviceName": "Performance Marketing",
@@ -188,13 +140,7 @@
       "pillClass": "premium-pill",
       "price": 35999,
       "period": "/6 months",
-      "features": [
-        "Meta Ads + Google Ads",
-        "Creative - 42",
-        "AI Video - 6",
-        "Reels/Shorts - 30",
-        "Weekly Report"
-      ],
+      "features": ["Meta Ads + Google Ads", "Creative - 42", "AI Video - 6", "Reels/Shorts - 30", "Weekly Report"],
       "buttonText": "Select Plan",
       "isPopular": false,
       "serviceName": "Performance Marketing",
@@ -602,34 +548,13 @@
       "price": "5,000",
       "period": "/month",
       "features": [
-        {
-          "icon": "my_location",
-          "text": "Targeted Ad Campaigns"
-        },
-        {
-          "icon": "groups",
-          "text": "Quality Leads"
-        },
-        {
-          "icon": "phone_callback",
-          "text": "More Site Visits"
-        },
-        {
-          "icon": "trending_up",
-          "text": "Increased Sales"
-        },
-        {
-          "icon": "palette",
-          "text": "3 Creatives"
-        },
-        {
-          "icon": "movie",
-          "text": "1 AI Video"
-        },
-        {
-          "icon": "play_arrow",
-          "text": "1 Reels/Shorts"
-        }
+        { "icon": "my_location", "text": "Targeted Ad Campaigns" },
+        { "icon": "groups", "text": "Quality Leads" },
+        { "icon": "phone_callback", "text": "More Site Visits" },
+        { "icon": "trending_up", "text": "Increased Sales" },
+        { "icon": "palette", "text": "3 Creatives" },
+        { "icon": "movie", "text": "1 AI Video" },
+        { "icon": "play_arrow", "text": "1 Reels/Shorts" }
       ],
       "buttonText": "Call Now",
       "isPopular": false,
@@ -637,22 +562,10 @@
       "planParameter": "Real Estate - Meta Ads (₹5,000/mo)",
       "isHighlight": false,
       "highlightStyles": {
-        "card": {
-          "borderColor": "#1877F2",
-          "borderWidth": "2px",
-          "position": "relative",
-          "overflow": "hidden"
-        },
-        "tag": {
-          "backgroundColor": "#E7F3FF",
-          "color": "#1877F2"
-        },
-        "icon": {
-          "color": "#1877F2"
-        },
-        "button": {
-          "backgroundColor": "#1877F2"
-        }
+        "card": { "borderColor": "#1877F2", "borderWidth": "2px", "position": "relative", "overflow": "hidden" },
+        "tag": { "backgroundColor": "#E7F3FF", "color": "#1877F2" },
+        "icon": { "color": "#1877F2" },
+        "button": { "backgroundColor": "#1877F2" }
       }
     },
     {
@@ -664,34 +577,13 @@
       "price": "7,500",
       "period": "/month",
       "features": [
-        {
-          "icon": "domain",
-          "text": "Real Estate Ad Experts"
-        },
-        {
-          "icon": "insights",
-          "text": "High ROI Campaigns"
-        },
-        {
-          "icon": "description",
-          "text": "Transparent Reporting"
-        },
-        {
-          "icon": "support_agent",
-          "text": "Dedicated Support"
-        },
-        {
-          "icon": "palette",
-          "text": "3 Creatives"
-        },
-        {
-          "icon": "movie",
-          "text": "1 AI Video"
-        },
-        {
-          "icon": "play_arrow",
-          "text": "1 Reels/Shorts"
-        }
+        { "icon": "domain", "text": "Real Estate Ad Experts" },
+        { "icon": "insights", "text": "High ROI Campaigns" },
+        { "icon": "description", "text": "Transparent Reporting" },
+        { "icon": "support_agent", "text": "Dedicated Support" },
+        { "icon": "palette", "text": "3 Creatives" },
+        { "icon": "movie", "text": "1 AI Video" },
+        { "icon": "play_arrow", "text": "1 Reels/Shorts" }
       ],
       "buttonText": "Call Now",
       "isPopular": false,
@@ -699,22 +591,10 @@
       "planParameter": "Real Estate - Google Ads (₹7,500/mo)",
       "isHighlight": true,
       "highlightStyles": {
-        "card": {
-          "borderColor": "#EA4335",
-          "borderWidth": "2px",
-          "position": "relative",
-          "overflow": "hidden"
-        },
-        "tag": {
-          "backgroundColor": "#FCE8E6",
-          "color": "#EA4335"
-        },
-        "icon": {
-          "color": "#EA4335"
-        },
-        "button": {
-          "backgroundColor": "#EA4335"
-        }
+        "card": { "borderColor": "#EA4335", "borderWidth": "2px", "position": "relative", "overflow": "hidden" },
+        "tag": { "backgroundColor": "#FCE8E6", "color": "#EA4335" },
+        "icon": { "color": "#EA4335" },
+        "button": { "backgroundColor": "#EA4335" }
       }
     }
   ]

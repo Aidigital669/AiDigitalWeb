@@ -1,51 +1,43 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-import { getPricingPlans, saveAllPricingPlans } from "../../../../lib/pricing";
+import fs from "fs";
+import path from "path";
+import { googlePlans, facebookPlans, combinePlans, websitePlans, creativePacks, aiVideoPlans, realEstatePlans } from "../../../pricing/pricingData";
 
-function checkAuth(req) {
-  const session = req.cookies.get("admin_session");
-  return session && session.value === "authenticated";
+// Fallback pricing retrieval from backup JSON file
+function getJsonFallback() {
+  try {
+    const filePath = path.join(process.cwd(), "data", "pricingData.json");
+    if (fs.existsSync(filePath)) {
+      const raw = fs.readFileSync(filePath, "utf-8");
+      return JSON.parse(raw);
+    }
+  } catch (err) {
+    console.warn("Could not read backup pricing JSON file, using static code import. Error:", err.message);
+  }
+  return { googlePlans, facebookPlans, combinePlans, websitePlans, creativePacks, aiVideoPlans, realEstatePlans };
 }
 
 export async function GET() {
-  try {
-    const data = await getPricingPlans();
-    return NextResponse.json(data, {
-      headers: {
-        "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
-        "Pragma": "no-cache",
-        "Expires": "0"
-      }
-    });
-  } catch (err) {
-    console.error("Failed to get pricing in admin route:", err);
-    return NextResponse.json({ error: "Failed to get pricing plans" }, { status: 500 });
-  }
+  const fallback = getJsonFallback();
+  const getPriceVal = (price) => Number(String(price).replace(/,/g, "")) || 0;
+  
+  Object.keys(fallback).forEach((cat) => {
+    if (fallback[cat] && Array.isArray(fallback[cat])) {
+      fallback[cat].sort((a, b) => getPriceVal(a.price) - getPriceVal(b.price));
+    }
+  });
+
+  return NextResponse.json(fallback, {
+    headers: {
+      "Cache-Control": "no-store, no-cache, must-revalidate, proxy-revalidate",
+      "Pragma": "no-cache",
+      "Expires": "0"
+    }
+  });
 }
 
-export async function POST(req) {
-  try {
-    if (!checkAuth(req)) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-
-    const pricingData = await req.json();
-    if (!pricingData || typeof pricingData !== "object") {
-      return NextResponse.json({ error: "Invalid pricing data payload" }, { status: 400 });
-    }
-
-    const result = await saveAllPricingPlans(pricingData);
-
-    return NextResponse.json({
-      success: true,
-      message: result.dbSaved
-        ? "Pricing plans saved to MySQL database and JSON backup successfully!"
-        : "Pricing plans saved to local JSON backup successfully (Database offline).",
-      dbSaved: result.dbSaved
-    });
-  } catch (error) {
-    console.error("Error saving pricing data in admin route:", error);
-    return NextResponse.json({ error: "Failed to save pricing: " + error.message }, { status: 500 });
-  }
+export async function POST() {
+  return NextResponse.json({ error: "Pricing plans are static and cannot be changed" }, { status: 405 });
 }

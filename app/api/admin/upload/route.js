@@ -1,5 +1,3 @@
-export const dynamic = "force-dynamic";
-
 import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
@@ -12,17 +10,16 @@ function checkAuth(req) {
 export async function POST(req) {
   try {
     if (!checkAuth(req)) {
-      return NextResponse.json({ error: "Unauthorized. Please log in again." }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const formData = await req.formData();
     const file = formData.get("file");
 
-    if (!file || typeof file === "string") {
-      return NextResponse.json({ error: "No valid file uploaded" }, { status: 400 });
+    if (!file) {
+      return NextResponse.json({ error: "No file uploaded" }, { status: 400 });
     }
 
-    const rawName = file.name || "upload";
     const bytes = await file.arrayBuffer();
     const buffer = Buffer.from(bytes);
 
@@ -32,33 +29,18 @@ export async function POST(req) {
       fs.mkdirSync(uploadDir, { recursive: true });
     }
 
-    // Determine extension and media type
-    const mimeType = file.type || "";
-    let fileExtension = path.extname(rawName).toLowerCase();
-    if (!fileExtension) {
-      if (mimeType.includes("jpeg") || mimeType.includes("jpg")) fileExtension = ".jpg";
-      else if (mimeType.includes("png")) fileExtension = ".png";
-      else if (mimeType.includes("webp")) fileExtension = ".webp";
-      else if (mimeType.includes("mp4")) fileExtension = ".mp4";
-      else if (mimeType.includes("webm")) fileExtension = ".webm";
-      else fileExtension = ".png";
-    }
-
-    const baseName = path.basename(rawName, fileExtension).replace(/[^a-zA-Z0-9_-]/g, "_") || "media";
+    // Generate unique name to prevent collisions
+    const fileExtension = path.extname(file.name) || ".png";
+    const baseName = path.basename(file.name, fileExtension).replace(/[^a-zA-Z0-9]/g, "_");
     const uniqueFileName = `${baseName}_${Date.now()}${fileExtension}`;
     const filePath = path.join(uploadDir, uniqueFileName);
 
-    // Write file to public/uploads
+    // Write file
     fs.writeFileSync(filePath, buffer);
 
-    const isVideo = mimeType.startsWith("video/") || [".mp4", ".webm", ".mov", ".ogg"].includes(fileExtension);
-
-    return NextResponse.json({
-      success: true,
-      url: `/uploads/${uniqueFileName}`,
-      fileName: uniqueFileName,
-      mediaType: isVideo ? "video" : "image"
-    });
+    // Return reference URL
+    const relativeUrl = `/uploads/${uniqueFileName}`;
+    return NextResponse.json({ success: true, url: relativeUrl });
   } catch (error) {
     console.error("Upload error:", error);
     return NextResponse.json({ error: "Failed to upload file: " + error.message }, { status: 500 });
