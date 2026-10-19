@@ -343,7 +343,7 @@ INSERT INTO `site_visibility` (`id`, `type`, `page_group`, `name`, `description`
 ('page_cart', 'page', 'checkout', 'Cart Page (/cart)', 'Shopping cart redirect and plan selection verification', 1, 57),
 ('page_checkout', 'page', 'checkout', 'Checkout Page (/checkout)', 'Secure order completion, promo code, and payment gateway', 1, 58),
 ('global_header', 'widget', 'global', 'Top Navigation Header', 'Global website header with logo, navigation links, and Contact CTA', 1, 59),
-('global_footer', 'widget', 'global', 'Global Website Footer', 'Global footer with quick links, office address, and social profiles', 1, 60),
+('global_footer', 'widget', 'global', 'Global Website Footer', 'Global footer with quick links and social profiles', 1, 60),
 ('widget_whatsapp', 'widget', 'global', 'Floating WhatsApp Button', 'Bottom-right floating WhatsApp quick chat button', 1, 61),
 ('widget_chat', 'widget', 'global', 'AI Live Chatbot Widget', 'Bottom floating AI digital marketing assistant popup', 1, 62),
 ('widget_back_to_top', 'widget', 'global', 'Back To Top Button', 'Floating button to smoothly scroll to top of page', 1, 63);

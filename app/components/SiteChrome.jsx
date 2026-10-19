@@ -6,7 +6,7 @@ import { useVisibility } from "../context/VisibilityContext";
 const footerGroups = [
   {
     title: "Contact",
-    items: ["Office: +91-9096090701", "aidigitalbiz01@gmail.com", "Camp, Pune 411001"]
+    items: ["Office: +91-9096090701", "aidigitalbiz01@gmail.com"]
   },
   {
     title: "Services",
@@ -187,6 +187,8 @@ export function SiteFooter() {
   };
 
   const getHref = (item) => {
+    if (item.startsWith("Office:")) return "tel:+919096090701";
+    if (item.includes("@")) return `mailto:${item}`;
     if (item === "Pricing") return "/pricing";
     if (item === "Our Portfolio") return "/portfolio";
     if (item === "Articles") return "/blog";
@@ -232,21 +234,6 @@ export function SiteFooter() {
                 <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.108C19.513 3.545 12 3.545 12 3.545s-7.512 0-9.388.51a3.002 3.002 0 0 0-2.11 2.108C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.108c1.876.512 9.388.512 9.388.512s7.513 0 9.388-.512a3.003 3.003 0 0 0 2.11-2.108C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
               </svg>
             </a>
-            {/* Google Maps Location */}
-            <a href="https://maps.app.goo.gl/7fqZQvWwbBxzDzCr9" target="_blank" rel="noopener noreferrer" aria-label="Google Maps Location">
-              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-              </svg>
-            </a>
-          </div>
-          {/* Company Address */}
-          <div style={{ display: "flex", alignItems: "flex-start", gap: "8px", marginTop: "16px", color: "#94a3b8", fontSize: "13px", lineHeight: "1.6" }}>
-            <span className="material-symbols-outlined" style={{ fontSize: "18px", color: "#e56030", flexShrink: 0, marginTop: "2px" }}>location_on</span>
-            <address style={{ fontStyle: "normal" }}>
-              Office No: 315, Boulevard Tower,<br />
-              Bramha Corp, Sadhu Vaswani Chowk,<br />
-              Camp, Pune 411001
-            </address>
           </div>
         </div>
         {footerGroups.map((group) => {

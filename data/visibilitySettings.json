@@ -611,7 +611,7 @@
       "type": "widget",
       "page_group": "global",
       "name": "Global Website Footer",
-      "description": "Global footer with quick links, office address, and social profiles",
+      "description": "Global footer with quick links and social profiles",
       "is_visible": true,
       "sort_order": 60
     },
