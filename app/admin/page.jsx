@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { isValidEmail, isValidMobileNumber } from "../../lib/validation";
 import VisibilityManager from "./VisibilityManager";
+import IndustryPlansManager from "./IndustryPlansManager";
 
 function Icon({ name, className = "" }) {
   return (
@@ -1268,6 +1269,13 @@ export default function AdminPage() {
           </button>
 
           <button
+            onClick={() => { setActiveTab("industry_plans"); setEditingBlog(null); }}
+            style={{ ...styles.sidebarBtn, ...(activeTab === "industry_plans" ? styles.sidebarBtnActive : {}) }}
+          >
+            <Icon name="payments" /> Industry Plans & Pricing
+          </button>
+
+          <button
             onClick={() => { setActiveTab("portfolio"); setEditingBlog(null); }}
             style={{ ...styles.sidebarBtn, ...(activeTab === "portfolio" ? styles.sidebarBtnActive : {}) }}
           >
@@ -1457,6 +1465,9 @@ export default function AdminPage() {
               </div>
             </div>
 
+          )}
+          {activeTab === "industry_plans" && (
+            <IndustryPlansManager showToast={showToast} />
           )}
           {activeTab === "pricing" && pricingData && (
             <div>

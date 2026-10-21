@@ -27,8 +27,8 @@ export default function HeroOrbit() {
                 <div className="nucleus-pulse-ring-1" />
                 <div className="nucleus-pulse-ring-2" />
                 <div className="orbit-nucleus-inner">
-                    <Icon name="hub" />
-                    <strong>Digital<br />Marketing</strong>
+                    <Icon name="apartment" />
+                    <strong>Real Estate<br />Growth</strong>
                 </div>
             </div>
 
@@ -38,24 +38,24 @@ export default function HeroOrbit() {
             <div className="orbit orbit-ring orbit-md" />
             <div className="orbit orbit-ring orbit-sm" />
 
-            {/* SMO on XL Orbit Ring */}
+            {/* Site Visits on XL Orbit Ring */}
             <span className="orbit-dot-wrapper orbit-dot-xl rotate-extra-slow">
-                <span className="orbit-dot orbit-dot-yellow counter-rotate-extra-slow">SMO</span>
+                <span className="orbit-dot orbit-dot-yellow counter-rotate-extra-slow">Site Visits</span>
             </span>
 
-            {/* SEO on LG Orbit Ring */}
+            {/* Associate Partners on LG Orbit Ring */}
             <span className="orbit-dot-wrapper orbit-dot-lg rotate-slow">
-                <span className="orbit-dot orbit-dot-orange counter-rotate-slow">SEO</span>
+                <span className="orbit-dot orbit-dot-orange counter-rotate-slow">Associate<br />Partners</span>
             </span>
 
             {/* Google Ads on MD Orbit Ring */}
             <span className="orbit-dot-wrapper orbit-dot-md rotate-medium">
-                <span className="orbit-dot orbit-dot-blue counter-rotate-medium">Google ads</span>
+                <span className="orbit-dot orbit-dot-blue counter-rotate-medium">Google Ads</span>
             </span>
 
-            {/* Website on SM Orbit Ring */}
+            {/* Meta Ads on SM Orbit Ring */}
             <span className="orbit-dot-wrapper orbit-dot-sm rotate-fast">
-                <span className="orbit-dot orbit-dot-light counter-rotate-fast">Website</span>
+                <span className="orbit-dot orbit-dot-light counter-rotate-fast">Meta Ads</span>
             </span>
         </div>
     );

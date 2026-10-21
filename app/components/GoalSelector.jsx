@@ -24,9 +24,9 @@ const goals = [
     description: "Build a thriving digital brand community through creative social media content, daily proactive page management, and highly-targeted Instagram and Facebook ad campaigns."
   },
   {
-    label: "Scale E-Commerce Sales",
-    result: "Conversion Rate Optimization (CRO) + E-commerce SEO + Retargeting",
-    description: "Exponentially boost your Shopify or WooCommerce sales with conversion rate optimization (CRO), frictionless checkout funnels, and high-ROAS dynamic retargeting campaigns."
+    label: "Scale Property Sales",
+    result: "High-Intent Buyer Ads + Project Microsite CRO + Site-Visit Retargeting",
+    description: "Accelerate residential and commercial bookings with high-converting project microsites, geo-fenced Meta & Google buyer campaigns, and automated site-visit funnels."
   },
   {
     label: "Elevate Brand Identity",

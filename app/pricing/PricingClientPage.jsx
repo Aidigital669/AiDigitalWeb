@@ -1,56 +1,135 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import { Icon, SiteFooter, SiteHeader } from "../components/SiteChrome";
-import { googlePlans, facebookPlans, combinePlans, websitePlans, creativePacks, aiVideoPlans, realEstatePlans } from "./pricingData";
 import { useCart } from "../hooks/useCart";
 import { useRouter } from "next/navigation";
 import useScrollReveal from "../hooks/useScrollReveal";
-import TiltCard from "../components/TiltCard";
 import { useVisibility } from "../context/VisibilityContext";
 import PageHiddenNotice from "../components/PageHiddenNotice";
 
-const getWhatsAppLink = (planName, price, period = "") => {
-  const message = `Hi! I would like to buy the ${planName} plan priced at ₹${price}${period} from AI Digital.`;
-  return `https://wa.me/919096090701?text=${encodeURIComponent(message)}`;
-};
+const defaultIndustries = [
+  {
+    id: "real-estate",
+    name: "Real Estate",
+    badge: "Digital Marketing Partner For Builders",
+    bannerImage: "/real_estate_package_banner.jpg",
+    contactPhone: "+91 9096090701",
+    contactWebsite: "www.aidigital.biz",
+    contactLocation: "Pune, Maharashtra",
+    package: {
+      id: "builder_complete_2lac_3mo",
+      name: "Complete Digital Marketing Package for Builders",
+      price: 200000,
+      priceDisplay: "2 LAC",
+      period: "FOR 3 MONTHS",
+      subtitle: "3-Month Full-Funnel Growth Engine Designed Exclusively for Real Estate Builders & Developers.",
+      features: [
+        { title: "WhatsApp Marketing", desc: "Automated broadcast, instant brochure sharing & site-visit alerts", icon: "chat" },
+        { title: "Cold Calling", desc: "Proactive buyer outreach & phone qualification for inquiries", icon: "call" },
+        { title: "Static Project Website / Landing Page", desc: "High-CRO launch microsite with floor plans & lead capture", icon: "web" },
+        { title: "Meta Advertising Management", desc: "High-intent Facebook & Instagram ads for buyers & NRIs", icon: "all_inclusive" },
+        { title: "Google Advertising Management", desc: "Targeted Search & Display campaigns capturing active buyers", icon: "ads_click" },
+        { title: "Reels / Short-Form Content", desc: "Engaging property reels showcasing amenities & floor layouts", icon: "video_library" },
+        { title: "AI Promotional Videos", desc: "AI-assisted cinematic property walkthroughs & teasers", icon: "movie" },
+        { title: "Lead Verification", desc: "Strict verification filtering out fake numbers and junk leads", icon: "verified_user" },
+        { title: "Lead Qualification Support", desc: "Pre-screen buyers by budget, move-in timeline & purchase readiness", icon: "support_agent" },
+        { title: "Campaign Monitoring & Optimization", desc: "Daily monitoring, continuous ROAS scaling & weekly CPL reports", icon: "trending_up" }
+      ],
+      outcomes: [
+        "More Quality Leads with Verified Details",
+        "Stronger Brand Presence Across Google & Meta",
+        "Better Project Visibility to HNI & NRI Buyers",
+        "End-to-End Dedicated Growth Support"
+      ]
+    },
+    faqs: [
+      {
+        question: "What is included in the ₹2 Lac Complete Builder Marketing Package?",
+        answer: "This package provides a comprehensive 3-month growth engine for builders and developers. It includes full Meta & Google ad management, a high-converting static project landing page, AI promotional videos, social reels, WhatsApp marketing automation, cold calling support, lead verification, lead qualification, and continuous campaign optimization with weekly reporting."
+      },
+      {
+        question: "Does the ₹2 Lac fee include advertising budget or is it separate?",
+        answer: "The ₹2 Lac fee covers our full agency management, creative production, video development, landing page building, lead qualification team, and strategy for all 3 months. Ad spend (paid directly to Meta and Google) is separate and determined based on your target unit sales, inventory ticket size, and project locality. We help you set an optimal ad budget with zero wastage."
+      },
+      {
+        question: "How does the Lead Verification and Qualification support work?",
+        answer: "We ensure your sales team never wastes time on junk or fake inquiries. Our dedicated qualification team calls and WhatsApp-verifies every incoming inquiry to confirm the buyer's budget, preferred unit configuration (e.g., 2 BHK, 3 BHK, Penthouse), location interest, and buying timeframe before handing them over or booking a site visit."
+      },
+      {
+        question: "How quickly will our project website and campaigns go live?",
+        answer: "We execute rapidly. Your custom project landing page, ad creatives, and campaign setup will be fully configured and launched within 5 to 7 business days from onboarding and receiving your project collateral."
+      },
+      {
+        question: "What types of real estate projects is this package best suited for?",
+        answer: "This package is specifically engineered for residential apartment launches, luxury villa developments, commercial retail/office spaces, and plotted townships seeking predictable, high-volume buyer inquiries and booked site visits."
+      },
+      {
+        question: "Do we get complete ownership of the landing page, videos, and leads?",
+        answer: "Yes, 100%. All landing pages, domain configurations, AI promotional videos, ad creative designs, and prospective buyer databases belong exclusively to your firm."
+      },
+      {
+        question: "How do we monitor performance and communicate with your team?",
+        answer: "You receive a dedicated Growth Account Manager. You get live lead alerts on WhatsApp/Email, weekly analytical reports tracking Cost Per Lead (CPL) and site visits, and scheduled bi-weekly review calls."
+      },
+      {
+        question: "How do I get started with the ₹2 Lac Builder Package?",
+        answer: "You can click 'Select Plan & Get Started' to initiate onboarding online, message us on WhatsApp, or call our team directly at +91 9096090701. We will schedule a kickoff session within 24 hours."
+      }
+    ]
+  }
+];
 
 export default function PricingClientPage() {
   const { isVisible, isPageVisible } = useVisibility();
   const { addToCart, clearCart } = useCart();
-  useScrollReveal([]);
   const router = useRouter();
 
-  const googlePlansState = googlePlans;
-  const facebookPlansState = facebookPlans;
-  const combinePlansState = combinePlans;
-  const websitePlansState = websitePlans;
-  const creativePacksState = creativePacks;
-  const aiVideoPlansState = aiVideoPlans;
-  const realEstatePlansState = realEstatePlans;
+  const [industryList, setIndustryList] = useState(defaultIndustries);
+  const [selectedIndustry, setSelectedIndustry] = useState("real-estate");
+  const [openFaqIndex, setOpenFaqIndex] = useState(0);
 
-  const [activeCreativeIndex, setActiveCreativeIndex] = React.useState(0);
+  useScrollReveal([]);
 
-  const nextCreative = () => {
-    setActiveCreativeIndex((prev) => (prev + 1) % creativePacksState.length);
-  };
+  // Fetch dynamic industries and packages configured by admin
+  useEffect(() => {
+    fetch("/api/industry-plans?t=" + Date.now(), { cache: "no-store" })
+      .then((res) => {
+        if (res.ok) return res.json();
+        throw new Error("Offline");
+      })
+      .then((data) => {
+        if (data && Array.isArray(data.industries) && data.industries.length > 0) {
+          setIndustryList(data.industries);
+          if (!data.industries.some((i) => i.id === selectedIndustry)) {
+            setSelectedIndustry(data.industries[0].id);
+          }
+        }
+      })
+      .catch((err) => console.warn("Using default industry plans:", err));
+  }, []);
 
-  const prevCreative = () => {
-    setActiveCreativeIndex((prev) => (prev - 1 + creativePacksState.length) % creativePacksState.length);
-  };
+  const currentIndustry =
+    industryList.find((i) => i.id === selectedIndustry) || industryList[0] || defaultIndustries[0];
+  const pkg = currentIndustry?.package || defaultIndustries[0].package;
+  const faqs = currentIndustry?.faqs || defaultIndustries[0].faqs;
 
-  const creativeScrollRef = React.useRef(null);
-
-  const handleBuyNow = (planName, price, features = [], period = "", id = "") => {
+  const handleBuyNow = () => {
     clearCart();
     addToCart({
-      id: id,
-      name: planName,
-      price: price,
-      period: period,
-      features: features
+      id: pkg.id || "pkg_" + currentIndustry.id,
+      name: pkg.name || `${currentIndustry.name} Digital Marketing Package`,
+      price: pkg.price || 200000,
+      period: pkg.period || "/3 months",
+      features: (pkg.features || []).map((f) => f.title)
     });
     router.push("/checkout");
+  };
+
+  const getWhatsAppInquiryUrl = () => {
+    const msg = `Hi! I am interested in your ${currentIndustry.name} marketing package (${pkg.name} - ₹${pkg.priceDisplay || pkg.price}). Please connect with me.`;
+    return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
   };
 
   if (!isPageVisible("pricing")) {
@@ -61,558 +140,246 @@ export default function PricingClientPage() {
     <div className="pricing-page-wrapper">
       <SiteHeader active="pricing" />
 
-      {/* Category Anchor Sub-nav */}
-      {isVisible("pricing_subnav") && (
-        <div className="pricing-sub-nav">
-          {isVisible("pricing_facebook") && <a href="#facebook" className="sub-nav-link">Meta Ads Plans</a>}
-          {isVisible("pricing_google") && <a href="#google" className="sub-nav-link">Google Plans</a>}
-          {isVisible("pricing_combine") && <a href="#combine" className="sub-nav-link">Combine Plans</a>}
-          {isVisible("pricing_websites") && <a href="#websites" className="sub-nav-link">Websites</a>}
-          {isVisible("pricing_creative") && <a href="#creative" className="sub-nav-link">Creative</a>}
-          {isVisible("pricing_aivideo") && <a href="#aivideo" className="sub-nav-link">AI Video</a>}
-          {isVisible("pricing_realestate") && <a href="#realestate" className="sub-nav-link">Real Estate</a>}
-        </div>
-      )}
-
-      {/* Top Banner Section */}
-      {isVisible("pricing_hero") && (
-        <section className="pricing-hero">
-          <div className="badge-pill reveal">Your Success, Our Business</div>
-          <h1 className="pricing-main-title reveal delay-100">
-            AiDigital <span>Plans</span>
-          </h1>
-          <p className="pricing-hero-sub reveal delay-200">
-            Unlock growth with data-driven marketing and high-performance assets tailored for your business needs.
-          </p>
-        </section>
-      )}
-
-      {/* Meta Ads Plans Section */}
-      {isVisible("pricing_facebook") && (
-      <section id="facebook" className="pricing-section section-muted-light">
-        <div className="section-title-wrapper">
-          <h2 className="section-title-text">
-            Meta Ads Plans
-          </h2>
-          <div className="section-title-underline" />
-        </div>
-
-        <div className="ads-pricing-grid" style={{ "--grid-cols": facebookPlansState.length }}>
-          {facebookPlansState.map((plan, index) => {
-            return (
-              <TiltCard
-                key={index}
-                className={`pricing-card-ads ${plan.isPopular ? "standard-popular-card" : ""} premium-shadow reveal delay-200`}
-                style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-              >
-                <div>
-                  <div className="card-top-info">
-                    <div className={`card-label-badge ${plan.pillClass}`}>{plan.level}</div>
-                    <div className="price-display">
-                      <span className="currency">₹</span>
-                      <span className="value">{plan.price}</span>
-                      <span className="period">{plan.period}</span>
-                    </div>
-                  </div>
-
-                  <ul className="card-features-list">
-                    {plan.features.map((feat, i) => (
-                      <li key={i}>
-                        <span className="check-icon-wrapper" style={{ color: "#1877F2", background: "rgba(24, 119, 242, 0.1)" }}>✓</span>
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <button
-                  onClick={() => handleBuyNow(plan.platform + " " + plan.level, plan.price, plan.features, plan.period, plan.id)}
-                  className={`${plan.isPopular ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                  style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto", cursor: "pointer" }}
-                >
-                  Buy Now
-                </button>
-              </TiltCard>
-            );
-          })}
-        </div>
-      </section>
-      )}
-
-      {/* Google Ads Plans Section */}
-      {isVisible("pricing_google") && (
-      <section id="google" className="pricing-section">
-        <div className="section-title-wrapper">
-          <h2 className="section-title-text">
-            Google Ads Plans
-          </h2>
-          <div className="section-title-underline" />
-        </div>
-
-        <div className="ads-pricing-grid" style={{ "--grid-cols": googlePlansState.length }}>
-          {googlePlansState.map((plan, index) => {
-            return (
-              <TiltCard
-                key={index}
-                className={`pricing-card-ads ${plan.isPopular ? "standard-popular-card" : ""} premium-shadow reveal delay-200`}
-                style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-              >
-                <div>
-                  <div className="card-top-info">
-                    <div className={`card-label-badge ${plan.pillClass}`}>{plan.level}</div>
-                    <div className="price-display">
-                      <span className="currency">₹</span>
-                      <span className="value">{plan.price}</span>
-                      <span className="period">{plan.period}</span>
-                    </div>
-                  </div>
-
-                  <ul className="card-features-list">
-                    {plan.features.map((feat, i) => (
-                      <li key={i}>
-                        <span className="check-icon-wrapper" style={{ color: "#4285F4", background: "rgba(66, 133, 244, 0.1)" }}>✓</span>
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <button
-                  onClick={() => handleBuyNow(plan.platform + " " + plan.level, plan.price, plan.features, plan.period, plan.id)}
-                  className={`${plan.isPopular ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                  style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto", cursor: "pointer" }}
-                >
-                  Buy Now
-                </button>
-              </TiltCard>
-            );
-          })}
-        </div>
-      </section>
-      )}
-
-      {/* Combine Plans Section */}
-      {isVisible("pricing_combine") && (
-      <section id="combine" className="pricing-section section-muted-light">
-        <div className="section-title-wrapper">
-          <h2 className="section-title-text">
-            Combine Plans (Meta + Google Ads)
-          </h2>
-          <div className="section-title-underline" />
-        </div>
-
-        <div className="ads-pricing-grid" style={{ "--grid-cols": combinePlansState.length }}>
-          {combinePlansState.map((plan, index) => {
-            return (
-              <TiltCard
-                key={index}
-                className={`pricing-card-ads ${plan.isPopular ? "standard-popular-card" : ""} premium-shadow reveal delay-200`}
-                style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-              >
-                <div>
-                  <div className="card-top-info">
-                    <div className={`card-label-badge ${plan.pillClass}`}>{plan.level}</div>
-                    <div className="price-display">
-                      <span className="currency">₹</span>
-                      <span className="value">{plan.price}</span>
-                      <span className="period">{plan.period}</span>
-                    </div>
-                  </div>
-
-                  <ul className="card-features-list">
-                    {plan.features.map((feat, i) => (
-                      <li key={i}>
-                        <span className="check-icon-wrapper" style={{ color: "#3B2FC9", background: "rgba(59, 47, 201, 0.1)" }}>✓</span>
-                        {feat}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <button
-                  onClick={() => handleBuyNow(plan.platform + " " + plan.level, plan.price, plan.features, plan.period, plan.id)}
-                  className={`${plan.isPopular ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                  style={{ display: "block", width: "100%", textAlign: "center", marginTop: "auto", cursor: "pointer" }}
-                >
-                  Buy Now
-                </button>
-              </TiltCard>
-            );
-          })}
-        </div>
-      </section>
-      )}
-
-      {/* Website Design & Development Section */}
-      {isVisible("pricing_websites") && (
-      <section id="websites" className="pricing-section websites-section">
-        <div className="websites-layout-grid">
-          {/* Left Column Description */}
-          <div className="websites-intro">
-            <h2 className="websites-title">
-              Website Design <br className="desktop-only" />
-              <span>& Development</span>
-            </h2>
-            <p className="websites-description">
-              Establish your digital presence with professional, high-converting websites optimized for speed and user experience. All plans include maintenance for peace of mind.
-            </p>
-
-            {/* Promotional Badge Box */}
-            <div className="promotional-callout-box glass-panel reveal delay-300">
-              <span className="promo-label">PROMOTIONAL</span>
-              <h3>WhatsApp & SMS Marketing Bundles</h3>
-              <p>Get exclusive discounts when you pair website development with our marketing automated tools.</p>
-            </div>
-          </div>
-
-          {/* Right Column Pricing Cards */}
-          <div className="websites-cards-grid">
-            {websitePlansState.map((plan, index) => (
-              <TiltCard className="website-plan-card premium-shadow reveal delay-200" key={index} style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
-                <div>
-                  <div className={`web-badge-pill ${plan.tagClass}`}>{plan.level}</div>
-                  <div className="price-display-flat">
-                    <span className="currency">₹</span>
-                    <span className="value">{plan.price}</span>
-                    {plan.period && <span className="period">{plan.period}</span>}
-                  </div>
-                  <ul className="web-features-list">
-                    {plan.features.map((feat, i) => (
-                      <li key={i}>
-                        <Icon name={feat.icon} className="web-feat-icon" />
-                        {feat.text}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <button
-                  onClick={() => handleBuyNow(plan.level + " Website", plan.price, plan.features.map(f => f.text))}
-                  className="btn-card-outline"
-                  style={{ display: "block", width: "100%", textAlign: "center", marginTop: "24px", cursor: "pointer" }}
-                >
-                  Buy Now
-                </button>
-              </TiltCard>
-            ))}
-          </div>
-        </div>
-      </section>
-      )}
-
-      {/* Creative Design Packs Section */}
-      {isVisible("pricing_creative") && (
-      <section id="creative" className="pricing-section section-muted-light creative-packs-section">
-        <div className="section-title-wrapper creative-title-wrapper">
-          <h2 className="section-title-text text-blue">Creative Design Packs</h2>
-          <div className="section-title-underline bg-blue" />
-        </div>
-
-        <div className="scroll-wrapper-relative desktop-creative-packs">
-          {/* Scroll Left Button */}
-          <button
-            className="scroll-arrow-btn left-arrow"
-            onClick={() => creativeScrollRef.current?.scrollBy({ left: -260, behavior: "smooth" })}
-            aria-label="Scroll left"
-          >
-            <Icon name="chevron_left" />
-          </button>
-
-          <div className="creative-packs-scroll-container" ref={creativeScrollRef}>
-            <div className="creative-packs-grid">
-              {creativePacksState.map((plan, index) => {
-                const cardStyles = plan.isHighlight
-                  ? { ...plan.highlightStyles.card, borderColor: undefined, borderWidth: undefined }
-                  : {};
-                const tagStyles = plan.isHighlight ? plan.highlightStyles.tag : {};
-                const iconStyles = plan.isHighlight ? plan.highlightStyles.icon : {};
-
-                return (
-                  <TiltCard
-                    className={`website-plan-card ${plan.isHighlight ? "popular-highlight-card" : ""} premium-shadow reveal delay-200`}
-                    key={index}
-                    style={plan.isHighlight ? { ...cardStyles, "--highlight-color": plan.highlightStyles.card.borderColor, display: "flex", flexDirection: "column", justifyContent: "space-between" } : { ...cardStyles, display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-                  >
-                    <div>
-                      <div
-                        className={`web-badge-pill ${plan.tagClass}`}
-                        style={tagStyles}
-                      >
-                        {plan.level}
-                      </div>
-                      <div className="price-display-flat">
-                        <span className="currency">₹</span>
-                        <span className="value">{plan.price}</span>
-                        {plan.period && <span className="period">{plan.period}</span>}
-                      </div>
-                      <ul className="web-features-list">
-                        {plan.features.map((feat, i) => (
-                          <li key={i}>
-                            <Icon
-                              name={feat.icon}
-                              className="web-feat-icon"
-                              style={iconStyles}
-                            />
-                            {feat.text}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <button
-                      onClick={() => handleBuyNow("Creative Packs - " + plan.level, plan.price, plan.features.map(f => f.text))}
-                      className={`${plan.isHighlight ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                      style={{
-                        display: "block",
-                        width: "100%",
-                        textAlign: "center",
-                        marginTop: "24px",
-                        cursor: "pointer"
-                      }}
-                    >
-                      Buy Now
-                    </button>
-                  </TiltCard>
-                );
-              })}
-            </div>
-          </div>
-
-          {/* Scroll Right Button */}
-          <button
-            className="scroll-arrow-btn right-arrow"
-            onClick={() => creativeScrollRef.current?.scrollBy({ left: 260, behavior: "smooth" })}
-            aria-label="Scroll right"
-          >
-            <Icon name="chevron_right" />
-          </button>
-        </div>
-
-        {/* Mobile Slider (Visible only on mobile) */}
-        <div className="mobile-creative-packs-slider">
-          <div className="mobile-slider-wrapper">
-            <button
-              className="mobile-slider-arrow-btn left"
-              onClick={prevCreative}
-              aria-label="Previous pack"
-            >
-              <Icon name="chevron_left" />
-            </button>
-
-            <div className="mobile-slider-card-container">
-              {creativePacksState.map((plan, index) => {
-                if (index !== activeCreativeIndex) return null;
-
-                const cardStyles = plan.isHighlight
-                  ? { ...plan.highlightStyles.card, borderColor: undefined, borderWidth: undefined }
-                  : {};
-                const tagStyles = plan.isHighlight ? plan.highlightStyles.tag : {};
-                const iconStyles = plan.isHighlight ? plan.highlightStyles.icon : {};
-
-                return (
-                  <div
-                    className={`website-plan-card mobile-slider-card ${plan.isHighlight ? "popular-highlight-card" : ""}`}
-                    key={index}
-                    style={plan.isHighlight ? { ...cardStyles, "--highlight-color": plan.highlightStyles.card.borderColor, display: "flex", flexDirection: "column", justifyContent: "space-between" } : { ...cardStyles, display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-                  >
-                    <div>
-                      <div
-                        className={`web-badge-pill ${plan.tagClass}`}
-                        style={tagStyles}
-                      >
-                        {plan.level}
-                      </div>
-                      <div className="price-display-flat">
-                        <span className="currency">₹</span>
-                        <span className="value">{plan.price}</span>
-                        {plan.period && <span className="period">{plan.period}</span>}
-                      </div>
-                      <ul className="web-features-list">
-                        {plan.features.map((feat, i) => (
-                          <li key={i}>
-                            <Icon
-                              name={feat.icon}
-                              className="web-feat-icon"
-                              style={iconStyles}
-                            />
-                            {feat.text}
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                    <button
-                      onClick={() => handleBuyNow("Creative Packs - " + plan.level, plan.price, plan.features.map(f => f.text))}
-                      className={`${plan.isHighlight ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                      style={{
-                        display: "block",
-                        width: "100%",
-                        textAlign: "center",
-                        marginTop: "24px",
-                        cursor: "pointer"
-                      }}
-                    >
-                      Buy Now
-                    </button>
-                  </div>
-                );
-              })}
-            </div>
-
-            <button
-              className="mobile-slider-arrow-btn right"
-              onClick={nextCreative}
-              aria-label="Next pack"
-            >
-              <Icon name="chevron_right" />
-            </button>
-          </div>
-
-          {/* Page/dot indicators */}
-          <div className="mobile-slider-dots">
-            {creativePacksState.map((_, index) => (
-              <button
-                key={index}
-                className={`slider-dot ${index === activeCreativeIndex ? "active" : ""}`}
-                onClick={() => setActiveCreativeIndex(index)}
-                aria-label={`Go to pack ${index + 1}`}
-              />
-            ))}
-          </div>
-        </div>
-      </section>
-      )}
-
-      {/* AI Video Plans Section */}
-      {isVisible("pricing_aivideo") && (
-      <section id="aivideo" className="pricing-section aivideo-section">
-        <div className="section-title-wrapper">
-          <h2 className="section-title-text">AI Video Plans</h2>
-          <div className="section-title-underline" />
-        </div>
-
-        <div className="ads-pricing-grid" style={{ "--grid-cols": aiVideoPlansState.length, maxWidth: "1200px", margin: "0 auto", paddingInline: "var(--page-gutter)" }}>
-          {aiVideoPlansState.map((plan, index) => {
-            const { borderColor, borderWidth, ...cardStyles } = plan.isHighlight
-              ? plan.highlightStyles.card
-              : {};
-            const tagStyles = plan.isHighlight ? plan.highlightStyles.tag : {};
-            const iconStyles = plan.isHighlight ? plan.highlightStyles.icon : {};
-
-            return (
-              <TiltCard
-                className={`website-plan-card ${plan.isHighlight ? "popular-highlight-card" : ""} premium-shadow reveal delay-200`}
-                key={index}
-                style={plan.isHighlight ? { ...cardStyles, "--highlight-color": plan.highlightStyles.card.borderColor, display: "flex", flexDirection: "column", justifyContent: "space-between" } : { ...cardStyles, display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-              >
-                <div>
-                  <div
-                    className={`web-badge-pill ${plan.tagClass}`}
-                    style={tagStyles}
-                  >
-                    {plan.level}
-                  </div>
-                  <div className="price-display-flat">
-                    <span className="currency">₹</span>
-                    <span className="value">{plan.price}</span>
-                    {plan.period && <span className="period">{plan.period}</span>}
-                  </div>
-                  <ul className="web-features-list">
-                    {plan.features.map((feat, i) => (
-                      <li key={i}>
-                        <Icon
-                          name={feat.icon}
-                          className="web-feat-icon"
-                          style={iconStyles}
-                        />
-                        {feat.text}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <button
-                  onClick={() => handleBuyNow("AI Video - " + plan.level, plan.price, plan.features.map(f => f.text))}
-                  className={`${plan.isHighlight ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    textAlign: "center",
-                    marginTop: "24px",
-                    cursor: "pointer"
-                  }}
-                >
-                  Buy Now
-                </button>
-              </TiltCard>
-            );
-          })}
-        </div>
-      </section>
-      )}
-
-      {/* Real Estate Plans Section */}
-      {isVisible("pricing_realestate") && (
-      <section id="realestate" className="pricing-section section-muted-light">
-        <div className="section-title-wrapper" style={{ marginBottom: "20px" }}>
-          <h2 className="section-title-text" style={{ color: "#0F172A" }}>Real Estate Plans</h2>
-          <div className="section-title-underline" />
-        </div>
-        <p className="pricing-hero-sub" style={{ textAlign: "center", maxWidth: "800px", margin: "0 auto 40px auto", color: "#475569", fontWeight: "500", fontSize: "1.1rem" }}>
-          More Leads. More Visibility. <span style={{ color: "#EA4335", fontWeight: "700" }}>MORE SALES!</span><br />
-          <span style={{ fontSize: "0.95rem", fontWeight: "400" }}>Result Driven Advertising for Real Estate</span>
+      {/* Top Hero Section */}
+      <section className="pricing-hero">
+        <div className="badge-pill reveal">Your Success, Our Business</div>
+        <h1 className="pricing-main-title reveal delay-100">
+          AiDigital <span>Plans</span>
+        </h1>
+        <p className="pricing-hero-sub reveal delay-200">
+          Unlock growth with data-driven marketing and high-performance assets tailored for your business needs.
         </p>
+      </section>
 
-        <div className="ads-pricing-grid" style={{ "--grid-cols": realEstatePlansState.length, maxWidth: "800px", margin: "0 auto", paddingInline: "var(--page-gutter)" }}>
-          {realEstatePlansState.map((plan, index) => {
-            const { borderColor, borderWidth, ...cardStyles } = plan.isHighlight
-              ? plan.highlightStyles.card
-              : {};
-            const tagStyles = plan.isHighlight ? plan.highlightStyles.tag : {};
-            const iconStyles = plan.isHighlight ? plan.highlightStyles.icon : {};
+      {/* Industry Filter Section with ONLY Dropdown (Dynamically increases when admin adds industries) */}
+      <section className="industry-filter-section" aria-label="Filter plans by industry">
+        <div className="industry-filter-container">
+          <div className="industry-filter-header">
+            <span className="material-symbols-outlined">filter_alt</span>
+            <span>Filter Plans by Industry</span>
+          </div>
 
-            return (
-              <TiltCard
-                className={`website-plan-card ${plan.isHighlight ? "popular-highlight-card" : ""} premium-shadow reveal delay-200`}
-                key={index}
-                style={plan.isHighlight ? { ...cardStyles, "--highlight-color": plan.highlightStyles.card.borderColor, display: "flex", flexDirection: "column", justifyContent: "space-between", boxShadow: `0 12px 32px ${plan.highlightStyles.card.borderColor}30` } : { ...cardStyles, display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-              >
-                <div>
-                  <div
-                    className={`web-badge-pill ${plan.tagClass || ""}`}
-                    style={{ ...tagStyles, fontSize: "1.3rem", padding: "10px 20px", display: "inline-block" }}
-                  >
-                    {plan.level}
-                  </div>
-                  <div className="price-display-flat">
-                    <span className="currency">₹</span>
-                    <span className="value">{plan.price}</span>
-                    {plan.period && <span className="period">{plan.period}</span>}
-                  </div>
-                  <ul className="web-features-list">
-                    {plan.features.map((feat, i) => (
-                      <li key={i}>
-                        <Icon
-                          name={feat.icon}
-                          className="web-feat-icon"
-                          style={iconStyles}
-                        />
-                        {feat.text}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <button
-                  onClick={() => handleBuyNow(plan.serviceName + " - " + plan.level, plan.price, plan.features.map(f => f.text))}
-                  className={`${plan.isHighlight ? "btn-card-solid" : "btn-card-outline"} btn-premium-hover`}
-                  style={{
-                    display: "block",
-                    width: "100%",
-                    textAlign: "center",
-                    marginTop: "24px",
-                    cursor: "pointer"
-                  }}
-                >
-                  {plan.buttonText}
-                </button>
-              </TiltCard>
-            );
-          })}
+          {/* Clean Select Dropdown populated from API */}
+          <div className="industry-dropdown-box">
+            <select
+              id="industry-select"
+              value={selectedIndustry}
+              onChange={(e) => setSelectedIndustry(e.target.value)}
+              className="industry-select-input"
+              aria-label="Select Industry"
+            >
+              {industryList.map((ind) => (
+                <option key={ind.id} value={ind.id}>
+                  {ind.name}
+                </option>
+              ))}
+            </select>
+            <span className="material-symbols-outlined industry-dropdown-arrow">expand_more</span>
+          </div>
         </div>
       </section>
+
+      {/* Package Showcase: Banner + Pricing Card for Selected Industry */}
+      <section id="package" className="builder-pricing-section">
+        <div className="builder-container">
+          <div className="builder-grid">
+            {/* Left Column: Visual Banner */}
+            <div className="builder-banner-wrapper reveal">
+              <div className="builder-banner-frame">
+                <Image
+                  src={currentIndustry.bannerImage || "/real_estate_package_banner.jpg"}
+                  alt={`${currentIndustry.name} Marketing Package Banner`}
+                  width={640}
+                  height={960}
+                  priority
+                  className="builder-banner-image"
+                />
+              </div>
+
+              {/* Direct Contact Strip matching banner */}
+              <div className="builder-contact-strip">
+                <a
+                  href={`tel:${(currentIndustry.contactPhone || "+91 9096090701").replace(/\s+/g, "")}`}
+                  className="builder-strip-item"
+                >
+                  <span className="material-symbols-outlined">call</span>
+                  <div>
+                    <span className="strip-label">CALL US NOW</span>
+                    <strong>{currentIndustry.contactPhone || "+91 9096090701"}</strong>
+                  </div>
+                </a>
+                <a
+                  href={`https://${(currentIndustry.contactWebsite || "www.aidigital.biz").replace(/^https?:\/\//, "")}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="builder-strip-item"
+                >
+                  <span className="material-symbols-outlined">language</span>
+                  <div>
+                    <span className="strip-label">VISIT OUR WEBSITE</span>
+                    <strong>{currentIndustry.contactWebsite || "www.aidigital.biz"}</strong>
+                  </div>
+                </a>
+                <div className="builder-strip-item">
+                  <span className="material-symbols-outlined">location_on</span>
+                  <div>
+                    <span className="strip-label">OUR LOCATION</span>
+                    <strong>{currentIndustry.contactLocation || "Pune, Maharashtra"}</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Pricing & Deliverables Card */}
+            <div className="builder-card-wrapper reveal delay-100">
+              <div className="builder-package-card">
+                <div className="builder-card-badge">
+                  <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>verified</span>
+                  {currentIndustry.badge || "Complete Growth Package"}
+                </div>
+
+                <h2 className="builder-card-title">
+                  {pkg.name}
+                </h2>
+                <p className="builder-card-subtitle">
+                  {pkg.subtitle}
+                </p>
+
+                {/* Dark Luxury Price Banner */}
+                <div className="builder-price-banner">
+                  <div>
+                    <span className="builder-price-lead">COMPLETE PACKAGE AT JUST</span>
+                    <div className="builder-price-main">
+                      <span className="builder-price-currency">₹</span>
+                      <span className="builder-price-amount">{pkg.priceDisplay || pkg.price}</span>
+                      {pkg.period && <span className="builder-price-period">{pkg.period}</span>}
+                    </div>
+                  </div>
+                  <div className="builder-price-subtext">
+                    {pkg.price && typeof pkg.price === "number" && pkg.period?.includes("3")
+                      ? `Effectively ₹${Math.round(pkg.price / 3).toLocaleString()}/month`
+                      : "High-ROI Execution"}
+                    <br />
+                    Dedicated {currentIndustry.name} Growth Team
+                  </div>
+                </div>
+
+                {/* Key Value Highlights */}
+                {pkg.outcomes && pkg.outcomes.length > 0 && (
+                  <div className="builder-outcomes-box">
+                    <div className="builder-outcomes-title">Guaranteed Value Pillars</div>
+                    <div className="builder-outcomes-grid">
+                      {pkg.outcomes.map((item, idx) => (
+                        <div className="builder-outcome-item" key={idx}>
+                          <span className="material-symbols-outlined">check_circle</span>
+                          <span>{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Services Deliverables Grid */}
+                {pkg.features && pkg.features.length > 0 && (
+                  <div id="deliverables" className="builder-services-wrapper">
+                    <div className="builder-services-heading">
+                      <span>What's Included in This Package</span>
+                      <span className="builder-services-count">{pkg.features.length} Core Deliverables</span>
+                    </div>
+
+                    <div className="builder-services-grid">
+                      {pkg.features.map((feat, idx) => (
+                        <div className="builder-service-card" key={idx}>
+                          <div className="builder-service-icon">
+                            <Icon name={feat.icon || "check_circle"} />
+                          </div>
+                          <div className="builder-service-text">
+                            <strong>{feat.title}</strong>
+                            <p>{feat.desc}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Card Action Buttons */}
+                <div className="builder-actions">
+                  <button onClick={handleBuyNow} className="builder-btn-buy">
+                    <span className="material-symbols-outlined">rocket_launch</span>
+                    Select Plan & Get Started (₹{pkg.priceDisplay || pkg.price})
+                  </button>
+
+                  <div className="builder-actions-secondary">
+                    <a
+                      href={getWhatsAppInquiryUrl()}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="builder-btn-wa"
+                    >
+                      <span className="material-symbols-outlined">chat</span>
+                      Inquire on WhatsApp
+                    </a>
+                    <a
+                      href={`tel:${(currentIndustry.contactPhone || "+91 9096090701").replace(/\s+/g, "")}`}
+                      className="builder-btn-call"
+                    >
+                      <span className="material-symbols-outlined">call</span>
+                      Call: {currentIndustry.contactPhone || "9096090701"}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQs Related to Plans (Just Down Area) */}
+      {faqs && faqs.length > 0 && (
+        <section id="faqs" className="builder-faqs-section">
+          <div className="builder-faqs-container">
+            <div className="builder-faqs-header">
+              <span className="builder-faqs-badge">Got Questions?</span>
+              <h2 className="builder-faqs-title">
+                Frequently Asked Questions About The {currentIndustry.name} Package
+              </h2>
+              <p className="builder-faqs-sub">
+                Everything you need to know about our {currentIndustry.name} marketing strategy and deliverables.
+              </p>
+            </div>
+
+            <div className="builder-faqs-list">
+              {faqs.map((faq, index) => {
+                const isOpen = openFaqIndex === index;
+                return (
+                  <div className={`builder-faq-item ${isOpen ? "open" : ""}`} key={index}>
+                    <button
+                      className="builder-faq-trigger"
+                      onClick={() => setOpenFaqIndex(isOpen ? -1 : index)}
+                      aria-expanded={isOpen}
+                    >
+                      <h3>{faq.question}</h3>
+                      <span className="builder-faq-toggle-icon material-symbols-outlined">
+                        {isOpen ? "close" : "add"}
+                      </span>
+                    </button>
+                    <div
+                      className="builder-faq-content"
+                      style={{
+                        maxHeight: isOpen ? "260px" : "0",
+                        opacity: isOpen ? 1 : 0,
+                        padding: isOpen ? "0 24px 22px 24px" : "0 24px 0 24px"
+                      }}
+                    >
+                      <p>{faq.answer}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
       )}
 
       <SiteFooter />

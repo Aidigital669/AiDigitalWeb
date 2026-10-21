@@ -198,25 +198,7 @@ function CheckoutContent() {
     setMounted(true);
   }, []);
 
-  // Auto-apply promo code: 6-month plans receive 15% OFF, 3-month plans receive 10% OFF. 1-month and 2-month plans receive NO discount.
-  useEffect(() => {
-    if (isManualPromo) return;
-
-    if (isSixMonth) {
-      setAppliedCode("PLAN6M15");
-      setDiscountPercent(15);
-      setReferralSuccessMsg("🎉 6-Month Plan Offer: 15% OFF applied automatically!");
-    } else if (isThreeMonth) {
-      setAppliedCode("PLAN3M10");
-      setDiscountPercent(10);
-      setReferralSuccessMsg("🎉 3-Month Plan Offer: 10% OFF applied automatically!");
-    } else {
-      // Strictly 0% off on 1-month, 2-month, or other non-multi-month durations
-      setAppliedCode("");
-      setDiscountPercent(0);
-      setReferralSuccessMsg("");
-    }
-  }, [effectivePrice, isThreeMonth, isSixMonth, isManualPromo]);
+  // Promo codes are strictly manual by default (no automatic promo codes)
 
   const loadRazorpayScript = () => {
     return new Promise((resolve) => {
@@ -318,7 +300,7 @@ function CheckoutContent() {
     }
 
     try {
-      const checkoutPlanTitle = `${selectedItem.name}${isSixMonth ? " (6 Months Plan - 15% OFF)" : isThreeMonth ? " (3 Months Plan - 10% OFF)" : isTwoMonth ? " (2 Months Plan)" : ""}`;
+      const checkoutPlanTitle = `${selectedItem.name}${isSixMonth ? " (6 Months Plan)" : isThreeMonth ? " (3 Months Plan)" : isTwoMonth ? " (2 Months Plan)" : ""}`;
 
       const response = await fetch("/api/razorpay/order", {
         method: "POST",
@@ -722,21 +704,7 @@ function CheckoutContent() {
                     <h3 style={{ fontSize: "1.2rem", fontWeight: "800", color: "var(--text)", margin: 0 }}>
                       {selectedItem.name}
                     </h3>
-                    {isSixMonth && (
-                      <span style={{
-                        background: "#dbeafe",
-                        color: "#1e40af",
-                        border: "1px solid #bfdbfe",
-                        padding: "3px 8px",
-                        borderRadius: "999px",
-                        fontSize: "0.74rem",
-                        fontWeight: "800",
-                        whiteSpace: "nowrap"
-                      }}>
-                        🎉 15% OFF
-                      </span>
-                    )}
-                    {isThreeMonth && (
+                    {discountPercent > 0 && (
                       <span style={{
                         background: "#dcfce7",
                         color: "#15803d",
@@ -747,7 +715,7 @@ function CheckoutContent() {
                         fontWeight: "800",
                         whiteSpace: "nowrap"
                       }}>
-                        🎉 10% OFF
+                        🎉 {discountPercent}% OFF
                       </span>
                     )}
                   </div>
@@ -823,9 +791,9 @@ function CheckoutContent() {
                             transition: "all 0.2s ease"
                           }}
                         >
-                          <span>3 Mo (10% OFF)</span>
+                          <span>3 Months</span>
                           <span style={{ fontSize: "0.68rem", color: "#16a34a", fontWeight: "800" }}>
-                            ₹{Math.round((itemPrice * 3) * 0.9).toLocaleString("en-IN")}
+                            ₹{(itemPrice * 3).toLocaleString("en-IN")}
                           </span>
                         </button>
                         <button
@@ -847,9 +815,9 @@ function CheckoutContent() {
                             transition: "all 0.2s ease"
                           }}
                         >
-                          <span>6 Mo (15% OFF)</span>
+                          <span>6 Months</span>
                           <span style={{ fontSize: "0.68rem", color: "#2563eb", fontWeight: "800" }}>
-                            ₹{Math.round((itemPrice * 6) * 0.85).toLocaleString("en-IN")}
+                            ₹{(itemPrice * 6).toLocaleString("en-IN")}
                           </span>
                         </button>
                       </div>
@@ -954,27 +922,6 @@ function CheckoutContent() {
                       {referralSuccessMsg}
                     </div>
                   )}
-
-                  {(isSixMonth || isThreeMonth) && isManualPromo && (
-                    <button
-                      type="button"
-                      onClick={() => setIsManualPromo(false)}
-                      style={{
-                        background: "none",
-                        border: "none",
-                        color: isSixMonth ? "#1e40af" : "#166534",
-                        fontSize: "0.78rem",
-                        fontWeight: "700",
-                        textDecoration: "underline",
-                        cursor: "pointer",
-                        marginTop: "8px",
-                        padding: 0,
-                        display: "block"
-                      }}
-                    >
-                      ↩ Re-apply {isSixMonth ? "15% 6-Month" : "10% 3-Month"} Plan Discount
-                    </button>
-                  )}
                 </div>
 
                 {/* Price Breakdown */}
@@ -989,7 +936,7 @@ function CheckoutContent() {
                   {discountAmount > 0 && (
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "8px", fontSize: "0.92rem" }}>
                       <span style={{ color: "#166534", fontWeight: "600" }}>
-                        {isSixMonth ? "6-Month Plan Discount (15%)" : isThreeMonth ? "3-Month Plan Discount (10%)" : "Referral Discount"}
+                        Promo / Referral Discount ({appliedCode || `${discountPercent}%`})
                       </span>
                       <span style={{ fontWeight: "700", color: "#166534" }}>-₹{discountAmount.toLocaleString("en-IN")}</span>
                     </div>

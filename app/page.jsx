@@ -114,7 +114,7 @@ const whyItems = [
   {
     icon: "auto_graph",
     title: "Predictive Analytics",
-    body: "Forecast search trends and maximize ad spend ROI."
+    body: "Target high-intent property buyers to maximize site visits and ad spend ROI."
   },
   {
     icon: "groups",
@@ -124,7 +124,7 @@ const whyItems = [
   {
     icon: "verified",
     title: "Proven ROI",
-    body: "Track record of scaling e-commerce and local businesses."
+    body: "Track record of driving verified buyer site visits and scaling property sales."
   }
 ];
 
@@ -199,14 +199,28 @@ export default function Home() {
         <header className="hero section">
           <div className="hero-copy reveal">
             <h1>
-              AI-Powered Digital Marketing Agency | <span>Your Success Our Business</span>
+              AI Real Estate Marketing | <span>High-Intent Leads & Closings</span>
             </h1>
             <p>
-              AI Digital helps businesses grow By adopting 360 Degress approach through SMO,Google Ads,SEO,Website and analytics powered by AI
+              AI Digital helps real estate developers, builders, and channel partners scale property sales through AI-driven Meta & Google ads, 3D virtual walkthroughs, and automated site-visit funnels.
             </p>
+            <div className="hero-badges">
+              <span className="hero-badge-pill highlight">
+                <Icon name="workspace_premium" />
+                <strong>25+ Years Experience</strong>
+              </span>
+              <span className="hero-badge-pill">
+                <Icon name="ads_click" />
+                <strong>High-Intent Leads</strong>
+              </span>
+              <span className="hero-badge-pill">
+                <Icon name="rocket_launch" />
+                <strong>Site Visits to Closings</strong>
+              </span>
+            </div>
             <div className="hero-actions reveal reveal-delay-1">
-              <a className="button button-primary" href="#contact">Get Free Growth Audit</a>
-              <a className="button button-ghost" href="#services">View Services</a>
+              <a className="button button-primary" href="#contact">Get Free Project Audit</a>
+              <a className="button button-ghost" href="#services">Explore Real Estate Services</a>
             </div>
           </div>
 
@@ -216,12 +230,12 @@ export default function Home() {
 
       {isVisible("home_trust_strip") && (
         <section className="trust-strip">
-          <p>Built for startups, local businesses, service brands and growth-focused companies.</p>
+          <p>Built for real estate developers, builders, channel partners, and property brands.</p>
           <div className="trust-grid">
+            <div><Icon name="workspace_premium" /><span>25+ Years Experience</span></div>
             <div><Icon name="smart_toy" /><span>AI-Assisted Strategy</span></div>
-            <div><Icon name="query_stats" /><span>Performance Tracking</span></div>
-            <div><Icon name="summarize" /><span>Transparent Reporting</span></div>
-            <div><Icon name="rocket_launch" /><span>Growth-Focused Execution</span></div>
+            <div><Icon name="query_stats" /><span>High-Intent Targeting</span></div>
+            <div><Icon name="rocket_launch" /><span>Site Visits to Closings</span></div>
           </div>
         </section>
       )}
