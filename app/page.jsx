@@ -199,7 +199,7 @@ export default function Home() {
         <header className="hero section">
           <div className="hero-copy reveal">
             <h1>
-              AI Real Estate Marketing | <span>High-Intent Leads & Closings</span>
+              Real Estate Marketing | <span>High-Intent Leads & Closings</span>
             </h1>
             <p>
               AI Digital helps real estate developers, builders, and channel partners scale property sales through AI-driven Meta & Google ads, 3D virtual walkthroughs, and automated site-visit funnels.

@@ -6,6 +6,7 @@ out
 
 # Ignore video assets
 *.mp4
+!public/FirstVideo.mp4
 *.webm
 *.mov
 *.ogg
