@@ -10,14 +10,15 @@ const defaultIndustries = [
     id: "real-estate",
     name: "Real Estate",
     badge: "Digital Marketing Partner For Builders",
-    contactPhone: "+91 9096090701",
+    contactPhone: "9096090701",
     package: {
       id: "builder_complete_2lac_3mo",
-      name: "Complete Digital Marketing Package for Builders",
+      name: "Complete Digital Marketing Package",
       price: 200000,
       priceDisplay: "2 LAC",
       period: "FOR 3 MONTHS",
-      subtitle: "3-Month Full-Funnel Growth Engine Designed Exclusively for Real Estate Builders & Developers.",
+      subtitle: "Let Us Help You Generate More Leads & Sales",
+      channelPartner: "ASICOTE® CHANNEL PARTNER",
       features: [
         "WhatsApp Marketing",
         "Cold Calling Support",
@@ -31,9 +32,10 @@ const defaultIndustries = [
         "Campaign Optimization"
       ],
       outcomes: [
-        "Pre-Screened, Site-Visit Ready Buyer Leads",
-        "End-to-End Meta & Google Ads Managed",
-        "Project Landing Page + AI Promo Videos"
+        "More Quality Leads",
+        "Stronger Brand Presence",
+        "Better Project Visibility",
+        "End-to-End Support"
       ]
     }
   }
@@ -522,6 +524,12 @@ export default function PricingPopup({ dialogRef }) {
                 <span className="material-symbols-outlined">verified</span>
                 {currentIndustry.badge || "Digital Marketing Partner For Builders"}
               </span>
+              {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
+                <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#D4AF37", color: "#0F172A" }}>
+                  <span className="material-symbols-outlined" style={{ color: "#D4AF37" }}>handshake</span>
+                  {pkg.channelPartner || "ASICOTE® CHANNEL PARTNER"}
+                </span>
+              )}
             </div>
 
             <div className="popup-compact-price-wrap">
@@ -536,20 +544,22 @@ export default function PricingPopup({ dialogRef }) {
               </div>
             </div>
 
-            {/* 3 High-Impact Outcomes */}
+            {/* High-Impact Outcomes from Banner */}
             <div className="popup-compact-highlights">
-              <div className="popup-h-item">
-                <span className="material-symbols-outlined">check_circle</span>
-                <span>Pre-Screened, Site-Visit Ready Buyer Leads</span>
-              </div>
-              <div className="popup-h-item">
-                <span className="material-symbols-outlined">check_circle</span>
-                <span>End-to-End Meta & Google Ads Managed</span>
-              </div>
-              <div className="popup-h-item">
-                <span className="material-symbols-outlined">check_circle</span>
-                <span>Project Landing Page + AI Promo Videos</span>
-              </div>
+              {(pkg.outcomes && pkg.outcomes.length > 0
+                ? pkg.outcomes
+                : [
+                    "More Quality Leads",
+                    "Stronger Brand Presence",
+                    "Better Project Visibility",
+                    "End-to-End Support"
+                  ]
+              ).map((out, oIdx) => (
+                <div className="popup-h-item" key={oIdx}>
+                  <span className="material-symbols-outlined">check_circle</span>
+                  <span>{out}</span>
+                </div>
+              ))}
             </div>
 
             {/* CTAs */}

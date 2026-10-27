@@ -14,17 +14,20 @@ const defaultIndustries = [
     id: "real-estate",
     name: "Real Estate",
     badge: "Digital Marketing Partner For Builders",
-    bannerImage: "/real_estate_package_banner.jpg",
-    contactPhone: "+91 9096090701",
+    bannerImage: "/real_estate_package_banner_v2.jpg",
+    contactPhone: "9096090701",
     contactWebsite: "www.aidigital.biz",
     contactLocation: "Pune, Maharashtra",
     package: {
       id: "builder_complete_2lac_3mo",
-      name: "Complete Digital Marketing Package for Builders",
+      name: "Complete Digital Marketing Package",
+      hook: "ARE YOU A BUILDER",
+      headline: "Looking For A Marketing Strategy?",
+      subtitle: "Let Us Help You Generate More Leads & Sales",
+      channelPartner: "ASICOTE® CHANNEL PARTNER",
       price: 200000,
       priceDisplay: "2 LAC",
       period: "FOR 3 MONTHS",
-      subtitle: "3-Month Full-Funnel Growth Engine Designed Exclusively for Real Estate Builders & Developers.",
       features: [
         { title: "WhatsApp Marketing", desc: "Automated broadcast, instant brochure sharing & site-visit alerts", icon: "chat" },
         { title: "Cold Calling", desc: "Proactive buyer outreach & phone qualification for inquiries", icon: "call" },
@@ -38,20 +41,24 @@ const defaultIndustries = [
         { title: "Campaign Monitoring & Optimization", desc: "Daily monitoring, continuous ROAS scaling & weekly CPL reports", icon: "trending_up" }
       ],
       outcomes: [
-        "More Quality Leads with Verified Details",
-        "Stronger Brand Presence Across Google & Meta",
-        "Better Project Visibility to HNI & NRI Buyers",
-        "End-to-End Dedicated Growth Support"
+        "More Quality Leads",
+        "Stronger Brand Presence",
+        "Better Project Visibility",
+        "End-to-End Support"
       ]
     },
     faqs: [
       {
         question: "What is included in the ₹2 Lac Complete Builder Marketing Package?",
-        answer: "This package provides a comprehensive 3-month growth engine for builders and developers. It includes full Meta & Google ad management, a high-converting static project landing page, AI promotional videos, social reels, WhatsApp marketing automation, cold calling support, lead verification, lead qualification, and continuous campaign optimization with weekly reporting."
+        answer: "This package provides a comprehensive 3-month growth engine for builders and developers. It includes WhatsApp Marketing, Cold Calling, Static Project Website / Landing Page, Meta Advertising Management, Google Advertising Management, Reels / Short-Form Content, AI Promotional Videos, Lead Verification, Lead Qualification Support, and Campaign Monitoring & Optimization."
       },
       {
         question: "Does the ₹2 Lac fee include advertising budget or is it separate?",
         answer: "The ₹2 Lac fee covers our full agency management, creative production, video development, landing page building, lead qualification team, and strategy for all 3 months. Ad spend (paid directly to Meta and Google) is separate and determined based on your target unit sales, inventory ticket size, and project locality. We help you set an optimal ad budget with zero wastage."
+      },
+      {
+        question: "How does the ASICOTE® Channel Partner collaboration work?",
+        answer: "As an ASICOTE® Channel Partner, we provide verified real estate marketing expertise, structured channel partner alignment, and proven lead qualification funnels designed to deliver more quality leads, stronger brand presence, better project visibility, and end-to-end sales support."
       },
       {
         question: "How does the Lead Verification and Qualification support work?",
@@ -75,7 +82,7 @@ const defaultIndustries = [
       },
       {
         question: "How do I get started with the ₹2 Lac Builder Package?",
-        answer: "You can click 'Select Plan & Get Started' to initiate onboarding online, message us on WhatsApp, or call our team directly at +91 9096090701. We will schedule a kickoff session within 24 hours."
+        answer: "You can click 'Select Plan & Get Started' to initiate onboarding online, message us on WhatsApp, or call our team directly at 9096090701. We will schedule a kickoff session within 24 hours."
       }
     ]
   }
@@ -130,6 +137,34 @@ export default function PricingClientPage() {
   const getWhatsAppInquiryUrl = () => {
     const msg = `Hi! I am interested in your ${currentIndustry.name} marketing package (${pkg.name} - ₹${pkg.priceDisplay || pkg.price}). Please connect with me.`;
     return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
+  };
+
+  const isGetStartedFaq = (question = "") => {
+    const q = question.toLowerCase();
+    return q.includes("get started") || q.includes("how do i get started") || q.includes("select plan");
+  };
+
+  const renderFaqAnswer = (answer = "") => {
+    if (!answer) return null;
+    const selectPlanPhrase = "'Select Plan & Get Started'";
+    if (answer.includes(selectPlanPhrase)) {
+      const parts = answer.split(selectPlanPhrase);
+      return (
+        <>
+          {parts[0]}
+          <button
+            type="button"
+            onClick={handleBuyNow}
+            className="builder-faq-inline-cta"
+            title="Click to select plan and get started"
+          >
+            {selectPlanPhrase}
+          </button>
+          {parts[1]}
+        </>
+      );
+    }
+    return answer;
   };
 
   if (!isPageVisible("pricing")) {
@@ -187,7 +222,7 @@ export default function PricingClientPage() {
             <div className="builder-banner-wrapper reveal">
               <div className="builder-banner-frame">
                 <Image
-                  src={currentIndustry.bannerImage || "/real_estate_package_banner.jpg"}
+                  src={currentIndustry.bannerImage || "/real_estate_package_banner_v2.jpg"}
                   alt={`${currentIndustry.name} Marketing Package Banner`}
                   width={640}
                   height={960}
@@ -199,13 +234,13 @@ export default function PricingClientPage() {
               {/* Direct Contact Strip matching banner */}
               <div className="builder-contact-strip">
                 <a
-                  href={`tel:${(currentIndustry.contactPhone || "+91 9096090701").replace(/\s+/g, "")}`}
+                  href={`tel:${(currentIndustry.contactPhone || "9096090701").replace(/\s+/g, "")}`}
                   className="builder-strip-item"
                 >
                   <span className="material-symbols-outlined">call</span>
                   <div>
                     <span className="strip-label">CALL US NOW</span>
-                    <strong>{currentIndustry.contactPhone || "+91 9096090701"}</strong>
+                    <strong>{currentIndustry.contactPhone || "9096090701"}</strong>
                   </div>
                 </a>
                 <a
@@ -233,22 +268,31 @@ export default function PricingClientPage() {
             {/* Right Column: Pricing & Deliverables Card */}
             <div className="builder-card-wrapper reveal delay-100">
               <div className="builder-package-card">
-                <div className="builder-card-badge">
-                  <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>verified</span>
-                  {currentIndustry.badge || "Complete Growth Package"}
+                <div className="builder-header-tags">
+                  <div className="builder-card-badge">
+                    <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>verified</span>
+                    {currentIndustry.badge || "Digital Marketing Partner For Builders"}
+                  </div>
+                  {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
+                    <div className="builder-asicote-badge">
+                      <span className="material-symbols-outlined">handshake</span>
+                      <span>{pkg.channelPartner || "ASICOTE® CHANNEL PARTNER"}</span>
+                    </div>
+                  )}
                 </div>
 
+                <span className="builder-hook-eyebrow">{pkg.hook || "ARE YOU A BUILDER"}</span>
                 <h2 className="builder-card-title">
-                  {pkg.name}
+                  {pkg.headline || "Looking For A Marketing Strategy?"}
                 </h2>
                 <p className="builder-card-subtitle">
-                  {pkg.subtitle}
+                  {pkg.subtitle || "Let Us Help You Generate More Leads & Sales"}
                 </p>
 
                 {/* Dark Luxury Price Banner */}
                 <div className="builder-price-banner">
                   <div>
-                    <span className="builder-price-lead">COMPLETE PACKAGE AT JUST</span>
+                    <span className="builder-price-lead">COMPLETE DIGITAL MARKETING PACKAGE AT JUST</span>
                     <div className="builder-price-main">
                       <span className="builder-price-currency">₹</span>
                       <span className="builder-price-amount">{pkg.priceDisplay || pkg.price}</span>
@@ -264,20 +308,32 @@ export default function PricingClientPage() {
                   </div>
                 </div>
 
-                {/* Key Value Highlights */}
-                {pkg.outcomes && pkg.outcomes.length > 0 && (
-                  <div className="builder-outcomes-box">
-                    <div className="builder-outcomes-title">Guaranteed Value Pillars</div>
-                    <div className="builder-outcomes-grid">
-                      {pkg.outcomes.map((item, idx) => (
-                        <div className="builder-outcome-item" key={idx}>
-                          <span className="material-symbols-outlined">check_circle</span>
-                          <span>{item}</span>
-                        </div>
-                      ))}
+                {/* ASICOTE® Channel Partner Value Card */}
+                <div className="builder-asicote-card">
+                  <div className="builder-asicote-card-header">
+                    <span className="material-symbols-outlined asicote-handshake-icon">handshake</span>
+                    <div className="asicote-brand-wrap">
+                      <span className="asicote-brand">ASICOTE<sup>®</sup></span>
+                      <span className="asicote-sub">CHANNEL PARTNER</span>
                     </div>
                   </div>
-                )}
+                  <div className="builder-outcomes-grid">
+                    {(pkg.outcomes && pkg.outcomes.length > 0
+                      ? pkg.outcomes
+                      : [
+                          "More Quality Leads",
+                          "Stronger Brand Presence",
+                          "Better Project Visibility",
+                          "End-to-End Support"
+                        ]
+                    ).map((item, idx) => (
+                      <div className="builder-outcome-item" key={idx}>
+                        <span className="material-symbols-outlined">check_circle</span>
+                        <span>{item}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 {/* Services Deliverables Grid */}
                 {pkg.features && pkg.features.length > 0 && (
@@ -367,12 +423,48 @@ export default function PricingClientPage() {
                     <div
                       className="builder-faq-content"
                       style={{
-                        maxHeight: isOpen ? "260px" : "0",
+                        maxHeight: isOpen ? "600px" : "0",
                         opacity: isOpen ? 1 : 0,
                         padding: isOpen ? "0 24px 22px 24px" : "0 24px 0 24px"
                       }}
                     >
-                      <p>{faq.answer}</p>
+                      <p>{renderFaqAnswer(faq.answer)}</p>
+
+                      {isGetStartedFaq(faq.question) && (
+                        <div className="builder-faq-actions">
+                          <button
+                            type="button"
+                            onClick={handleBuyNow}
+                            className="builder-faq-btn-primary"
+                          >
+                            <span className="material-symbols-outlined">rocket_launch</span>
+                            Select Plan &amp; Get Started (₹{pkg.priceDisplay || pkg.price})
+                          </button>
+
+                          <a
+                            href="#package"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              const el = document.getElementById("package");
+                              if (el) el.scrollIntoView({ behavior: "smooth" });
+                            }}
+                            className="builder-faq-btn-secondary"
+                          >
+                            <span className="material-symbols-outlined">visibility</span>
+                            View Plan Details
+                          </a>
+
+                          <a
+                            href={getWhatsAppInquiryUrl()}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="builder-faq-btn-wa"
+                          >
+                            <span className="material-symbols-outlined">chat</span>
+                            WhatsApp Us
+                          </a>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );

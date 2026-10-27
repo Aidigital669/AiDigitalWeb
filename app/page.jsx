@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import GoalSelector from "./components/GoalSelector";
 import { Icon, SiteFooter, SiteHeader } from "./components/SiteChrome";
-import HeroOrbit from "./components/HeroOrbit";
+import HeroVideo from "./components/HeroVideo";
 import ContactForm from "./components/ContactForm";
 import useScrollReveal from "./hooks/useScrollReveal";
 import ClientCarousel from "./components/ClientCarousel";
@@ -224,7 +224,7 @@ export default function Home() {
             </div>
           </div>
 
-          <HeroOrbit />
+          <HeroVideo />
         </header>
       )}
 

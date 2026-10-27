@@ -26,8 +26,8 @@ export default function IndustryPlansManager({ showToast }) {
     id: "",
     name: "",
     badge: "",
-    bannerImage: "/real_estate_package_banner.jpg",
-    contactPhone: "+91 9096090701",
+    bannerImage: "/real_estate_package_banner_v2.jpg",
+    contactPhone: "9096090701",
     contactWebsite: "www.aidigital.biz",
     contactLocation: "Pune, Maharashtra",
     package: {
