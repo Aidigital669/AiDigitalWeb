@@ -198,28 +198,34 @@ export default function Home() {
       {isVisible("home_hero") && (
         <header className="hero section">
           <div className="hero-copy reveal">
+            <div className="hero-eyebrow">
+              <span>Real Estate Digital Marketing Agency</span>
+              <span className="hero-eyebrow-line" />
+            </div>
             <h1>
-              Real Estate Marketing | <span>High-Intent Leads & Closings</span>
+              Real Estate Marketing | <span>High-Intent Leads &amp; Closings</span>
             </h1>
             <p>
-              AI Digital helps real estate developers, builders, and channel partners scale property sales through AI-driven Meta & Google ads, 3D virtual walkthroughs, and automated site-visit funnels.
+              AI Digital helps real estate developers, builders, and channel partners scale property sales through AI-driven Meta &amp; Google ads, 3D virtual walkthroughs, and automated site-visit funnels.
             </p>
-            <div className="hero-badges">
-              <span className="hero-badge-pill highlight">
+            <div className="hero-badges-row">
+              <div className="hero-badge-item">
                 <Icon name="workspace_premium" />
-                <strong>25+ Years Experience</strong>
-              </span>
-              <span className="hero-badge-pill">
+                <span>25+ Years Experience</span>
+              </div>
+              <span className="hero-badge-divider" />
+              <div className="hero-badge-item">
                 <Icon name="ads_click" />
-                <strong>High-Intent Leads</strong>
-              </span>
-              <span className="hero-badge-pill">
-                <Icon name="rocket_launch" />
-                <strong>Site Visits to Closings</strong>
-              </span>
+                <span>High-Intent Leads</span>
+              </div>
+              <span className="hero-badge-divider" />
+              <div className="hero-badge-item">
+                <Icon name="location_on" />
+                <span>Site Visits to Closings</span>
+              </div>
             </div>
             <div className="hero-actions reveal reveal-delay-1">
-              <a className="button button-primary" href="#contact">Get Free Project Audit</a>
+              <a className="button button-primary" href="#contact">Get Free Project Audit &rarr;</a>
               <a className="button button-ghost" href="#services">Explore Real Estate Services</a>
             </div>
           </div>
@@ -230,12 +236,52 @@ export default function Home() {
 
       {isVisible("home_trust_strip") && (
         <section className="trust-strip">
-          <p>Built for real estate developers, builders, channel partners, and property brands.</p>
-          <div className="trust-grid">
-            <div><Icon name="workspace_premium" /><span>25+ Years Experience</span></div>
-            <div><Icon name="smart_toy" /><span>AI-Assisted Strategy</span></div>
-            <div><Icon name="query_stats" /><span>High-Intent Targeting</span></div>
-            <div><Icon name="rocket_launch" /><span>Site Visits to Closings</span></div>
+          <div className="trust-cards-grid">
+            <div className="trust-feature-card">
+              <div className="trust-card-icon">
+                <Icon name="search" />
+              </div>
+              <div className="trust-card-text">
+                <strong>Search Ads</strong>
+                <span>Target high-intent buyers</span>
+              </div>
+            </div>
+            <div className="trust-feature-card">
+              <div className="trust-card-icon">
+                <Icon name="campaign" />
+              </div>
+              <div className="trust-card-text">
+                <strong>Social Media Ads</strong>
+                <span>Build your brand &amp; reach</span>
+              </div>
+            </div>
+            <div className="trust-feature-card">
+              <div className="trust-card-icon">
+                <Icon name="laptop_mac" />
+              </div>
+              <div className="trust-card-text">
+                <strong>Landing Pages</strong>
+                <span>Convert clicks to leads</span>
+              </div>
+            </div>
+            <div className="trust-feature-card">
+              <div className="trust-card-icon">
+                <Icon name="videocam" />
+              </div>
+              <div className="trust-card-text">
+                <strong>Video Production</strong>
+                <span>Showcase your projects</span>
+              </div>
+            </div>
+            <div className="trust-feature-card">
+              <div className="trust-card-icon">
+                <Icon name="psychology" />
+              </div>
+              <div className="trust-card-text">
+                <strong>AI Growth Strategy</strong>
+                <span>Data-driven campaigns</span>
+              </div>
+            </div>
           </div>
         </section>
       )}

@@ -71,19 +71,28 @@ export default function HeroVideo() {
       {/* Floating decorative badge 1 (Top Left) */}
       <div className="hero-video-badge badge-top-left" aria-hidden="true">
         <span className="badge-pulse-dot" />
-        <Icon name="apartment" />
+        <Icon name="ads_click" />
         <div>
           <strong>Real Estate Growth</strong>
           <span>Meta &amp; Google Ads</span>
         </div>
       </div>
 
-      {/* Floating decorative badge 2 (Bottom Right) */}
+      {/* Floating decorative badge 2 (Mid Right) */}
+      <div className="hero-video-badge badge-mid-right" aria-hidden="true">
+        <Icon name="insights" />
+        <div>
+          <strong>More Visibility &amp; Sales</strong>
+          <span>High-Intent Campaigns</span>
+        </div>
+      </div>
+
+      {/* Floating decorative badge 3 (Bottom Right) */}
       <div className="hero-video-badge badge-bottom-right" aria-hidden="true">
         <Icon name="rocket_launch" />
         <div>
           <strong>Site Visits &amp; Closings</strong>
-          <span>High-Intent Leads</span>
+          <span>Let&apos;s Grow Together &rarr;</span>
         </div>
       </div>
 

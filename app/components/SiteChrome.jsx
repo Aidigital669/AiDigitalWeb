@@ -140,7 +140,7 @@ export function SiteHeader({ active = "home" }) {
       </div>
       <div className="nav-actions-wrapper">
         {isVisible("home_contact") ? (
-          <a className="nav-button" href="/#contact">Contact Us</a>
+          <a className="nav-button" href="/#contact">Contact Us &rarr;</a>
         ) : null}
       </div>
       <details className="mobile-menu" open={menuOpen} onToggle={(e) => setMenuOpen(e.target.open)}>
