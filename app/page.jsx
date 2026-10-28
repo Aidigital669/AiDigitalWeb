@@ -203,7 +203,7 @@ export default function Home() {
               <span className="hero-eyebrow-line" />
             </div>
             <h1>
-              Real Estate Marketing | <span>High-Intent Leads &amp; Closings</span>
+              Digital Marketing Partner <span>for Real Estate</span>
             </h1>
             <p>
               AI Digital helps real estate developers, builders, and channel partners scale property sales through AI-driven Meta &amp; Google ads, 3D virtual walkthroughs, and automated site-visit funnels.
