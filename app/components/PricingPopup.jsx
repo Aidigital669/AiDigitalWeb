@@ -255,49 +255,84 @@ export default function PricingPopup({ dialogRef }) {
             font-size: 15px;
           }
           .popup-compact-price-wrap {
-            background: #FFFFFF;
-            border: 1.5px solid rgba(185, 151, 79, 0.25);
-            border-radius: 14px;
-            padding: 12px 16px;
-            box-shadow: 0 2px 8px rgba(30, 77, 66, 0.04);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FDFCF9 100%) !important;
+            border: 1.5px solid rgba(185, 151, 79, 0.4) !important;
+            border-radius: 18px !important;
+            padding: 16px 20px !important;
+            box-shadow: 0 8px 24px -4px rgba(30, 77, 66, 0.08), 0 0 0 1px rgba(185, 151, 79, 0.15) !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 16px !important;
+            transition: all 0.25s ease !important;
           }
-          .popup-compact-price-main {
-            display: flex;
-            align-items: baseline;
-            gap: 5px;
+          .popup-compact-price-wrap:hover {
+            border-color: #B9974F !important;
+            box-shadow: 0 12px 28px -4px rgba(30, 77, 66, 0.12), 0 0 0 1px rgba(185, 151, 79, 0.3) !important;
+          }
+          .popup-c-price-left {
+            display: flex !important;
+            align-items: baseline !important;
+            gap: 4px !important;
+            flex-shrink: 0 !important;
           }
           .popup-c-currency {
-            font-size: 22px;
-            font-weight: 800;
-            color: #B9974F;
+            font-size: 28px !important;
+            font-weight: 800 !important;
+            color: #B9974F !important;
+            line-height: 1 !important;
           }
           .popup-c-amount {
-            font-size: 38px;
-            font-weight: 900;
-            color: #1e4d42;
-            letter-spacing: -0.02em;
-            line-height: 1;
+            font-size: 52px !important;
+            font-weight: 900 !important;
+            color: #1e4d42 !important;
+            letter-spacing: -0.03em !important;
+            line-height: 1 !important;
+            font-family: var(--font-headline), sans-serif !important;
           }
-          .popup-c-period {
-            font-size: 13px;
-            font-weight: 800;
-            color: #B9974F;
-            text-transform: uppercase;
-            margin-left: 5px;
-            letter-spacing: 0.04em;
+          .popup-c-price-right {
+            display: flex !important;
+            flex-direction: column !important;
+            align-items: flex-start !important;
+            justify-content: center !important;
+            gap: 4px !important;
+            border-left: 1.5px solid rgba(185, 151, 79, 0.25) !important;
+            padding-left: 16px !important;
+            flex: 1 !important;
+          }
+          .popup-c-period-pill {
+            display: inline-flex !important;
+            align-items: center !important;
+            background: rgba(185, 151, 79, 0.14) !important;
+            color: #8C6D2B !important;
+            border: 1px solid rgba(185, 151, 79, 0.35) !important;
+            padding: 3px 10px !important;
+            border-radius: 99px !important;
+            font-size: 11.5px !important;
+            font-weight: 800 !important;
+            letter-spacing: 0.04em !important;
+            text-transform: uppercase !important;
+            line-height: 1.2 !important;
           }
           .popup-c-effective {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            color: #1e4d42;
-            margin-top: 5px;
+            display: flex !important;
+            align-items: center !important;
+            gap: 5px !important;
+            font-size: 13px !important;
+            font-weight: 700 !important;
+            color: #1e4d42 !important;
+            line-height: 1.3 !important;
           }
           .popup-c-effective .material-symbols-outlined {
-            font-size: 16px;
-            color: #B9974F;
+            font-size: 16px !important;
+            color: #B9974F !important;
+            flex-shrink: 0 !important;
+          }
+          .popup-c-engine-tag {
+            font-size: 11.5px !important;
+            font-weight: 600 !important;
+            color: #5C6460 !important;
+            line-height: 1.2 !important;
           }
           .popup-compact-highlights {
             display: flex;
@@ -477,11 +512,31 @@ export default function PricingPopup({ dialogRef }) {
           @media (max-width: 768px) {
             .popup-compact-body {
               grid-template-columns: 1fr;
-              gap: 12px;
-              padding: 12px;
+              gap: 16px;
+              padding: 16px;
             }
             .popup-c-deliv-grid {
               grid-template-columns: 1fr;
+            }
+            .popup-compact-price-wrap {
+              gap: 12px;
+            }
+            .popup-c-amount {
+              font-size: 44px !important;
+            }
+          }
+          @media (max-width: 480px) {
+            .popup-compact-price-wrap {
+              flex-direction: column;
+              align-items: flex-start;
+              gap: 12px;
+            }
+            .popup-c-price-right {
+              border-left: none !important;
+              padding-left: 0 !important;
+              border-top: 1.5px solid rgba(185, 151, 79, 0.25) !important;
+              padding-top: 10px !important;
+              width: 100%;
             }
           }
         ` }} />
@@ -549,14 +604,21 @@ export default function PricingPopup({ dialogRef }) {
             </div>
 
             <div className="popup-compact-price-wrap">
-              <div className="popup-compact-price-main">
+              <div className="popup-c-price-left">
                 <span className="popup-c-currency">₹</span>
                 <span className="popup-c-amount">{pkg.priceDisplay || "2 LAC"}</span>
-                <span className="popup-c-period">/ 3 MONTHS</span>
               </div>
-              <div className="popup-c-effective">
-                <span className="material-symbols-outlined">payments</span>
-                <span>Effectively ~₹66,666 / mo • Full Agency Engine</span>
+              <div className="popup-c-price-right">
+                <span className="popup-c-period-pill">{pkg.period || "/ 3 MONTHS"}</span>
+                <div className="popup-c-effective">
+                  <span className="material-symbols-outlined">payments</span>
+                  <span>
+                    {pkg.price && typeof pkg.price === "number" && (pkg.period?.includes("3") || !pkg.period)
+                      ? `Effectively ~₹${Math.round(pkg.price / 3).toLocaleString()}/mo`
+                      : "Effectively ~₹66,666/mo"}
+                  </span>
+                </div>
+                <span className="popup-c-engine-tag">Full Agency Growth Engine</span>
               </div>
             </div>
 
