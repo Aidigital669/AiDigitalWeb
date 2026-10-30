@@ -21,12 +21,12 @@
         "features": [
           { "title": "WhatsApp Marketing + Quality Data", "desc": "Automated broadcast, instant brochure sharing & verified buyer data", "icon": "chat" },
           { "title": "Leads Calling", "desc": "Proactive buyer outreach, tele-calling & phone qualification for inquiries", "icon": "call" },
-          { "title": "Project Website & Landing Page", "desc": "High-CRO launch microsite with floor plans & automated lead capture funnels", "icon": "web" },
-          { "title": "Meta & Youtube & Google Ads", "desc": "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", "icon": "ads_click" },
-          { "title": "Reels & Short-Form Content", "desc": "Engaging property reels showcasing amenities, site progress & walkthroughs", "icon": "video_library" },
-          { "title": "AI Promotional Videos", "desc": "AI-assisted cinematic property walkthroughs, teasers & social promo videos", "icon": "movie" },
-          { "title": "Associate Channel Partner", "desc": "Channel partner network collaboration & broker channel activation support", "icon": "handshake" },
-          { "title": "Campaign Monitoring & Optimization", "desc": "Daily ad tracking, continuous ROAS scaling & weekly verified CPL reporting", "icon": "trending_up" }
+          { "title": "Project Website & Landing Page", "desc": "High-CRO launch microsite with floor plans & automated lead capture funnels", "icon": "desktop_windows" },
+          { "title": "Meta & Youtube & Google Ads", "desc": "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", "icon": "bar_chart" },
+          { "title": "Reels & Short-Form Content", "desc": "Engaging property reels showcasing amenities, site progress & walkthroughs", "icon": "smart_display" },
+          { "title": "AI Promotional Videos", "desc": "AI-assisted cinematic property walkthroughs, teasers & social promo videos", "icon": "memory" },
+          { "title": "Associate Channel Partner", "desc": "Channel partner network collaboration & broker channel activation support", "icon": "groups" },
+          { "title": "Campaign Monitoring & Optimization", "desc": "Daily ad tracking, continuous ROAS scaling & weekly verified CPL reporting", "icon": "troubleshoot" }
         ],
         "outcomes": [
           "More Quality Leads",
@@ -45,8 +45,8 @@
           "answer": "The ₹2 Lac fee covers our full agency management, creative production, video development, landing page building, lead qualification team, and strategy for all 3 months. Ad spend (paid directly to Meta and Google) is separate and determined based on your target unit sales, inventory ticket size, and project locality. We help you set an optimal ad budget with zero wastage."
         },
         {
-          "question": "How does the ASICOTE® Channel Partner collaboration work?",
-          "answer": "As an ASICOTE® Channel Partner, we provide verified real estate marketing expertise, structured channel partner alignment, and proven lead qualification funnels designed to deliver more quality leads, stronger brand presence, better project visibility, and end-to-end sales support."
+          "question": "How does the Associate Channel Partner collaboration work?",
+          "answer": "As an Associate Channel Partner, we provide verified real estate marketing expertise, structured channel partner alignment, broker channel activation, and proven lead qualification funnels designed to deliver more quality leads, stronger brand presence, better project visibility, and end-to-end sales support."
         },
         {
           "question": "How does the Lead Verification and Qualification support work?",

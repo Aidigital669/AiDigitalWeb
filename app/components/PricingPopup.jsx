@@ -596,12 +596,12 @@ export default function PricingPopup({ dialogRef }) {
             <div className="popup-badge-row">
               <span className="popup-mini-badge">
                 <span className="material-symbols-outlined">verified</span>
-                {currentIndustry.badge || "Digital Marketing Partner For Builders"}
+                {currentIndustry.badge || "Digital Marketing Partner for Real Estate"}
               </span>
               {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
                 <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#B9974F", color: "#1e4d42" }}>
-                  <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>handshake</span>
-                  {pkg.channelPartner || "ASICOTE® CHANNEL PARTNER"}
+                  <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>groups</span>
+                  {pkg.channelPartner || "Associate Channel Partner"}
                 </span>
               )}
             </div>

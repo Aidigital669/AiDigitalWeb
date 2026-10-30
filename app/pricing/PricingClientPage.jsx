@@ -31,12 +31,12 @@ const defaultIndustries = [
       features: [
         { title: "WhatsApp Marketing + Quality Data", desc: "Automated broadcast, instant brochure sharing & verified buyer data", icon: "chat" },
         { title: "Leads Calling", desc: "Proactive buyer outreach, tele-calling & phone qualification for inquiries", icon: "call" },
-        { title: "Project Website & Landing Page", desc: "High-CRO launch microsite with floor plans & automated lead capture funnels", icon: "web" },
-        { title: "Meta & Youtube & Google Ads", desc: "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", icon: "ads_click" },
-        { title: "Reels & Short-Form Content", desc: "Engaging property reels showcasing amenities, site progress & walkthroughs", icon: "video_library" },
-        { title: "AI Promotional Videos", desc: "AI-assisted cinematic property walkthroughs, teasers & social promo videos", icon: "movie" },
-        { title: "Associate Channel Partner", desc: "Channel partner network collaboration & broker channel activation support", icon: "handshake" },
-        { title: "Campaign Monitoring & Optimization", desc: "Daily ad tracking, continuous ROAS scaling & weekly verified CPL reporting", icon: "trending_up" }
+        { title: "Project Website & Landing Page", desc: "High-CRO launch microsite with floor plans & automated lead capture funnels", icon: "desktop_windows" },
+        { title: "Meta & Youtube & Google Ads", desc: "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", icon: "bar_chart" },
+        { title: "Reels & Short-Form Content", desc: "Engaging property reels showcasing amenities, site progress & walkthroughs", icon: "smart_display" },
+        { title: "AI Promotional Videos", desc: "AI-assisted cinematic property walkthroughs, teasers & social promo videos", icon: "memory" },
+        { title: "Associate Channel Partner", desc: "Channel partner network collaboration & broker channel activation support", icon: "groups" },
+        { title: "Campaign Monitoring & Optimization", desc: "Daily ad tracking, continuous ROAS scaling & weekly verified CPL reporting", icon: "troubleshoot" }
       ],
       outcomes: [
         "More Quality Leads",
@@ -47,16 +47,16 @@ const defaultIndustries = [
     },
     faqs: [
       {
-        question: "What is included in the ₹2 Lac Complete Builder Marketing Package?",
-        answer: "This package provides a comprehensive 3-month growth engine for builders and developers. It includes WhatsApp Marketing, Cold Calling, Static Project Website / Landing Page, Meta Advertising Management, Google Advertising Management, Reels / Short-Form Content, AI Promotional Videos, Lead Verification, Lead Qualification Support, and Campaign Monitoring & Optimization."
+        question: "What is included in the ₹2 Lac Complete Real Estate Marketing Package?",
+        answer: "This package provides a comprehensive 3-month growth engine for builders, developers, and real estate channel partners. It includes WhatsApp Marketing + Quality Data, Leads Calling, Project Website & Landing Page, Meta & Youtube & Google Ads, Reels & Short-Form Content, AI Promotional Videos, Associate Channel Partner support, and Campaign Monitoring & Optimization."
       },
       {
         question: "Does the ₹2 Lac fee include advertising budget or is it separate?",
         answer: "The ₹2 Lac fee covers our full agency management, creative production, video development, landing page building, lead qualification team, and strategy for all 3 months. Ad spend (paid directly to Meta and Google) is separate and determined based on your target unit sales, inventory ticket size, and project locality. We help you set an optimal ad budget with zero wastage."
       },
       {
-        question: "How does the ASICOTE® Channel Partner collaboration work?",
-        answer: "As an ASICOTE® Channel Partner, we provide verified real estate marketing expertise, structured channel partner alignment, and proven lead qualification funnels designed to deliver more quality leads, stronger brand presence, better project visibility, and end-to-end sales support."
+        question: "How does the Associate Channel Partner collaboration work?",
+        answer: "As an Associate Channel Partner, we provide verified real estate marketing expertise, structured channel partner alignment, broker channel activation, and proven lead qualification funnels designed to deliver more quality leads, stronger brand presence, better project visibility, and end-to-end sales support."
       },
       {
         question: "How does the Lead Verification and Qualification support work?",
@@ -269,28 +269,28 @@ export default function PricingClientPage() {
                 <div className="builder-header-tags">
                   <div className="builder-card-badge">
                     <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>verified</span>
-                    {currentIndustry.badge || "Digital Marketing Partner For Builders"}
+                    {currentIndustry.badge || "Digital Marketing Partner for Real Estate"}
                   </div>
                   {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
                     <div className="builder-asicote-badge">
-                      <span className="material-symbols-outlined">handshake</span>
-                      <span>{pkg.channelPartner || "ASICOTE® CHANNEL PARTNER"}</span>
+                      <span className="material-symbols-outlined">groups</span>
+                      <span>{pkg.channelPartner || "Associate Channel Partner"}</span>
                     </div>
                   )}
                 </div>
 
-                <span className="builder-hook-eyebrow">{pkg.hook || "ARE YOU A BUILDER"}</span>
+                <span className="builder-hook-eyebrow">{pkg.hook || "COMPLETE DIGITAL MARKETING PACKAGE"}</span>
                 <h2 className="builder-card-title">
-                  {pkg.headline || "Looking For A Marketing Strategy?"}
+                  {pkg.headline || "Digital Marketing Partner for Real Estate"}
                 </h2>
                 <p className="builder-card-subtitle">
-                  {pkg.subtitle || "Let Us Help You Generate More Leads & Sales"}
+                  {pkg.subtitle || "Scale Property Sales, Site Visits & Closings"}
                 </p>
 
                 {/* Dark Luxury Price Banner */}
                 <div className="builder-price-banner">
                   <div>
-                    <span className="builder-price-lead">COMPLETE DIGITAL MARKETING PACKAGE AT JUST</span>
+                    <span className="builder-price-lead">COMPLETE DIGITAL MARKETING PACKAGE</span>
                     <div className="builder-price-main">
                       <span className="builder-price-currency">₹</span>
                       <span className="builder-price-amount">{pkg.priceDisplay || pkg.price}</span>
@@ -300,20 +300,20 @@ export default function PricingClientPage() {
                   </div>
                   <div className="builder-price-subtext">
                     {pkg.price && typeof pkg.price === "number" && pkg.period?.includes("3")
-                      ? `Effectively ₹${Math.round(pkg.price / 3).toLocaleString()}/month`
+                      ? `Effectively ~₹${Math.round(pkg.price / 3).toLocaleString()}/month`
                       : "High-ROI Execution"}
                     <br />
-                    Dedicated {currentIndustry.name} Growth Team
+                    Full Agency Growth Engine
                   </div>
                 </div>
 
-                {/* ASICOTE® Channel Partner Value Card */}
+                {/* Associate Channel Partner Growth Outcomes Card */}
                 <div className="builder-asicote-card">
                   <div className="builder-asicote-card-header">
-                    <span className="material-symbols-outlined asicote-handshake-icon">handshake</span>
+                    <span className="material-symbols-outlined asicote-handshake-icon">groups</span>
                     <div className="asicote-brand-wrap">
-                      <span className="asicote-brand">ASICOTE<sup>®</sup></span>
-                      <span className="asicote-sub">CHANNEL PARTNER</span>
+                      <span className="asicote-brand">AI DIGITAL</span>
+                      <span className="asicote-sub">ASSOCIATE CHANNEL PARTNER</span>
                     </div>
                   </div>
                   <div className="builder-outcomes-grid">
