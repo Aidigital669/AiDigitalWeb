@@ -59,20 +59,6 @@ export default function HeroVideo() {
       {/* Background Pricing Lead Modal (opens on 10s delay) */}
       <PricingPopup dialogRef={dialogRef} />
 
-      {/* Floating Upper Glass Badge (Real Estate Partner) */}
-      <button
-        type="button"
-        className="hero-floating-upper-badge"
-        onClick={() => dialogRef.current?.showModal()}
-        title="View plans & get free audit"
-        aria-label="Digital Marketing Partner for Real Estate - AI Digital"
-      >
-        <span className="upper-badge-dot" aria-hidden="true" />
-        <span className="upper-badge-title">Digital Marketing Partner for Real Estate</span>
-        <span className="upper-badge-divider" aria-hidden="true">|</span>
-        <span className="upper-badge-brand">AI Digital</span>
-      </button>
-
       {/* Full Header Video (100% full brightness & opacity, zero dark overlays) */}
       <video
         ref={videoRef}
@@ -81,6 +67,8 @@ export default function HeroVideo() {
         loop
         muted={isMuted}
         playsInline
+        disablePictureInPicture
+        controlsList="nodownload nofullscreen noremoteplayback"
         preload="auto"
         onClick={togglePlay}
         className="hero-header-main-video"
