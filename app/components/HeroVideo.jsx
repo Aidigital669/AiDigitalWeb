@@ -59,11 +59,7 @@ export default function HeroVideo() {
       {/* Background Pricing Lead Modal (opens on 10s delay) */}
       <PricingPopup dialogRef={dialogRef} />
 
-      {/* Ambient luxury light glows */}
-      <div className="hero-header-ambient-glow glow-top" aria-hidden="true" />
-      <div className="hero-header-ambient-glow glow-bottom" aria-hidden="true" />
-
-      {/* Full Header Video */}
+      {/* Full Header Video (100% full brightness & opacity, zero dark overlays) */}
       <video
         ref={videoRef}
         src="/Header.mp4"
