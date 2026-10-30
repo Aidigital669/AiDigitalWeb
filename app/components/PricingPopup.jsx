@@ -9,27 +9,27 @@ const defaultIndustries = [
   {
     id: "real-estate",
     name: "Real Estate",
-    badge: "Digital Marketing Partner For Builders",
+    badge: "Digital Marketing Partner for Real Estate",
     contactPhone: "9096090701",
+    contactWebsite: "www.aidigital.biz",
+    contactLocation: "Pune, Maharashtra",
     package: {
       id: "builder_complete_2lac_3mo",
       name: "Complete Digital Marketing Package",
       price: 200000,
       priceDisplay: "2 LAC",
       period: "FOR 3 MONTHS",
-      subtitle: "Let Us Help You Generate More Leads & Sales",
-      channelPartner: "ASICOTE® CHANNEL PARTNER",
+      subtitle: "Scale Property Sales, Site Visits & Closings",
+      channelPartner: "Associate Channel Partner",
       features: [
-        "WhatsApp Marketing",
-        "Cold Calling Support",
-        "Static Project Website",
-        "Meta (FB & IG) Ads",
-        "Google Search Ads",
-        "Reels & Short Videos",
+        "WhatsApp Marketing + Quality Data",
+        "Leads Calling",
+        "Project Website & Landing Page",
+        "Meta & Youtube & Google Ads",
+        "Reels & Short-Form Content",
         "AI Promotional Videos",
-        "Lead Verification",
-        "Lead Qualification",
-        "Campaign Optimization"
+        "Associate Channel Partner",
+        "Campaign Monitoring & Optimization"
       ],
       outcomes: [
         "More Quality Leads",
@@ -99,13 +99,16 @@ export default function PricingPopup({ dialogRef }) {
   const formatDeliverableTitle = (item) => {
     if (!item) return "";
     const clean = typeof item === "string" ? item : item.title || "";
-    if (clean.includes("Static Project Website")) return "Static Project Website";
+    if (clean.includes("Project Website")) return "Project Website & Landing Page";
+    if (clean.includes("Meta") && clean.includes("Google")) return "Meta, YouTube & Google Ads";
     if (clean.includes("Meta Advertising") || clean.includes("Meta Ads")) return "Meta (FB & IG) Ads";
     if (clean.includes("Google Advertising") || clean.includes("Google Ads")) return "Google Search Ads";
     if (clean.includes("Reels")) return "Reels & Short Videos";
     if (clean.includes("Campaign Monitoring") || clean.includes("Campaign Optimization")) return "Campaign Optimization";
+    if (clean.includes("Associate Channel Partner")) return "Associate Channel Partner";
     if (clean.includes("Lead Qualification")) return "Lead Qualification";
     if (clean.includes("Lead Verification")) return "Lead Verification";
+    if (clean.includes("Leads Calling")) return "Leads Calling";
     if (clean.includes("Cold Calling")) return "Cold Calling Support";
     if (clean.includes("WhatsApp")) return "WhatsApp Marketing";
     if (clean.includes("AI Promotion") || clean.includes("AI Promo")) return "AI Promo Videos";
@@ -607,6 +610,7 @@ export default function PricingPopup({ dialogRef }) {
               <div className="popup-c-price-left">
                 <span className="popup-c-currency">₹</span>
                 <span className="popup-c-amount">{pkg.priceDisplay || "2 LAC"}</span>
+                <span style={{ fontSize: "14px", fontWeight: "800", color: "#B9974F", marginLeft: "4px" }}>+ GST</span>
               </div>
               <div className="popup-c-price-right">
                 <span className="popup-c-period-pill">{pkg.period || "/ 3 MONTHS"}</span>
@@ -668,15 +672,15 @@ export default function PricingPopup({ dialogRef }) {
             </div>
           </div>
 
-          {/* Right Column: 10 Deliverables in 2 Sub-Columns */}
+          {/* Right Column: Deliverables in 2 Sub-Columns */}
           <div className="popup-compact-right">
             <div className="popup-c-deliv-header">
               <span className="material-symbols-outlined">checklist</span>
-              <span>10 Deliverables Included:</span>
+              <span>{deliverableTitles.length} Deliverables Included:</span>
             </div>
 
             <div className="popup-c-deliv-grid">
-              {deliverableTitles.slice(0, 10).map((item, idx) => (
+              {deliverableTitles.map((item, idx) => (
                 <div key={idx} className="popup-c-deliv-item" title={item}>
                   <span className="material-symbols-outlined">check</span>
                   <span className="deliv-name">{item}</span>

@@ -13,32 +13,30 @@ const defaultIndustries = [
   {
     id: "real-estate",
     name: "Real Estate",
-    badge: "Digital Marketing Partner For Builders",
-    bannerImage: "/real_estate_package_banner_v2.jpg",
+    badge: "Digital Marketing Partner for Real Estate",
+    bannerImage: "/Price.jpeg",
     contactPhone: "9096090701",
     contactWebsite: "www.aidigital.biz",
     contactLocation: "Pune, Maharashtra",
     package: {
       id: "builder_complete_2lac_3mo",
       name: "Complete Digital Marketing Package",
-      hook: "ARE YOU A BUILDER",
-      headline: "Looking For A Marketing Strategy?",
-      subtitle: "Let Us Help You Generate More Leads & Sales",
-      channelPartner: "ASICOTE® CHANNEL PARTNER",
+      hook: "COMPLETE DIGITAL MARKETING PACKAGE",
+      headline: "Digital Marketing Partner for Real Estate",
+      subtitle: "Scale Property Sales, Site Visits & Closings",
+      channelPartner: "Associate Channel Partner",
       price: 200000,
       priceDisplay: "2 LAC",
       period: "FOR 3 MONTHS",
       features: [
-        { title: "WhatsApp Marketing", desc: "Automated broadcast, instant brochure sharing & site-visit alerts", icon: "chat" },
-        { title: "Cold Calling", desc: "Proactive buyer outreach & phone qualification for inquiries", icon: "call" },
-        { title: "Static Project Website / Landing Page", desc: "High-CRO launch microsite with floor plans & lead capture", icon: "web" },
-        { title: "Meta Advertising Management", desc: "High-intent Facebook & Instagram ads for buyers & NRIs", icon: "all_inclusive" },
-        { title: "Google Advertising Management", desc: "Targeted Search & Display campaigns capturing active buyers", icon: "ads_click" },
-        { title: "Reels / Short-Form Content", desc: "Engaging property reels showcasing amenities & floor layouts", icon: "video_library" },
-        { title: "AI Promotional Videos", desc: "AI-assisted cinematic property walkthroughs & teasers", icon: "movie" },
-        { title: "Lead Verification", desc: "Strict verification filtering out fake numbers and junk leads", icon: "verified_user" },
-        { title: "Lead Qualification Support", desc: "Pre-screen buyers by budget, move-in timeline & purchase readiness", icon: "support_agent" },
-        { title: "Campaign Monitoring & Optimization", desc: "Daily monitoring, continuous ROAS scaling & weekly CPL reports", icon: "trending_up" }
+        { title: "WhatsApp Marketing + Quality Data", desc: "Automated broadcast, instant brochure sharing & verified buyer data", icon: "chat" },
+        { title: "Leads Calling", desc: "Proactive buyer outreach, tele-calling & phone qualification for inquiries", icon: "call" },
+        { title: "Project Website & Landing Page", desc: "High-CRO launch microsite with floor plans & automated lead capture funnels", icon: "web" },
+        { title: "Meta & Youtube & Google Ads", desc: "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", icon: "ads_click" },
+        { title: "Reels & Short-Form Content", desc: "Engaging property reels showcasing amenities, site progress & walkthroughs", icon: "video_library" },
+        { title: "AI Promotional Videos", desc: "AI-assisted cinematic property walkthroughs, teasers & social promo videos", icon: "movie" },
+        { title: "Associate Channel Partner", desc: "Channel partner network collaboration & broker channel activation support", icon: "handshake" },
+        { title: "Campaign Monitoring & Optimization", desc: "Daily ad tracking, continuous ROAS scaling & weekly verified CPL reporting", icon: "trending_up" }
       ],
       outcomes: [
         "More Quality Leads",
@@ -222,10 +220,10 @@ export default function PricingClientPage() {
             <div className="builder-banner-wrapper reveal">
               <div className="builder-banner-frame">
                 <Image
-                  src={currentIndustry.bannerImage || "/real_estate_package_banner_v2.jpg"}
+                  src={currentIndustry.bannerImage || "/Price.jpeg"}
                   alt={`${currentIndustry.name} Marketing Package Banner`}
-                  width={640}
-                  height={960}
+                  width={1086}
+                  height={1448}
                   priority
                   className="builder-banner-image"
                 />
@@ -296,6 +294,7 @@ export default function PricingClientPage() {
                     <div className="builder-price-main">
                       <span className="builder-price-currency">₹</span>
                       <span className="builder-price-amount">{pkg.priceDisplay || pkg.price}</span>
+                      <span className="builder-price-gst" style={{ fontSize: "16px", fontWeight: "700", color: "#FDE68A", marginLeft: "6px" }}>+ GST</span>
                       {pkg.period && <span className="builder-price-period">{pkg.period}</span>}
                     </div>
                   </div>
