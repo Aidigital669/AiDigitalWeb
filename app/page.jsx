@@ -194,10 +194,9 @@ export default function Home() {
     <main id="top">
       <SiteHeader active="home" />
 
-      {/* 1. Introduction - Clean Full Area Video Header */}
+      {/* 1. Header Video Showcase */}
       {isVisible("home_hero") && (
         <header className="hero-video-header-wrapper">
-          <h1 className="sr-only">Digital Marketing Partner for Real Estate | AI Digital</h1>
           <HeroVideo />
         </header>
       )}

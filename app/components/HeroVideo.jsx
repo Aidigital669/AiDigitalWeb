@@ -9,6 +9,7 @@ export default function HeroVideo() {
   const videoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [showPlayFeedback, setShowPlayFeedback] = useState(false);
 
   // Triggers the pricing popup natively with a 10-second delay when the page renders
   useEffect(() => {
@@ -48,6 +49,8 @@ export default function HeroVideo() {
         videoRef.current.pause();
         setIsPlaying(false);
       }
+      setShowPlayFeedback(true);
+      setTimeout(() => setShowPlayFeedback(false), 700);
     }
   };
 
@@ -56,7 +59,11 @@ export default function HeroVideo() {
       {/* Background Pricing Lead Modal (opens on 10s delay) */}
       <PricingPopup dialogRef={dialogRef} />
 
-      {/* Full Header Video - Maximum Visibility & Contrast */}
+      {/* Ambient luxury light glows */}
+      <div className="hero-header-ambient-glow glow-top" aria-hidden="true" />
+      <div className="hero-header-ambient-glow glow-bottom" aria-hidden="true" />
+
+      {/* Full Header Video */}
       <video
         ref={videoRef}
         src="/Header.mp4"
@@ -69,17 +76,34 @@ export default function HeroVideo() {
         className="hero-header-main-video"
       />
 
-      {/* Subtle Bottom Controls (Discrete Sound Button) */}
+      {/* Click feedback animation (Play/Pause ripple) */}
+      {showPlayFeedback && (
+        <div className="hero-video-ripple-feedback" aria-hidden="true">
+          <div className="ripple-circle">
+            <Icon name={isPlaying ? "play_arrow" : "pause"} />
+          </div>
+        </div>
+      )}
+
+      {/* Floating Animated Sound Controls */}
       <div className="hero-video-controls-overlay">
         <button
           type="button"
-          className="hero-video-sound-pill"
+          className={`hero-video-sound-pill ${!isMuted ? "sound-active" : ""}`}
           onClick={toggleMute}
           aria-label={isMuted ? "Unmute video sound" : "Mute video sound"}
           title={isMuted ? "Unmute audio" : "Mute audio"}
         >
+          <span className="sound-pulse-ring" aria-hidden="true" />
           <Icon name={isMuted ? "volume_off" : "volume_up"} />
-          <span>{isMuted ? "Unmute" : "Sound On"}</span>
+          <span>{isMuted ? "Sound On" : "Playing Sound"}</span>
+          {!isMuted && (
+            <span className="sound-equalizer-bars" aria-hidden="true">
+              <span className="eq-bar bar-1" />
+              <span className="eq-bar bar-2" />
+              <span className="eq-bar bar-3" />
+            </span>
+          )}
         </button>
 
         <button
@@ -91,6 +115,11 @@ export default function HeroVideo() {
         >
           <Icon name={isPlaying ? "pause" : "play_arrow"} />
         </button>
+      </div>
+
+      {/* Animated Luxury Shimmer Light Border at bottom of header */}
+      <div className="hero-header-shimmer-line" aria-hidden="true">
+        <div className="shimmer-light-beam" />
       </div>
     </div>
   );
