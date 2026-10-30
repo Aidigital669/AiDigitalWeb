@@ -7,6 +7,8 @@ import { Icon } from "./SiteChrome";
 export default function HeroVideo() {
   const dialogRef = useRef(null);
   const videoRef = useRef(null);
+  const containerRef = useRef(null);
+  const manuallyPausedRef = useRef(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
   const [showPlayFeedback, setShowPlayFeedback] = useState(false);
@@ -31,6 +33,69 @@ export default function HeroVideo() {
     }
   }, []);
 
+  // Auto-pause video when scrolled away from video section, resume when scrolled back into view
+  useEffect(() => {
+    const target = containerRef.current || videoRef.current;
+    if (!target) return;
+
+    const handleIntersection = (entries) => {
+      entries.forEach((entry) => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        if (!entry.isIntersecting || entry.intersectionRatio < 0.15) {
+          // Scrolled out of the video header section -> pause/stop video
+          if (!video.paused) {
+            video.pause();
+            setIsPlaying(false);
+          }
+        } else {
+          // Scrolled back into view -> resume playing if user didn't manually pause
+          if (video.paused && !manuallyPausedRef.current) {
+            video.play().then(() => {
+              setIsPlaying(true);
+            }).catch(() => {});
+          }
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(handleIntersection, {
+      threshold: [0, 0.15, 0.5]
+    });
+
+    observer.observe(target);
+
+    // Instant fallback for fast scrolling
+    const handleScroll = () => {
+      const video = videoRef.current;
+      const container = containerRef.current;
+      if (!video || !container) return;
+
+      const rect = container.getBoundingClientRect();
+      // If header is scrolled past the viewport
+      if (rect.bottom <= 50 || rect.top >= window.innerHeight) {
+        if (!video.paused) {
+          video.pause();
+          setIsPlaying(false);
+        }
+      } else if (rect.bottom > 100 && rect.top < window.innerHeight - 100) {
+        if (video.paused && !manuallyPausedRef.current) {
+          video.play().then(() => {
+            setIsPlaying(true);
+          }).catch(() => {});
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   const toggleMute = (e) => {
     if (e) e.stopPropagation();
     if (videoRef.current) {
@@ -43,9 +108,10 @@ export default function HeroVideo() {
   const togglePlay = () => {
     if (videoRef.current) {
       if (videoRef.current.paused) {
-        videoRef.current.play();
-        setIsPlaying(true);
+        manuallyPausedRef.current = false;
+        videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
       } else {
+        manuallyPausedRef.current = true;
         videoRef.current.pause();
         setIsPlaying(false);
       }
@@ -55,7 +121,7 @@ export default function HeroVideo() {
   };
 
   return (
-    <div className="hero-full-video-header" aria-label="Header Video">
+    <div className="hero-full-video-header" ref={containerRef} aria-label="Header Video">
       {/* Background Pricing Lead Modal (opens on 10s delay) */}
       <PricingPopup dialogRef={dialogRef} />
 
