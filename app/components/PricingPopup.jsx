@@ -20,7 +20,7 @@ const defaultIndustries = [
       priceDisplay: "2 LAC",
       period: "FOR 3 MONTHS",
       subtitle: "Scale Property Sales, Site Visits & Closings",
-      channelPartner: "Associate Channel Partner",
+      channelPartner: "Associate Channel",
       features: [
         "WhatsApp Marketing + Quality Data",
         "Leads Calling",
@@ -601,7 +601,7 @@ export default function PricingPopup({ dialogRef }) {
               {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
                 <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#B9974F", color: "#1e4d42" }}>
                   <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>groups</span>
-                  {pkg.channelPartner || "Associate Channel Partner"}
+                  {pkg.channelPartner === "Associate Channel Partner" ? "Associate Channel" : (pkg.channelPartner || "Associate Channel")}
                 </span>
               )}
             </div>

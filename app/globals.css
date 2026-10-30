@@ -8184,8 +8184,19 @@ p {
   color: var(--cta-gold) !important;
 }
 
+.asicote-brand-wrap {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
 .asicote-brand {
   color: var(--brand-forest) !important;
+  font-family: var(--font-headline);
+  font-weight: 800;
+  font-size: 16px;
+  letter-spacing: 0.04em;
 }
 
 .asicote-brand sup {
@@ -8194,6 +8205,10 @@ p {
 
 .asicote-sub {
   color: var(--cta-gold) !important;
+  font-family: var(--font-headline);
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.08em;
 }
 
 .builder-outcome-item {

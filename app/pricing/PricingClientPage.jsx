@@ -24,7 +24,7 @@ const defaultIndustries = [
       hook: "COMPLETE DIGITAL MARKETING PACKAGE",
       headline: "Digital Marketing Partner for Real Estate",
       subtitle: "Scale Property Sales, Site Visits & Closings",
-      channelPartner: "Associate Channel Partner",
+      channelPartner: "Associate Channel",
       price: 200000,
       priceDisplay: "2 LAC",
       period: "FOR 3 MONTHS",
@@ -274,7 +274,7 @@ export default function PricingClientPage() {
                   {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
                     <div className="builder-asicote-badge">
                       <span className="material-symbols-outlined">groups</span>
-                      <span>{pkg.channelPartner || "Associate Channel Partner"}</span>
+                      <span>{pkg.channelPartner === "Associate Channel Partner" ? "Associate Channel" : (pkg.channelPartner || "Associate Channel")}</span>
                     </div>
                   )}
                 </div>
@@ -307,13 +307,13 @@ export default function PricingClientPage() {
                   </div>
                 </div>
 
-                {/* Associate Channel Partner Growth Outcomes Card */}
+                {/* Associate Channel Growth Outcomes Card */}
                 <div className="builder-asicote-card">
                   <div className="builder-asicote-card-header">
                     <span className="material-symbols-outlined asicote-handshake-icon">groups</span>
                     <div className="asicote-brand-wrap">
                       <span className="asicote-brand">AI DIGITAL</span>
-                      <span className="asicote-sub">ASSOCIATE CHANNEL PARTNER</span>
+                      <span className="asicote-sub">ASSOCIATE CHANNEL</span>
                     </div>
                   </div>
                   <div className="builder-outcomes-grid">
