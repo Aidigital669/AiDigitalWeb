@@ -194,42 +194,10 @@ export default function Home() {
     <main id="top">
       <SiteHeader active="home" />
 
-      {/* 1. Introduction */}
+      {/* 1. Introduction - Clean Full Area Video Header */}
       {isVisible("home_hero") && (
-        <header className="hero section">
-          <div className="hero-copy reveal">
-            <div className="hero-eyebrow">
-              <span>Real Estate Digital Marketing Agency</span>
-              <span className="hero-eyebrow-line" />
-            </div>
-            <h1>
-              Digital Marketing Partner <span>for Real Estate</span>
-            </h1>
-            <p>
-              AI Digital helps real estate developers, builders, and channel partners scale property sales through AI-driven Meta &amp; Google ads, 3D virtual walkthroughs, and automated site-visit funnels.
-            </p>
-            <div className="hero-badges-row">
-              <div className="hero-badge-item">
-                <Icon name="workspace_premium" />
-                <span>25+ Years Experience</span>
-              </div>
-              <span className="hero-badge-divider" />
-              <div className="hero-badge-item">
-                <Icon name="ads_click" />
-                <span>High-Intent Leads</span>
-              </div>
-              <span className="hero-badge-divider" />
-              <div className="hero-badge-item">
-                <Icon name="location_on" />
-                <span>Site Visits to Closings</span>
-              </div>
-            </div>
-            <div className="hero-actions reveal reveal-delay-1">
-              <a className="button button-primary" href="#contact">Get Free Project Audit &rarr;</a>
-              <a className="button button-ghost" href="#services">Explore Real Estate Services</a>
-            </div>
-          </div>
-
+        <header className="hero-video-header-wrapper">
+          <h1 className="sr-only">Digital Marketing Partner for Real Estate | AI Digital</h1>
           <HeroVideo />
         </header>
       )}

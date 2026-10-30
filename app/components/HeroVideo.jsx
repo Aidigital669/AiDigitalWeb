@@ -9,7 +9,6 @@ export default function HeroVideo() {
   const videoRef = useRef(null);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [progress, setProgress] = useState(0);
 
   // Triggers the pricing popup natively with a 10-second delay when the page renders
   useEffect(() => {
@@ -32,7 +31,7 @@ export default function HeroVideo() {
   }, []);
 
   const toggleMute = (e) => {
-    e.stopPropagation();
+    if (e) e.stopPropagation();
     if (videoRef.current) {
       const nextMuted = !videoRef.current.muted;
       videoRef.current.muted = nextMuted;
@@ -52,113 +51,47 @@ export default function HeroVideo() {
     }
   };
 
-  const handleTimeUpdate = () => {
-    if (videoRef.current && videoRef.current.duration) {
-      const current = (videoRef.current.currentTime / videoRef.current.duration) * 100;
-      setProgress(current);
-    }
-  };
-
   return (
-    <div className="hero-video-section" aria-label="Hero Video Showcase">
-      {/* Handled natively with no buttons or local react visibility state hooks */}
+    <div className="hero-full-video-header" aria-label="Header Video">
+      {/* Background Pricing Lead Modal (opens on 10s delay) */}
       <PricingPopup dialogRef={dialogRef} />
 
-      {/* Ambient background glows */}
-      <div className="hero-video-glow glow-1" aria-hidden="true" />
-      <div className="hero-video-glow glow-2" aria-hidden="true" />
-
-      {/* Floating decorative badge 1 (Top Left) */}
-      <div className="hero-video-badge badge-top-left" aria-hidden="true">
-        <span className="badge-pulse-dot" />
-        <Icon name="ads_click" />
-        <div>
-          <strong>Real Estate Growth</strong>
-          <span>Meta &amp; Google Ads</span>
-        </div>
-      </div>
-
-      {/* Floating decorative badge 2 (Mid Right) */}
-      <div className="hero-video-badge badge-mid-right" aria-hidden="true">
-        <Icon name="insights" />
-        <div>
-          <strong>More Visibility &amp; Sales</strong>
-          <span>High-Intent Campaigns</span>
-        </div>
-      </div>
-
-      {/* Floating decorative badge 3 (Bottom Right) */}
-      <div className="hero-video-badge badge-bottom-right" aria-hidden="true">
-        <Icon name="rocket_launch" />
-        <div>
-          <strong>Site Visits &amp; Closings</strong>
-          <span>Let&apos;s Grow Together &rarr;</span>
-        </div>
-      </div>
-
-      {/* Device / Phone Frame Card */}
-      <div
-        className="hero-video-card"
+      {/* Full Header Video - Maximum Visibility & Contrast */}
+      <video
+        ref={videoRef}
+        src="/Header.mp4"
+        autoPlay
+        loop
+        muted={isMuted}
+        playsInline
+        preload="auto"
         onClick={togglePlay}
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            togglePlay();
-          }
-        }}
-        aria-label={isPlaying ? "Click to pause video" : "Click to play video"}
-      >
-        <div className="hero-video-bezel">
-          {/* Top Notch */}
-          <div className="hero-video-notch" aria-hidden="true" />
+        className="hero-header-main-video"
+      />
 
-          {/* Sound toggle pill */}
-          <button
-            type="button"
-            className="hero-video-sound-btn"
-            onClick={toggleMute}
-            aria-label={isMuted ? "Unmute audio" : "Mute audio"}
-          >
-            <Icon name={isMuted ? "volume_off" : "volume_up"} />
-            <span>{isMuted ? "Unmute" : "Sound On"}</span>
-          </button>
+      {/* Subtle Bottom Controls (Discrete Sound Button) */}
+      <div className="hero-video-controls-overlay">
+        <button
+          type="button"
+          className="hero-video-sound-pill"
+          onClick={toggleMute}
+          aria-label={isMuted ? "Unmute video sound" : "Mute video sound"}
+          title={isMuted ? "Unmute audio" : "Mute audio"}
+        >
+          <Icon name={isMuted ? "volume_off" : "volume_up"} />
+          <span>{isMuted ? "Unmute" : "Sound On"}</span>
+        </button>
 
-          {/* Video element */}
-          <video
-            ref={videoRef}
-            src="/FirstVideo.mp4"
-            autoPlay
-            loop
-            muted={isMuted}
-            playsInline
-            preload="auto"
-            onTimeUpdate={handleTimeUpdate}
-            onPlay={() => setIsPlaying(true)}
-            onPause={() => setIsPlaying(false)}
-            className="hero-video-player"
-          />
-
-          {/* Paused state overlay button */}
-          {!isPlaying && (
-            <div className="hero-video-play-overlay">
-              <div className="play-button-icon">
-                <Icon name="play_arrow" />
-              </div>
-            </div>
-          )}
-
-          {/* Bottom progress bar */}
-          <div className="hero-video-progress-track">
-            <div
-              className="hero-video-progress-bar"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-        </div>
+        <button
+          type="button"
+          className="hero-video-play-pill"
+          onClick={togglePlay}
+          aria-label={isPlaying ? "Pause video" : "Play video"}
+          title={isPlaying ? "Pause video" : "Play video"}
+        >
+          <Icon name={isPlaying ? "pause" : "play_arrow"} />
+        </button>
       </div>
     </div>
   );
 }
-

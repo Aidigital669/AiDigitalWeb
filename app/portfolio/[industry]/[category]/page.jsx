@@ -251,10 +251,31 @@ export default function IndustryCategoryPage() {
                       />
                     );
                   })()}
+                  {/* Corner Extend Button */}
+                  <button
+                    type="button"
+                    className="creative-corner-extend-btn"
+                    title="Extend to view"
+                    aria-label="Extend to view"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      const actualIndex = visibleItems.findIndex((it) => it.src === img.src && it.title === img.title);
+                      if (actualIndex !== -1) {
+                        setSelectedImageIndex(actualIndex);
+                      }
+                    }}
+                  >
+                    <span className="material-symbols-outlined">open_in_full</span>
+                    <span>Extend</span>
+                  </button>
+
                   <div className="creative-overlay">
                     <div className="creative-overlay-icon">
                       <span className="material-symbols-outlined">
-                        {getPlayerType(img.src, img.type) === "image" ? "zoom_in" : "play_circle"}
+                        {getPlayerType(img.src, img.type) === "image" ? "open_in_full" : "play_circle"}
+                      </span>
+                      <span className="creative-overlay-label">
+                        {getPlayerType(img.src, img.type) === "image" ? "Extend View" : "Play Video"}
                       </span>
                     </div>
                   </div>
