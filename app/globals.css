@@ -8584,8 +8584,9 @@ p {
 /* Controls Overlay */
 .hero-video-controls-overlay {
   position: absolute;
-  bottom: 24px;
+  top: 24px;
   right: 28px;
+  bottom: auto;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -8737,7 +8738,8 @@ p {
     min-height: 220px;
   }
   .hero-video-controls-overlay {
-    bottom: 12px;
+    top: 14px;
+    bottom: auto;
     right: 14px;
     gap: 8px;
   }
