@@ -8868,3 +8868,67 @@ p {
   color: #FFFFFF;
   letter-spacing: 0.03em;
 }
+
+
+/* ==========================================================================
+   Testimonials & Client Reviews Section Theme Harmonization
+   ========================================================================== */
+.testimonials-section {
+  background: linear-gradient(180deg, var(--bg-ivory, #F8F5EF) 0%, #FFFFFF 50%, var(--bg-ivory, #F8F5EF) 100%) !important;
+  position: relative;
+}
+
+.testimonials-widget-card {
+  border: 1.5px solid var(--line-soft, #EDE7DA) !important;
+  box-shadow: 0 24px 50px rgba(30, 77, 66, 0.08), 0 0 0 1px rgba(185, 151, 79, 0.18) !important;
+  background: #FFFFFF !important;
+  border-radius: 24px !important;
+}
+
+/* Elfsight Reviews Widget Custom Styling */
+.testimonials-section [class*="header-write-review-button"],
+.testimonials-section [class*="WriteReviewButton"],
+.testimonials-section [class*="button-base"][class*="header"],
+.testimonials-section button[class*="Button"],
+[class*="es-header-write-review-button"],
+[class*="es-write-review-button"] {
+  background: var(--brand-forest, #1E4D42) !important;
+  background-color: var(--brand-forest, #1E4D42) !important;
+  color: #FFFFFF !important;
+  border: 1.5px solid var(--cta-gold, #B9974F) !important;
+  border-radius: 999px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em !important;
+  box-shadow: 0 4px 14px rgba(30, 77, 66, 0.25) !important;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.testimonials-section [class*="header-write-review-button"]:hover,
+.testimonials-section [class*="WriteReviewButton"]:hover,
+.testimonials-section [class*="button-base"][class*="header"]:hover,
+.testimonials-section button[class*="Button"]:hover,
+[class*="es-header-write-review-button"]:hover,
+[class*="es-write-review-button"]:hover {
+  background: var(--cta-gold, #B9974F) !important;
+  background-color: var(--cta-gold, #B9974F) !important;
+  border-color: #9E7F3D !important;
+  color: #FFFFFF !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 18px rgba(185, 151, 79, 0.35) !important;
+}
+
+/* Active tab indicators & lines */
+.testimonials-section [class*="tabs-item-active-line"],
+.testimonials-section [class*="TabIndicator"],
+.testimonials-section [class*="Tabs__TabIndicator"],
+.testimonials-section [class*="active-line"] {
+  background: var(--cta-gold, #B9974F) !important;
+  background-color: var(--cta-gold, #B9974F) !important;
+}
+
+.testimonials-section [class*="tab"][class*="active"],
+.testimonials-section [class*="Tab--active"],
+.testimonials-section [class*="Tabs__TabActive"] {
+  color: var(--brand-forest, #1E4D42) !important;
+  font-weight: 700 !important;
+}
