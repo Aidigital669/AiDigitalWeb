@@ -184,34 +184,6 @@ export default function PricingClientPage() {
         </p>
       </section>
 
-      {/* Industry Filter Section with ONLY Dropdown (Dynamically increases when admin adds industries) */}
-      <section className="industry-filter-section" aria-label="Filter plans by industry">
-        <div className="industry-filter-container">
-          <div className="industry-filter-header">
-            <span className="material-symbols-outlined">filter_alt</span>
-            <span>Filter Plans by Industry</span>
-          </div>
-
-          {/* Clean Select Dropdown populated from API */}
-          <div className="industry-dropdown-box">
-            <select
-              id="industry-select"
-              value={selectedIndustry}
-              onChange={(e) => setSelectedIndustry(e.target.value)}
-              className="industry-select-input"
-              aria-label="Select Industry"
-            >
-              {industryList.map((ind) => (
-                <option key={ind.id} value={ind.id}>
-                  {ind.name}
-                </option>
-              ))}
-            </select>
-            <span className="material-symbols-outlined industry-dropdown-arrow">expand_more</span>
-          </div>
-        </div>
-      </section>
-
       {/* Package Showcase: Banner + Pricing Card for Selected Industry */}
       <section id="package" className="builder-pricing-section">
         <div className="builder-container">
