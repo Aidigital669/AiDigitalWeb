@@ -8106,22 +8106,62 @@ p {
   box-shadow: 0 20px 50px -10px rgba(30, 77, 66, 0.08), 0 0 0 1px rgba(185, 151, 79, 0.15) !important;
 }
 
+.builder-card-badges {
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  flex-wrap: wrap !important;
+  margin-bottom: 18px !important;
+}
+
 .builder-card-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1 !important;
+  margin-bottom: 0 !important;
   background: var(--brand-forest-soft) !important;
   border: 1px solid rgba(30, 77, 66, 0.25) !important;
   color: var(--brand-forest) !important;
-  font-weight: 800 !important;
+}
+
+.builder-card-badge .material-symbols-outlined {
+  font-size: 16px !important;
+  color: var(--brand-forest) !important;
+  line-height: 1 !important;
 }
 
 .builder-asicote-badge {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 7px !important;
+  padding: 6px 14px !important;
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  line-height: 1 !important;
+  margin-bottom: 0 !important;
   background: #FFFFFF !important;
   border: 1.5px solid var(--cta-gold) !important;
   color: var(--brand-forest) !important;
   box-shadow: 0 2px 8px var(--cta-gold-glow) !important;
+  white-space: nowrap !important;
 }
 
 .builder-asicote-badge .material-symbols-outlined {
+  font-size: 17px !important;
   color: var(--cta-gold) !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 
 .builder-hook-eyebrow {
@@ -8173,30 +8213,46 @@ p {
 .builder-asicote-card {
   background: #FFFFFF !important;
   border: 1.5px solid var(--cta-gold) !important;
+  border-radius: 16px !important;
   box-shadow: 0 10px 25px -5px rgba(185, 151, 79, 0.15) !important;
+  margin-bottom: 28px !important;
+  overflow: hidden !important;
 }
 
 .builder-asicote-card-header {
-  border-bottom: 1px solid var(--line) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 10px !important;
+  padding: 14px 20px !important;
+  background: rgba(248, 245, 239, 0.55) !important;
+  border-bottom: 1.5px solid var(--line-soft, #EDE7DA) !important;
 }
 
 .asicote-handshake-icon {
+  font-size: 24px !important;
   color: var(--cta-gold) !important;
+  line-height: 1 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  flex-shrink: 0 !important;
 }
 
 .asicote-brand-wrap {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 8px;
-  flex-wrap: wrap;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  flex-wrap: wrap !important;
+  line-height: 1 !important;
 }
 
 .asicote-brand {
   color: var(--brand-forest) !important;
-  font-family: var(--font-headline);
-  font-weight: 800;
-  font-size: 16px;
-  letter-spacing: 0.04em;
+  font-family: var(--font-headline) !important;
+  font-weight: 800 !important;
+  font-size: 15.5px !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
 }
 
 .asicote-brand sup {
@@ -8205,10 +8261,16 @@ p {
 
 .asicote-sub {
   color: var(--cta-gold) !important;
-  font-family: var(--font-headline);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: 0.08em;
+  font-family: var(--font-headline) !important;
+  font-weight: 800 !important;
+  font-size: 13.5px !important;
+  letter-spacing: 0.08em !important;
+  text-transform: uppercase !important;
+  line-height: 1 !important;
+}
+
+.builder-asicote-card .builder-outcomes-grid {
+  padding: 18px 20px !important;
 }
 
 .builder-outcome-item {

@@ -600,8 +600,8 @@ export default function PricingPopup({ dialogRef }) {
               </span>
               {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
                 <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#B9974F", color: "#1e4d42" }}>
-                  <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>groups</span>
-                  {pkg.channelPartner === "Associate Channel Partner" || pkg.channelPartner === "Associated Channels" ? "Associate Channel" : (pkg.channelPartner || "Associate Channel")}
+                  <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>handshake</span>
+                  <span>AI DIGITAL ASSOCIATE CHANNEL</span>
                 </span>
               )}
             </div>

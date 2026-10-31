@@ -14,7 +14,7 @@
         "hook": "COMPLETE DIGITAL MARKETING PACKAGE",
         "headline": "Digital Marketing Partner for Real Estate",
         "subtitle": "Scale Property Sales, Site Visits & Closings",
-        "channelPartner": "Associate Channel",
+        "channelPartner": "AI DIGITAL ASSOCIATE CHANNEL",
         "price": 200000,
         "priceDisplay": "2 LAC",
         "period": "FOR 3 MONTHS",
@@ -25,7 +25,7 @@
           { "title": "Meta & Youtube & Google Ads", "desc": "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", "icon": "bar_chart" },
           { "title": "Reels & Short-Form Content", "desc": "Engaging property reels showcasing amenities, site progress & walkthroughs", "icon": "smart_display" },
           { "title": "AI Promotional Videos", "desc": "AI-assisted cinematic property walkthroughs, teasers & social promo videos", "icon": "memory" },
-          { "title": "Associated Channels", "desc": "Channel partner network collaboration & broker channel activation support", "icon": "groups" },
+          { "title": "Associated Channels", "desc": "Channel partner network collaboration & broker channel activation support", "icon": "handshake" },
           { "title": "Campaign Monitoring & Optimization", "desc": "Daily ad tracking, continuous ROAS scaling & weekly verified CPL reporting", "icon": "troubleshoot" }
         ],
         "outcomes": [

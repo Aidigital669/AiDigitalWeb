@@ -35,7 +35,7 @@ const defaultIndustries = [
         { title: "Meta & Youtube & Google Ads", desc: "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", icon: "bar_chart" },
         { title: "Reels & Short-Form Content", desc: "Engaging property reels showcasing amenities, site progress & walkthroughs", icon: "smart_display" },
         { title: "AI Promotional Videos", desc: "AI-assisted cinematic property walkthroughs, teasers & social promo videos", icon: "memory" },
-        { title: "Associated Channels", desc: "Channel partner network collaboration & broker channel activation support", icon: "groups" },
+        { title: "Associated Channels", desc: "Channel partner network collaboration & broker channel activation support", icon: "handshake" },
         { title: "Campaign Monitoring & Optimization", desc: "Daily ad tracking, continuous ROAS scaling & weekly verified CPL reporting", icon: "troubleshoot" }
       ],
       outcomes: [
@@ -273,8 +273,8 @@ export default function PricingClientPage() {
                   </div>
                   {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
                     <div className="builder-asicote-badge">
-                      <span className="material-symbols-outlined">groups</span>
-                      <span>{pkg.channelPartner === "Associate Channel Partner" || pkg.channelPartner === "Associated Channels" ? "Associate Channel" : (pkg.channelPartner || "Associate Channel")}</span>
+                      <span className="material-symbols-outlined">handshake</span>
+                      <span>AI DIGITAL ASSOCIATE CHANNEL</span>
                     </div>
                   )}
                 </div>
@@ -310,7 +310,7 @@ export default function PricingClientPage() {
                 {/* Associate Channel Growth Outcomes Card */}
                 <div className="builder-asicote-card">
                   <div className="builder-asicote-card-header">
-                    <span className="material-symbols-outlined asicote-handshake-icon">groups</span>
+                    <span className="material-symbols-outlined asicote-handshake-icon">handshake</span>
                     <div className="asicote-brand-wrap">
                       <span className="asicote-brand">AI DIGITAL</span>
                       <span className="asicote-sub">ASSOCIATE CHANNEL</span>
