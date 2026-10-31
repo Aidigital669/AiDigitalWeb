@@ -28,7 +28,7 @@ const defaultIndustries = [
         "Meta & Youtube & Google Ads",
         "Reels & Short-Form Content",
         "AI Promotional Videos",
-        "Associate Channel Partner",
+        "Associated Channels",
         "Campaign Monitoring & Optimization"
       ],
       outcomes: [
@@ -105,7 +105,7 @@ export default function PricingPopup({ dialogRef }) {
     if (clean.includes("Google Advertising") || clean.includes("Google Ads")) return "Google Search Ads";
     if (clean.includes("Reels")) return "Reels & Short Videos";
     if (clean.includes("Campaign Monitoring") || clean.includes("Campaign Optimization")) return "Campaign Optimization";
-    if (clean.includes("Associate Channel Partner")) return "Associate Channel Partner";
+    if (clean.includes("Associate Channel") || clean.includes("Associated Channels")) return "Associated Channels";
     if (clean.includes("Lead Qualification")) return "Lead Qualification";
     if (clean.includes("Lead Verification")) return "Lead Verification";
     if (clean.includes("Leads Calling")) return "Leads Calling";
@@ -601,7 +601,7 @@ export default function PricingPopup({ dialogRef }) {
               {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
                 <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#B9974F", color: "#1e4d42" }}>
                   <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>groups</span>
-                  {pkg.channelPartner === "Associate Channel Partner" ? "Associate Channel" : (pkg.channelPartner || "Associate Channel")}
+                  {pkg.channelPartner === "Associate Channel Partner" || pkg.channelPartner === "Associated Channels" ? "Associate Channel" : (pkg.channelPartner || "Associate Channel")}
                 </span>
               )}
             </div>

@@ -35,7 +35,7 @@ const defaultIndustries = [
         { title: "Meta & Youtube & Google Ads", desc: "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", icon: "bar_chart" },
         { title: "Reels & Short-Form Content", desc: "Engaging property reels showcasing amenities, site progress & walkthroughs", icon: "smart_display" },
         { title: "AI Promotional Videos", desc: "AI-assisted cinematic property walkthroughs, teasers & social promo videos", icon: "memory" },
-        { title: "Associate Channel Partner", desc: "Channel partner network collaboration & broker channel activation support", icon: "groups" },
+        { title: "Associated Channels", desc: "Channel partner network collaboration & broker channel activation support", icon: "groups" },
         { title: "Campaign Monitoring & Optimization", desc: "Daily ad tracking, continuous ROAS scaling & weekly verified CPL reporting", icon: "troubleshoot" }
       ],
       outcomes: [
@@ -48,15 +48,15 @@ const defaultIndustries = [
     faqs: [
       {
         question: "What is included in the ₹2 Lac Complete Real Estate Marketing Package?",
-        answer: "This package provides a comprehensive 3-month growth engine for builders, developers, and real estate channel partners. It includes WhatsApp Marketing + Quality Data, Leads Calling, Project Website & Landing Page, Meta & Youtube & Google Ads, Reels & Short-Form Content, AI Promotional Videos, Associate Channel Partner support, and Campaign Monitoring & Optimization."
+        answer: "This package provides a comprehensive 3-month growth engine for builders, developers, and real estate channel partners. It includes WhatsApp Marketing + Quality Data, Leads Calling, Project Website & Landing Page, Meta & Youtube & Google Ads, Reels & Short-Form Content, AI Promotional Videos, Associated Channels support, and Campaign Monitoring & Optimization."
       },
       {
         question: "Does the ₹2 Lac fee include advertising budget or is it separate?",
         answer: "The ₹2 Lac fee covers our full agency management, creative production, video development, landing page building, lead qualification team, and strategy for all 3 months. Ad spend (paid directly to Meta and Google) is separate and determined based on your target unit sales, inventory ticket size, and project locality. We help you set an optimal ad budget with zero wastage."
       },
       {
-        question: "How does the Associate Channel Partner collaboration work?",
-        answer: "As an Associate Channel Partner, we provide verified real estate marketing expertise, structured channel partner alignment, broker channel activation, and proven lead qualification funnels designed to deliver more quality leads, stronger brand presence, better project visibility, and end-to-end sales support."
+        question: "How does the Associated Channels collaboration work?",
+        answer: "Through Associated Channels, we provide verified real estate marketing expertise, structured channel partner alignment, broker channel activation, and proven lead qualification funnels designed to deliver more quality leads, stronger brand presence, better project visibility, and end-to-end sales support."
       },
       {
         question: "How does the Lead Verification and Qualification support work?",
@@ -274,7 +274,7 @@ export default function PricingClientPage() {
                   {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
                     <div className="builder-asicote-badge">
                       <span className="material-symbols-outlined">groups</span>
-                      <span>{pkg.channelPartner === "Associate Channel Partner" ? "Associate Channel" : (pkg.channelPartner || "Associate Channel")}</span>
+                      <span>{pkg.channelPartner === "Associate Channel Partner" || pkg.channelPartner === "Associated Channels" ? "Associate Channel" : (pkg.channelPartner || "Associate Channel")}</span>
                     </div>
                   )}
                 </div>
