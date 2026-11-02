@@ -101,6 +101,17 @@ export default function RootLayout({ children }) {
               logo: "https://www.aidigital.biz/Logo.png",
               description:
                 "AI-powered digital marketing for SEO, performance campaigns, social growth, design, and analytics.",
+              telephone: "+919096090701",
+              email: "aidigitalbiz01@gmail.com",
+              hasMap: "https://maps.app.goo.gl/ouQRtxBcSQCpJdZW9",
+              address: {
+                "@type": "PostalAddress",
+                streetAddress: "Office No: 315, Boulevard Tower, Bramha Corp, Sadhu Vaswani Chowk, Camp",
+                addressLocality: "Pune",
+                addressRegion: "Maharashtra",
+                postalCode: "411001",
+                addressCountry: "IN",
+              },
             }),
           }}
         />

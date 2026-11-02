@@ -225,13 +225,18 @@ export default function PricingClientPage() {
                     <strong>{currentIndustry.contactWebsite || "www.aidigital.biz"}</strong>
                   </div>
                 </a>
-                <div className="builder-strip-item">
+                <a
+                  href="https://maps.app.goo.gl/ouQRtxBcSQCpJdZW9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="builder-strip-item"
+                >
                   <span className="material-symbols-outlined">location_on</span>
                   <div>
                     <span className="strip-label">OUR LOCATION</span>
-                    <strong>{currentIndustry.contactLocation || "Pune, Maharashtra"}</strong>
+                    <strong>{currentIndustry.contactLocation || "Camp, Pune"}</strong>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
 

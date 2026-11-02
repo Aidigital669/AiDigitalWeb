@@ -6,7 +6,11 @@ import { useVisibility } from "../context/VisibilityContext";
 const footerGroups = [
   {
     title: "Contact",
-    items: ["Office: +91-9096090701", "aidigitalbiz01@gmail.com"]
+    items: [
+      "Office: +91-9096090701",
+      "aidigitalbiz01@gmail.com",
+      "Office No: 315, Boulevard Tower, Bramha Corp, Sadhu Vaswani Chowk, Camp, Pune, Maharashtra 411001"
+    ]
   },
   {
     title: "Services",
@@ -187,8 +191,9 @@ export function SiteFooter() {
   };
 
   const getHref = (item) => {
-    if (item.startsWith("Office:")) return "tel:+919096090701";
+    if (item.includes("+919096090701") || item.includes("+91-9096090701")) return "tel:+919096090701";
     if (item.includes("@")) return `mailto:${item}`;
+    if (item.includes("Boulevard Tower") || item.includes("Sadhu Vaswani") || item.includes("Pune")) return "https://maps.app.goo.gl/ouQRtxBcSQCpJdZW9";
     if (item === "Pricing") return "/pricing";
     if (item === "Our Portfolio") return "/portfolio";
     if (item === "Articles") return "/blog";
@@ -210,6 +215,18 @@ export function SiteFooter() {
             businesses improve visibility, engagement, leads and measurable growth.
           </p>
           <div className="socials">
+            {/* Google My Business (GMB) / Google Maps */}
+            <a
+              href="https://maps.app.goo.gl/ouQRtxBcSQCpJdZW9"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Google Business Profile & Location (GMB)"
+              title="Google Business Profile & Location (GMB)"
+            >
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+              </svg>
+            </a>
             {/* Instagram */}
             <a href="https://www.instagram.com/aidigitalbiz01/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
@@ -242,9 +259,27 @@ export function SiteFooter() {
           return (
             <div className="footer-column" key={group.title}>
               <h3>{group.title}</h3>
-              {visibleItems.map((item) => (
-                <a href={getHref(item)} key={item}>{item}</a>
-              ))}
+              {visibleItems.map((item) => {
+                const href = getHref(item);
+                const isExternal = href.startsWith("http");
+                const isAddress = item.includes("Boulevard Tower") || item.includes("Sadhu Vaswani");
+                return (
+                  <a
+                    href={href}
+                    key={item}
+                    target={isExternal ? "_blank" : undefined}
+                    rel={isExternal ? "noopener noreferrer" : undefined}
+                    style={isAddress ? { lineHeight: "1.5", marginTop: "4px" } : undefined}
+                  >
+                    {isAddress ? (
+                      <span style={{ display: "inline-flex", alignItems: "flex-start", gap: "6px" }}>
+                        <span className="material-symbols-outlined" style={{ fontSize: "16px", color: "var(--cta-gold)", marginTop: "2px", flexShrink: 0 }}>location_on</span>
+                        <span>{item}</span>
+                      </span>
+                    ) : item}
+                  </a>
+                );
+              })}
             </div>
           );
         })}
