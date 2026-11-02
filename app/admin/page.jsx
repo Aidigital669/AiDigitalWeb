@@ -1143,7 +1143,7 @@ export default function AdminPage() {
 
         <div style={styles.loginCard}>
           <div style={styles.logoRow}>
-            <img src="/Logo.ai.png" alt="AI Digital Logo" style={{ height: "45px", width: "auto", objectFit: "contain" }} />
+            <img src="/Logo.png" alt="AI Digital Logo" style={{ height: "45px", width: "auto", objectFit: "contain" }} />
           </div>
           <p style={styles.loginSubtitle}>Sign in to manage your premium assets</p>
           <form onSubmit={handleLogin} style={styles.loginForm}>
@@ -1191,7 +1191,7 @@ export default function AdminPage() {
       {/* Admin Header */}
       <header style={styles.header}>
         <div style={styles.headerLeft}>
-          <img src="/Logo.ai.png" alt="AI Digital Logo" style={{ height: "32px", width: "auto", objectFit: "contain" }} />
+          <img src="/Logo.png" alt="AI Digital Logo" style={{ height: "32px", width: "auto", objectFit: "contain" }} />
           <div style={{ marginLeft: "12px", borderLeft: "1px solid rgba(255, 255, 255, 0.15)", paddingLeft: "12px" }}>
             <span style={{ fontSize: "12px", fontWeight: "600", color: "#94a3b8", textTransform: "uppercase", letterSpacing: "0.05em" }}>Admin Panel</span>
           </div>

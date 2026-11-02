@@ -555,9 +555,9 @@ export default function PricingPopup({ dialogRef }) {
         <div className="popup-compact-header">
           <div className="popup-compact-brand">
             <Image
-              src="/Logo.ai.png"
+              src="/Logo.png"
               alt="AI Digital"
-              width={48}
+              width={85}
               height={48}
               className="popup-header-logo"
               priority

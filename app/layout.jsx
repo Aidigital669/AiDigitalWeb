@@ -49,9 +49,9 @@ export const metadata = {
     type: "website",
     images: [
       {
-        url: "https://www.aidigital.biz/Logo.ai.png",
-        width: 800,
-        height: 600,
+        url: "https://www.aidigital.biz/Logo.png",
+        width: 1600,
+        height: 900,
         alt: "AI Digital Logo",
       },
     ],
@@ -61,7 +61,7 @@ export const metadata = {
     title: "AI Digital | Neural Growth Marketing",
     description:
       "AI-powered digital marketing for SEO, performance campaigns, social growth, design, and analytics.",
-    images: ["https://www.aidigital.biz/Logo.ai.png"],
+    images: ["https://www.aidigital.biz/Logo.png"],
   },
   verification: {
     google: "google8aec74b2f55ad942",
@@ -85,7 +85,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${sora.variable}`}>
       <head>
-        <link rel="icon" href="/Logo.ai.png" type="image/png" />
+        <link rel="icon" href="/Logo.png" type="image/png" />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
@@ -98,7 +98,7 @@ export default function RootLayout({ children }) {
               "@type": "Organization",
               name: "AI Digital",
               url: "https://www.aidigital.biz",
-              logo: "https://www.aidigital.biz/Logo.ai.png",
+              logo: "https://www.aidigital.biz/Logo.png",
               description:
                 "AI-powered digital marketing for SEO, performance campaigns, social growth, design, and analytics.",
             }),

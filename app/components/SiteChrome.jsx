@@ -43,7 +43,7 @@ export function Icon({ name, className = "" }) {
 export function Logo() {
   return (
     <a className="logo" href="/" aria-label="AI Digital home">
-      <Image src="/Logo.ai.png" alt="AI Digital Logo" width={180} height={56} priority />
+      <Image src="/Logo.png" alt="AI Digital Logo" width={180} height={101} priority />
     </a>
   );
 }

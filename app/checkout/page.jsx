@@ -329,7 +329,7 @@ function CheckoutContent() {
         currency: "INR",
         name: "AI Digital",
         description: `${checkoutPlanTitle} Purchase`,
-        image: "/Logo.ai.png",
+        image: "/Logo.png",
         order_id: data.orderId,
         handler: async function (paymentResponse) {
           try {

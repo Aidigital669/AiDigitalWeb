@@ -86,7 +86,7 @@ export default async function BlogSlugLayout({ children, params }) {
       name: "AI Digital",
       logo: {
         "@type": "ImageObject",
-        url: "https://www.aidigital.biz/Logo.ai.png"
+        url: "https://www.aidigital.biz/Logo.png"
       }
     }
   };
