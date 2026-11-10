@@ -5,37 +5,55 @@ import Image from "next/image";
 import { useCart } from "../hooks/useCart";
 import { useRouter } from "next/navigation";
 
-const defaultCpTiers = [
+const defaultPopupOptions = [
+  {
+    id: "builder_complete_2lac_3mo",
+    title: "Builder Package",
+    shortLabel: "🏢 Builder (₹2L)",
+    price: 200000,
+    priceDisplay: "2 LAC",
+    period: "/ 3 MONTHS",
+    monthlyEffective: "₹66,667 Effective per Month",
+    scopeName: "Complete Builder Package",
+    badge: "Digital Marketing Partner for Real Estate Builders",
+    isBuilder: true
+  },
   {
     id: "cp_80l",
-    name: "Project Upto ₹80 Lakh",
-    ticketScope: "Project upto ₹80 Lakh",
-    shortLabel: "Upto ₹80L",
+    title: "Project Upto ₹80L",
+    shortLabel: "🤝 Upto ₹80L (₹75k)",
     price: 75000,
     priceDisplay: "75,000",
-    period: "for 3 Months",
-    monthlyEffective: "₹25,000 Effective per Month"
+    period: "/ 3 MONTHS",
+    monthlyEffective: "₹25,000 Effective per Month",
+    scopeName: "Project upto ₹80 Lakh",
+    badge: "Digital Marketing Partner for Real Estate Channel Partners",
+    isBuilder: false
   },
   {
     id: "cp_1_5cr",
-    name: "Project ₹80 Lakh to ₹1.5 Cr",
-    ticketScope: "Project ₹80 Lakh to ₹1.5 Cr",
-    shortLabel: "₹80L - ₹1.5Cr",
+    title: "₹80L to ₹1.5 Cr",
+    shortLabel: "🤝 ₹80L-1.5Cr (₹90k)",
     price: 90000,
     priceDisplay: "90,000",
-    period: "for 3 Months",
+    period: "/ 3 MONTHS",
     monthlyEffective: "₹30,000 Effective per Month",
-    popular: true
+    popular: true,
+    scopeName: "Project ₹80 Lakh to ₹1.5 Cr",
+    badge: "Digital Marketing Partner for Real Estate Channel Partners",
+    isBuilder: false
   },
   {
     id: "cp_3cr",
-    name: "Project ₹1.5 Cr to ₹3 Cr",
-    ticketScope: "Project ₹1.5 Cr to ₹3 Cr",
-    shortLabel: "₹1.5Cr - ₹3Cr",
+    title: "₹1.5 Cr to ₹3 Cr",
+    shortLabel: "🤝 ₹1.5Cr-3Cr (₹1.5L)",
     price: 150000,
     priceDisplay: "1.5 Lakh",
-    period: "for 3 Months",
-    monthlyEffective: "₹50,000 Effective per Month"
+    period: "/ 3 MONTHS",
+    monthlyEffective: "₹50,000 Effective per Month",
+    scopeName: "Project ₹1.5 Cr to ₹3 Cr",
+    badge: "Digital Marketing Partner for Real Estate Channel Partners",
+    isBuilder: false
   }
 ];
 
@@ -78,7 +96,7 @@ const defaultIndustries = [
 export default function PricingPopup({ dialogRef }) {
   const [industryList, setIndustryList] = useState(defaultIndustries);
   const [selectedIndustry, setSelectedIndustry] = useState("real-estate");
-  const [selectedTierId, setSelectedTierId] = useState("cp_80l");
+  const [selectedOptionId, setSelectedOptionId] = useState("builder_complete_2lac_3mo");
   const { addToCart, clearCart } = useCart();
   const router = useRouter();
 
@@ -108,28 +126,29 @@ export default function PricingPopup({ dialogRef }) {
   const currentIndustry =
     industryList.find((i) => i.id === selectedIndustry) || industryList[0] || defaultIndustries[0];
   const pkg = currentIndustry?.package || defaultIndustries[0].package;
-  const tiers = pkg.tiers || defaultCpTiers;
-  const activeTier = tiers.find((t) => t.id === selectedTierId) || tiers[0];
+  const activeOption = defaultPopupOptions.find((o) => o.id === selectedOptionId) || defaultPopupOptions[0];
 
   const handleBuyNow = () => {
     clearCart();
-    const planName = `${pkg.name} (${activeTier.ticketScope || activeTier.name})`;
+    const planName = activeOption.isBuilder
+      ? "Complete Digital Marketing Package for Builders"
+      : `Real Estate Channel Partner Plan (${activeOption.scopeName})`;
     const featureTitles = (pkg.features || []).map((f) => (typeof f === "string" ? f : f.title));
     addToCart({
-      id: activeTier.id || pkg.id || `plan_${currentIndustry.id}`,
+      id: activeOption.id,
       name: planName,
-      price: Number(activeTier.price) || 75000,
+      price: Number(activeOption.price) || 200000,
       period: "/3 months",
       features: featureTitles
     });
     if (dialogRef.current) {
       dialogRef.current.close();
     }
-    router.push(`/checkout?plan=${encodeURIComponent(planName)}&price=${activeTier.price}`);
+    router.push(`/checkout?plan=${encodeURIComponent(planName)}&price=${activeOption.price}`);
   };
 
   const getWhatsAppInquiryUrl = () => {
-    const msg = `Hi AiDigital team! I am interested in the ${currentIndustry.name} Channel Partner package for ${activeTier.ticketScope || activeTier.name} (₹${activeTier.priceDisplay} for 3 Months). Please connect with me.`;
+    const msg = `Hi AiDigital team! I am interested in the ${activeOption.scopeName} (₹${activeOption.priceDisplay} for 3 Months). Please connect with me.`;
     return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
   };
 
@@ -677,7 +696,7 @@ export default function PricingPopup({ dialogRef }) {
             <div className="popup-badge-row">
               <span className="popup-mini-badge">
                 <span className="material-symbols-outlined">verified</span>
-                {currentIndustry.badge || "Digital Marketing Partner for Real Estate Channel Partners"}
+                {activeOption.badge}
               </span>
               <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#B9974F", color: "#1e4d42" }}>
                 <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>handshake</span>
@@ -685,17 +704,17 @@ export default function PricingPopup({ dialogRef }) {
               </span>
             </div>
 
-            {/* 3 Ticket Size Options */}
+            {/* Builder vs CP Options Selector Strip */}
             <div className="popup-cp-options-strip">
-              {tiers.map((t) => (
+              {defaultPopupOptions.map((opt) => (
                 <button
-                  key={t.id}
+                  key={opt.id}
                   type="button"
-                  onClick={() => setSelectedTierId(t.id)}
-                  className={`popup-cp-option-pill ${selectedTierId === t.id ? "active" : ""}`}
+                  onClick={() => setSelectedOptionId(opt.id)}
+                  className={`popup-cp-option-pill ${selectedOptionId === opt.id ? "active" : ""}`}
                 >
-                  <span className="popup-cp-pill-title">{t.shortLabel || t.ticketScope || t.name}</span>
-                  <span className="popup-cp-pill-price">₹{t.priceDisplay}</span>
+                  <span className="popup-cp-pill-title">{opt.shortLabel}</span>
+                  <span className="popup-cp-pill-price">₹{opt.priceDisplay}</span>
                 </button>
               ))}
             </div>
@@ -703,18 +722,18 @@ export default function PricingPopup({ dialogRef }) {
             <div className="popup-compact-price-wrap">
               <div className="popup-c-price-left">
                 <span className="popup-c-currency">₹</span>
-                <span className="popup-c-amount">{activeTier.priceDisplay}</span>
+                <span className="popup-c-amount">{activeOption.priceDisplay}</span>
                 <span style={{ fontSize: "14px", fontWeight: "800", color: "#B9974F", marginLeft: "4px" }}>+ GST</span>
               </div>
               <div className="popup-c-price-right">
-                <span className="popup-c-period-pill">{activeTier.period || "/ 3 MONTHS"}</span>
+                <span className="popup-c-period-pill">{activeOption.period || "/ 3 MONTHS"}</span>
                 <div className="popup-c-effective">
                   <span className="material-symbols-outlined">payments</span>
                   <span>
-                    {activeTier.monthlyEffective || "₹25,000 Effective per Month"}
+                    {activeOption.monthlyEffective || "₹66,667 Effective per Month"}
                   </span>
                 </div>
-                <span className="popup-c-engine-tag">{activeTier.ticketScope || activeTier.name}</span>
+                <span className="popup-c-engine-tag">{activeOption.scopeName}</span>
               </div>
             </div>
 
@@ -739,7 +758,7 @@ export default function PricingPopup({ dialogRef }) {
             {/* CTAs */}
             <div className="popup-compact-ctas">
               <button onClick={handleBuyNow} className="popup-c-btn-buy">
-                <span>Select Plan & Buy Now (₹{activeTier.priceDisplay})</span>
+                <span>Select Plan & Buy Now (₹{activeOption.priceDisplay})</span>
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
 

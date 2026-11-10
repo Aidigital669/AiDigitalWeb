@@ -174,20 +174,27 @@ function CheckoutContent() {
     )
   );
 
-  // Detect whether the selected plan is a Channel Partner (CP) or Real Estate plan
+  // Detect whether the selected plan is the 2 LAC Builder Package
+  const isBuilderPlan = Boolean(
+    selectedItem && (
+      selectedItem.id === "builder_complete_2lac_3mo" ||
+      (selectedItem.id?.includes("builder") && !selectedItem.id?.includes("cp_")) ||
+      /builder/i.test(selectedItem.name || "") ||
+      (itemPrice === 200000 && !selectedItem.id?.includes("cp_"))
+    )
+  );
+
+  // Detect whether the selected plan is a Channel Partner (CP) plan
   const isCpPlan = Boolean(
+    !isBuilderPlan &&
     selectedItem && (
       selectedItem.id?.includes("cp_") ||
-      selectedItem.id?.includes("builder_") ||
-      selectedItem.id?.includes("real-estate") ||
       /channel\s*partner/i.test(selectedItem.name || "") ||
-      /real\s*estate/i.test(selectedItem.name || "") ||
-      /project/i.test(selectedItem.name || "") ||
-      selectedItem.name?.toLowerCase().includes("complete digital marketing") ||
+      /project\s*upto/i.test(selectedItem.name || "") ||
+      /project\s*₹/i.test(selectedItem.name || "") ||
       itemPrice === 75000 ||
       itemPrice === 90000 ||
-      itemPrice === 150000 ||
-      itemPrice === 200000
+      itemPrice === 150000
     )
   );
 
@@ -236,6 +243,36 @@ function CheckoutContent() {
     }
   };
 
+  const handleSwitchToBuilder = () => {
+    clearCart();
+    addToCart({
+      id: "builder_complete_2lac_3mo",
+      name: "Complete Digital Marketing Package for Builders",
+      price: 200000,
+      period: "/3 months",
+      features: [
+        "WhatsApp Marketing + Quality Data",
+        "Leads Calling",
+        "Project Website & Landing Page",
+        "Meta & Youtube & Google Ads",
+        "Reels & Short-Form Content",
+        "AI Promotional Videos",
+        "Associated Channels",
+        "Campaign Monitoring & Optimization"
+      ]
+    });
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("plan", "Complete Digital Marketing Package for Builders");
+      url.searchParams.set("price", "200000");
+      window.history.replaceState({}, "", url.toString());
+    }
+  };
+
+  const handleSwitchToCp = () => {
+    handleSelectCpTier(CP_TIERS[0]);
+  };
+
   const [duration, setDuration] = useState(
     isPredefinedSixMonth ? 6 : isPredefinedThreeMonth ? 3 : isPredefinedTwoMonth ? 2 : 1
   );
@@ -252,12 +289,14 @@ function CheckoutContent() {
     }
   }, [selectedItem?.name, isPredefinedThreeMonth, isPredefinedSixMonth, isPredefinedTwoMonth]);
 
-  const isSixMonth = !isCpPlan && (isPredefinedSixMonth || duration === 6);
-  const isThreeMonth = isCpPlan || (!isSixMonth && (isPredefinedThreeMonth || duration === 3));
-  const isTwoMonth = !isCpPlan && !isSixMonth && !isThreeMonth && (isPredefinedTwoMonth || duration === 2);
+  const isSixMonth = !isCpPlan && !isBuilderPlan && (isPredefinedSixMonth || duration === 6);
+  const isThreeMonth = isBuilderPlan || isCpPlan || (!isSixMonth && (isPredefinedThreeMonth || duration === 3));
+  const isTwoMonth = !isCpPlan && !isBuilderPlan && !isSixMonth && !isThreeMonth && (isPredefinedTwoMonth || duration === 2);
 
   // Calculate base price before discounts:
-  const effectivePrice = isCpPlan
+  const effectivePrice = isBuilderPlan
+    ? 200000
+    : isCpPlan
     ? activeCpTier.price
     : isPredefinedSixMonth
     ? itemPrice
@@ -408,7 +447,9 @@ function CheckoutContent() {
     }
 
     try {
-      const checkoutPlanTitle = isCpPlan
+      const checkoutPlanTitle = isBuilderPlan
+        ? "Complete Digital Marketing Package for Builders (3 Months Plan)"
+        : isCpPlan
         ? `Real Estate Channel Partner Plan (${activeCpTier.title}) - 3 Months`
         : `${selectedItem.name}${isSixMonth ? " (6 Months Plan)" : isThreeMonth ? " (3 Months Plan)" : isTwoMonth ? " (2 Months Plan)" : ""}`;
 
@@ -431,7 +472,9 @@ function CheckoutContent() {
       }
 
       // Add extra details in checkout description notes
-      const notesDescription = isCpPlan
+      const notesDescription = isBuilderPlan
+        ? `Package: Complete Builder Package (₹2 LAC) | Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"}`
+        : isCpPlan
         ? `CP Tier: ${activeCpTier.title} (₹${activeCpTier.priceDisplay}) | Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"}`
         : `Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"} | Duration: ${isSixMonth ? "6 Months" : isThreeMonth ? "3 Months" : isTwoMonth ? "2 Months" : "1 Month"}`;
 
@@ -804,6 +847,45 @@ function CheckoutContent() {
                   Order Summary
                 </h2>
 
+                {/* BUILDER PACKAGE HEADER */}
+                {isBuilderPlan && (
+                  <div className="checkout-builder-box" style={{
+                    background: "linear-gradient(135deg, #184137 0%, #0E2822 100%)",
+                    border: "1.5px solid #B9974F",
+                    borderRadius: "16px",
+                    padding: "16px",
+                    marginBottom: "16px",
+                    color: "#FFFFFF"
+                  }}>
+                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", flexWrap: "wrap", gap: "8px" }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                        <span className="material-symbols-outlined" style={{ color: "#FAD978", fontSize: "24px" }}>apartment</span>
+                        <div>
+                          <span style={{ fontSize: "10px", fontWeight: "800", color: "#FAD978", letterSpacing: "0.08em", textTransform: "uppercase", display: "block" }}>
+                            BUILDERS &amp; DEVELOPERS PACKAGE
+                          </span>
+                          <strong style={{ fontSize: "15px", color: "#FFFFFF" }}>Complete Digital Marketing Engine</strong>
+                        </div>
+                      </div>
+                      <span style={{ background: "rgba(250, 217, 120, 0.2)", border: "1px solid #FAD978", color: "#FAD978", padding: "3px 10px", borderRadius: "99px", fontSize: "11px", fontWeight: "800" }}>
+                        ₹2 LAC / 3 MO
+                      </span>
+                    </div>
+
+                    <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px solid rgba(255, 255, 255, 0.15)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "6px" }}>
+                      <span style={{ fontSize: "11.5px", color: "#CBD5E1" }}>Need a Channel Partner (CP) plan instead?</span>
+                      <button
+                        type="button"
+                        onClick={handleSwitchToCp}
+                        className="checkout-pkg-switch-link"
+                      >
+                        <span className="material-symbols-outlined">swap_horiz</span>
+                        Switch to CP Plans (From ₹75K)
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {/* 3 CHOOSE OPTIONS FOR CHANNEL PARTNER (CP) PLAN */}
                 {isCpPlan && (
                   <div className="checkout-cp-box">
@@ -858,6 +940,18 @@ function CheckoutContent() {
                           </div>
                         );
                       })}
+                    </div>
+
+                    <div style={{ marginTop: "12px", paddingTop: "10px", borderTop: "1px dashed rgba(185, 151, 79, 0.35)", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "6px" }}>
+                      <span style={{ fontSize: "11.5px", color: "#64748B" }}>Are you a Builder / Developer?</span>
+                      <button
+                        type="button"
+                        onClick={handleSwitchToBuilder}
+                        className="checkout-pkg-switch-link"
+                      >
+                        <span className="material-symbols-outlined">swap_horiz</span>
+                        Switch to Builder Package (₹2 LAC)
+                      </button>
                     </div>
                   </div>
                 )}

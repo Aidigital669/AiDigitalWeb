@@ -9286,3 +9286,89 @@ p {
   color: #E2E8F0;
   line-height: 1.25;
 }
+
+
+/* Package Switcher on Pricing Hero (Builder vs Channel Partner) */
+.pricing-pkg-switcher-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 26px;
+}
+
+.pricing-pkg-switcher {
+  display: inline-flex;
+  background: #FFFFFF;
+  border: 1.5px solid var(--cta-gold, #B9974F);
+  border-radius: 999px;
+  padding: 5px;
+  box-shadow: 0 4px 18px rgba(185, 151, 79, 0.18);
+  gap: 6px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pricing-pkg-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 24px;
+  border-radius: 999px;
+  border: none;
+  background: transparent;
+  color: var(--brand-forest, #1E4D42);
+  font-family: var(--font-headline, sans-serif);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  outline: none;
+}
+
+.pricing-pkg-tab:hover {
+  background: var(--brand-forest-soft, #E8EFEA);
+  color: var(--brand-forest-dark, #0E2721);
+}
+
+.pricing-pkg-tab.active {
+  background: var(--brand-forest, #1E4D42) !important;
+  color: #FFFFFF !important;
+  box-shadow: 0 4px 14px rgba(30, 77, 66, 0.28);
+}
+
+.pricing-pkg-tab .material-symbols-outlined {
+  font-size: 18px;
+  color: var(--cta-gold, #B9974F);
+}
+
+.pricing-pkg-tab.active .material-symbols-outlined {
+  color: #FDE68A;
+}
+
+/* Package switch link on checkout */
+.checkout-pkg-switch-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--brand-forest, #1E4D42);
+  background: var(--brand-forest-soft, #E8EFEA);
+  border: 1px solid rgba(30, 77, 66, 0.2);
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+}
+
+.checkout-pkg-switch-link:hover {
+  background: #FFFFFF;
+  border-color: var(--cta-gold, #B9974F);
+  color: var(--cta-gold, #B9974F);
+}
+
+.checkout-pkg-switch-link .material-symbols-outlined {
+  font-size: 15px;
+  color: var(--cta-gold, #B9974F);
+}
