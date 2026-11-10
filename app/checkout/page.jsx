@@ -161,19 +161,6 @@ function CheckoutContent() {
     )
   );
 
-  // Check if this plan is an ongoing ads/marketing plan that can also be toggled
-  const isEligibleForDurationToggle = Boolean(
-    !isCpPlan &&
-    selectedItem && !isPredefinedThreeMonth && !isPredefinedSixMonth && (
-      (selectedItem.period && (
-        selectedItem.period.toLowerCase().includes("month") ||
-        selectedItem.period.toLowerCase().includes("mo")
-      )) ||
-      selectedItem.name?.toLowerCase().includes("ads") ||
-      selectedItem.name?.toLowerCase().includes("marketing")
-    )
-  );
-
   // Detect whether the selected plan is the 2 LAC Builder Package
   const isBuilderPlan = Boolean(
     selectedItem && (
@@ -195,6 +182,20 @@ function CheckoutContent() {
       itemPrice === 75000 ||
       itemPrice === 90000 ||
       itemPrice === 150000
+    )
+  );
+
+  // Check if this plan is an ongoing ads/marketing plan that can also be toggled
+  const isEligibleForDurationToggle = Boolean(
+    !isCpPlan &&
+    !isBuilderPlan &&
+    selectedItem && !isPredefinedThreeMonth && !isPredefinedSixMonth && (
+      (selectedItem.period && (
+        selectedItem.period.toLowerCase().includes("month") ||
+        selectedItem.period.toLowerCase().includes("mo")
+      )) ||
+      selectedItem.name?.toLowerCase().includes("ads") ||
+      selectedItem.name?.toLowerCase().includes("marketing")
     )
   );
 
