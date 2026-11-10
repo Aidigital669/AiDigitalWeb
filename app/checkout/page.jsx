@@ -16,6 +16,49 @@ const REFERRAL_CODES = {
   SHARMA15: { discount: 15, label: "Sharma Marketing - 15% Off" },
 };
 
+// 3 Real Estate Channel Partner (CP) Plan Tiers matching marketing template
+const CP_TIERS = [
+  {
+    id: "cp_80l",
+    title: "Project upto ₹80 Lakh",
+    shortLabel: "Upto ₹80 Lakh",
+    price: 75000,
+    priceDisplay: "75,000",
+    period: "for 3 Months",
+    effectiveMonthly: "₹25,000 Effective per Month",
+    monthlyRate: "₹25,000",
+    icon: "apartment",
+    popular: false,
+    desc: "Affordable & Mid-Segment Residential Units"
+  },
+  {
+    id: "cp_1_5cr",
+    title: "Project ₹80 Lakh to ₹1.5 Cr",
+    shortLabel: "₹80 Lakh - ₹1.5 Cr",
+    price: 90000,
+    priceDisplay: "90,000",
+    period: "for 3 Months",
+    effectiveMonthly: "₹30,000 Effective per Month",
+    monthlyRate: "₹30,000",
+    icon: "domain",
+    popular: true,
+    desc: "Premium 2 & 3 BHK Homes & Developments"
+  },
+  {
+    id: "cp_3cr",
+    title: "Project ₹1.5 Cr to ₹3 Cr",
+    shortLabel: "₹1.5 Cr - ₹3 Cr",
+    price: 150000,
+    priceDisplay: "1.5 Lakh",
+    period: "for 3 Months",
+    effectiveMonthly: "₹50,000 Effective per Month",
+    monthlyRate: "₹50,000",
+    icon: "corporate_fare",
+    popular: false,
+    desc: "High-End Luxury Homes & Commercial Spaces"
+  }
+];
+
 function CheckoutContent() {
   const { isPageVisible } = useVisibility();
   const { items, addToCart, clearCart } = useCart();
@@ -120,6 +163,7 @@ function CheckoutContent() {
 
   // Check if this plan is an ongoing ads/marketing plan that can also be toggled
   const isEligibleForDurationToggle = Boolean(
+    !isCpPlan &&
     selectedItem && !isPredefinedThreeMonth && !isPredefinedSixMonth && (
       (selectedItem.period && (
         selectedItem.period.toLowerCase().includes("month") ||
@@ -129,6 +173,68 @@ function CheckoutContent() {
       selectedItem.name?.toLowerCase().includes("marketing")
     )
   );
+
+  // Detect whether the selected plan is a Channel Partner (CP) or Real Estate plan
+  const isCpPlan = Boolean(
+    selectedItem && (
+      selectedItem.id?.includes("cp_") ||
+      selectedItem.id?.includes("builder_") ||
+      selectedItem.id?.includes("real-estate") ||
+      /channel\s*partner/i.test(selectedItem.name || "") ||
+      /real\s*estate/i.test(selectedItem.name || "") ||
+      /project/i.test(selectedItem.name || "") ||
+      selectedItem.name?.toLowerCase().includes("complete digital marketing") ||
+      itemPrice === 75000 ||
+      itemPrice === 90000 ||
+      itemPrice === 150000 ||
+      itemPrice === 200000
+    )
+  );
+
+  const detectCpTierId = () => {
+    const p = Number(planPrice) || itemPrice;
+    if (p === 75000 || (planName && /80\s*l/i.test(planName))) return "cp_80l";
+    if (p === 90000 || (planName && /1\.5\s*cr/i.test(planName))) return "cp_1_5cr";
+    if (p === 150000 || (planName && /3\s*cr/i.test(planName))) return "cp_3cr";
+    return "cp_80l";
+  };
+
+  const [selectedCpTierId, setSelectedCpTierId] = useState(detectCpTierId);
+
+  useEffect(() => {
+    if (isCpPlan) {
+      setSelectedCpTierId(detectCpTierId());
+    }
+  }, [selectedItem?.name, selectedItem?.price, planName, planPrice, isCpPlan]);
+
+  const activeCpTier = CP_TIERS.find((t) => t.id === selectedCpTierId) || CP_TIERS[0];
+
+  const handleSelectCpTier = (tier) => {
+    setSelectedCpTierId(tier.id);
+    const newPlanName = `Real Estate Channel Partner Plan (${tier.title})`;
+    clearCart();
+    addToCart({
+      id: tier.id,
+      name: newPlanName,
+      price: tier.price,
+      period: "/3 months",
+      features: [
+        `Ticket Scope: ${tier.title}`,
+        tier.effectiveMonthly,
+        "WhatsApp Marketing + Quality Data",
+        "Leads Calling & Verification",
+        "AI Promotional Videos",
+        "Meta Ads, Google & YouTube Ads",
+        "Associated Channels Activation"
+      ]
+    });
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("plan", newPlanName);
+      url.searchParams.set("price", tier.price.toString());
+      window.history.replaceState({}, "", url.toString());
+    }
+  };
 
   const [duration, setDuration] = useState(
     isPredefinedSixMonth ? 6 : isPredefinedThreeMonth ? 3 : isPredefinedTwoMonth ? 2 : 1
@@ -146,12 +252,14 @@ function CheckoutContent() {
     }
   }, [selectedItem?.name, isPredefinedThreeMonth, isPredefinedSixMonth, isPredefinedTwoMonth]);
 
-  const isSixMonth = isPredefinedSixMonth || duration === 6;
-  const isThreeMonth = !isSixMonth && (isPredefinedThreeMonth || duration === 3);
-  const isTwoMonth = !isSixMonth && !isThreeMonth && (isPredefinedTwoMonth || duration === 2);
+  const isSixMonth = !isCpPlan && (isPredefinedSixMonth || duration === 6);
+  const isThreeMonth = isCpPlan || (!isSixMonth && (isPredefinedThreeMonth || duration === 3));
+  const isTwoMonth = !isCpPlan && !isSixMonth && !isThreeMonth && (isPredefinedTwoMonth || duration === 2);
 
   // Calculate base price before discounts:
-  const effectivePrice = isPredefinedSixMonth
+  const effectivePrice = isCpPlan
+    ? activeCpTier.price
+    : isPredefinedSixMonth
     ? itemPrice
     : isPredefinedThreeMonth
     ? itemPrice
@@ -300,7 +408,9 @@ function CheckoutContent() {
     }
 
     try {
-      const checkoutPlanTitle = `${selectedItem.name}${isSixMonth ? " (6 Months Plan)" : isThreeMonth ? " (3 Months Plan)" : isTwoMonth ? " (2 Months Plan)" : ""}`;
+      const checkoutPlanTitle = isCpPlan
+        ? `Real Estate Channel Partner Plan (${activeCpTier.title}) - 3 Months`
+        : `${selectedItem.name}${isSixMonth ? " (6 Months Plan)" : isThreeMonth ? " (3 Months Plan)" : isTwoMonth ? " (2 Months Plan)" : ""}`;
 
       const response = await fetch("/api/razorpay/order", {
         method: "POST",
@@ -321,7 +431,9 @@ function CheckoutContent() {
       }
 
       // Add extra details in checkout description notes
-      const notesDescription = `Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"} | Duration: ${isSixMonth ? "6 Months" : isThreeMonth ? "3 Months" : isTwoMonth ? "2 Months" : "1 Month"}`;
+      const notesDescription = isCpPlan
+        ? `CP Tier: ${activeCpTier.title} (₹${activeCpTier.priceDisplay}) | Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"}`
+        : `Company: ${companyName || "N/A"} | Biz: ${businessCategory || "N/A"} | Duration: ${isSixMonth ? "6 Months" : isThreeMonth ? "3 Months" : isTwoMonth ? "2 Months" : "1 Month"}`;
 
       const options = {
         key: process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID || "rzp_test_7fK8bF9H1k6Y3a",
@@ -692,6 +804,64 @@ function CheckoutContent() {
                   Order Summary
                 </h2>
 
+                {/* 3 CHOOSE OPTIONS FOR CHANNEL PARTNER (CP) PLAN */}
+                {isCpPlan && (
+                  <div className="checkout-cp-box">
+                    <div className="checkout-cp-box-header">
+                      <div className="checkout-cp-box-title-wrap">
+                        <span className="material-symbols-outlined checkout-cp-header-icon">apartment</span>
+                        <div>
+                          <span className="checkout-cp-box-badge">REAL ESTATE CP PLANS</span>
+                          <h4 className="checkout-cp-box-title">Choose Project Ticket Size:</h4>
+                        </div>
+                      </div>
+                      <span className="checkout-cp-box-hint">3 Options Available</span>
+                    </div>
+
+                    <div className="checkout-cp-options-grid">
+                      {CP_TIERS.map((tier) => {
+                        const isSelected = activeCpTier.id === tier.id;
+                        return (
+                          <div
+                            key={tier.id}
+                            onClick={() => handleSelectCpTier(tier)}
+                            className={`checkout-cp-card ${isSelected ? "selected" : ""}`}
+                            role="button"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                handleSelectCpTier(tier);
+                              }
+                            }}
+                          >
+                            {tier.popular && (
+                              <span className="checkout-cp-card-popular">POPULAR</span>
+                            )}
+
+                            <div className="checkout-cp-card-top">
+                              <span className="material-symbols-outlined checkout-cp-bldg-icon">{tier.icon}</span>
+                              <span className="material-symbols-outlined checkout-cp-radio-icon">
+                                {isSelected ? "check_circle" : "radio_button_unchecked"}
+                              </span>
+                            </div>
+
+                            <h5 className="checkout-cp-card-title">{tier.title}</h5>
+
+                            <div className="checkout-cp-card-pill">
+                              <strong>₹{tier.priceDisplay}</strong>
+                              <small>for 3 Months</small>
+                            </div>
+
+                            <div className="checkout-cp-card-effective">
+                              {tier.effectiveMonthly}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+
                 {/* Selected Plan Details */}
                 <div style={{
                   padding: "18px",
@@ -702,7 +872,7 @@ function CheckoutContent() {
                 }}>
                   <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", gap: "10px" }}>
                     <h3 style={{ fontSize: "1.2rem", fontWeight: "800", color: "var(--text)", margin: 0 }}>
-                      {selectedItem.name}
+                      {isCpPlan ? `Real Estate Channel Partner Plan (${activeCpTier.title})` : selectedItem.name}
                     </h3>
                     {discountPercent > 0 && (
                       <span style={{
@@ -723,28 +893,32 @@ function CheckoutContent() {
                   <div style={{ fontSize: "1.5rem", fontWeight: "800", color: "var(--text)", marginTop: "8px" }}>
                     ₹{effectivePrice.toLocaleString("en-IN")}
                     <span style={{ fontSize: "0.85rem", color: "var(--muted)", fontWeight: "500", marginLeft: "6px" }}>
-                      {isSixMonth ? "/ 6 months" : isThreeMonth ? "/ 3 months" : isTwoMonth ? "/ 2 months" : (selectedItem.period || "")}
+                      {isCpPlan ? "/ 3 months" : isSixMonth ? "/ 6 months" : isThreeMonth ? "/ 3 months" : isTwoMonth ? "/ 2 months" : (selectedItem.period || "")}
                     </span>
                   </div>
 
-                  {(isSixMonth || isThreeMonth || isTwoMonth) && (
+                  {(isCpPlan || isSixMonth || isThreeMonth || isTwoMonth) && (
                     <div style={{
                       marginTop: "10px",
                       padding: "8px 12px",
-                      background: isSixMonth ? "#eff6ff" : "#f0fdf4",
-                      border: isSixMonth ? "1px solid #bfdbfe" : "1px solid #bbf7d0",
+                      background: isCpPlan ? "#f0fdf4" : isSixMonth ? "#eff6ff" : "#f0fdf4",
+                      border: isCpPlan ? "1px solid #bbf7d0" : isSixMonth ? "1px solid #bfdbfe" : "1px solid #bbf7d0",
                       borderRadius: "10px",
                       fontSize: "0.84rem",
-                      color: isSixMonth ? "#1e40af" : "#166534",
+                      color: isCpPlan ? "#166534" : isSixMonth ? "#1e40af" : "#166534",
                       display: "flex",
                       alignItems: "center",
                       justifyContent: "space-between"
                     }}>
                       <span style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-                        <span className="material-symbols-outlined" style={{ fontSize: "16px", color: isSixMonth ? "#2563eb" : "#16a34a" }}>schedule</span>
+                        <span className="material-symbols-outlined" style={{ fontSize: "16px", color: isCpPlan ? "#16a34a" : isSixMonth ? "#2563eb" : "#16a34a" }}>schedule</span>
                         Monthly Estimation:
                       </span>
-                      <strong>≈ ₹{Math.round(netAmount / (isSixMonth ? 6 : isThreeMonth ? 3 : 2)).toLocaleString("en-IN")} / month</strong>
+                      <strong>
+                        {isCpPlan
+                          ? `${activeCpTier.effectiveMonthly.replace(" Effective per Month", "")} / month`
+                          : `≈ ₹${Math.round(netAmount / (isSixMonth ? 6 : isThreeMonth ? 3 : 2)).toLocaleString("en-IN")} / month`}
+                      </strong>
                     </div>
                   )}
 

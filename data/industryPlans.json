@@ -3,24 +3,60 @@
     {
       "id": "real-estate",
       "name": "Real Estate",
-      "badge": "Digital Marketing Partner for Real Estate",
-      "bannerImage": "/Price.jpeg",
+      "badge": "Digital Marketing Partner for Real Estate Channel Partners",
+      "tagline": "Your Success Our Business",
+      "bannerImage": "/Price_CP.jpg",
       "contactPhone": "9096090701",
       "contactWebsite": "www.aidigital.biz",
-      "contactLocation": "Pune, Maharashtra",
+      "contactLocation": "Office No: 315, Boulevard Tower, Bramha Corp, Sadhu Vaswani Chowk, Camp, Pune, Maharashtra 411001",
       "package": {
-        "id": "builder_complete_2lac_3mo",
-        "name": "Complete Digital Marketing Package",
-        "hook": "COMPLETE DIGITAL MARKETING PACKAGE",
-        "headline": "Digital Marketing Partner for Real Estate",
-        "subtitle": "Scale Property Sales, Site Visits & Closings",
+        "id": "cp_growth_engine_3mo",
+        "name": "Real Estate Channel Partner Marketing Plan",
+        "hook": "REAL ESTATE CHANNEL PARTNER MARKETING PACKAGE",
+        "headline": "Digital Marketing Partner for Real Estate Channel Partners",
+        "subtitle": "Your Success Our Business — Scale Property Sales, Site Visits & Closings",
         "channelPartner": "AI DIGITAL ASSOCIATE CHANNEL",
-        "price": 200000,
-        "priceDisplay": "2 LAC",
+        "price": 75000,
+        "priceDisplay": "75,000",
         "period": "FOR 3 MONTHS",
+        "tiers": [
+          {
+            "id": "cp_80l",
+            "name": "Project Upto ₹80 Lakh",
+            "ticketScope": "Project upto ₹80 Lakh",
+            "price": 75000,
+            "priceDisplay": "75,000",
+            "period": "for 3 Months",
+            "monthlyEffective": "₹25,000 Effective per Month",
+            "icon": "apartment",
+            "popular": false
+          },
+          {
+            "id": "cp_1_5cr",
+            "name": "Project ₹80 Lakh to ₹1.5 Cr",
+            "ticketScope": "Project ₹80 Lakh to ₹1.5 Cr",
+            "price": 90000,
+            "priceDisplay": "90,000",
+            "period": "for 3 Months",
+            "monthlyEffective": "₹30,000 Effective per Month",
+            "icon": "domain",
+            "popular": true
+          },
+          {
+            "id": "cp_3cr",
+            "name": "Project ₹1.5 Cr to ₹3 Cr",
+            "ticketScope": "Project ₹1.5 Cr to ₹3 Cr",
+            "price": 150000,
+            "priceDisplay": "1.5 Lakh",
+            "period": "for 3 Months",
+            "monthlyEffective": "₹50,000 Effective per Month",
+            "icon": "corporate_fare",
+            "popular": false
+          }
+        ],
         "features": [
           { "title": "WhatsApp Marketing + Quality Data", "desc": "Automated broadcast, instant brochure sharing & verified buyer data", "icon": "chat" },
-          { "title": "Leads Calling", "desc": "Proactive buyer outreach, tele-calling & phone qualification for inquiries", "icon": "call" },
+          { "title": "Leads Calling & Verification", "desc": "Proactive buyer outreach, tele-calling & phone qualification for inquiries", "icon": "call" },
           { "title": "Project Website & Landing Page", "desc": "High-CRO launch microsite with floor plans & automated lead capture funnels", "icon": "desktop_windows" },
           { "title": "Meta & Youtube & Google Ads", "desc": "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", "icon": "bar_chart" },
           { "title": "Reels & Short-Form Content", "desc": "Engaging property reels showcasing amenities, site progress & walkthroughs", "icon": "smart_display" },
@@ -37,12 +73,16 @@
       },
       "faqs": [
         {
-          "question": "What is included in the ₹2 Lac Complete Real Estate Marketing Package?",
-          "answer": "This package provides a comprehensive 3-month growth engine for builders, developers, and real estate channel partners. It includes WhatsApp Marketing + Quality Data, Leads Calling, Project Website & Landing Page, Meta & Youtube & Google Ads, Reels & Short-Form Content, AI Promotional Videos, Associated Channels support, and Campaign Monitoring & Optimization."
+          "question": "What are the 3 Channel Partner (CP) plan options based on ticket size?",
+          "answer": "Our Real Estate Channel Partner Plan has 3 tailored options based on property ticket size: (1) Project upto ₹80 Lakh at ₹75,000 for 3 Months (₹25,000/mo), (2) Project ₹80 Lakh to ₹1.5 Cr at ₹90,000 for 3 Months (₹30,000/mo), and (3) Project ₹1.5 Cr to ₹3 Cr at ₹1.5 Lakh for 3 Months (₹50,000/mo). You can choose your option directly on the checkout page or pricing card."
         },
         {
-          "question": "Does the ₹2 Lac fee include advertising budget or is it separate?",
-          "answer": "The ₹2 Lac fee covers our full agency management, creative production, video development, landing page building, lead qualification team, and strategy for all 3 months. Ad spend (paid directly to Meta and Google) is separate and determined based on your target unit sales, inventory ticket size, and project locality. We help you set an optimal ad budget with zero wastage."
+          "question": "What is included across all CP marketing package options?",
+          "answer": "Every tier includes WhatsApp Marketing + Quality Data, Leads Calling & Qualification, Project Landing Page, Meta Ads & Google Search Ads management, Reels & Short-Form Content, AI Promotional Videos, Associated Channels CP network activation, and daily Campaign Optimization."
+        },
+        {
+          "question": "Does the fee include advertising budget or is it separate?",
+          "answer": "The fee covers agency execution, creative production, video generation, landing page development, tele-calling lead qualification, and strategic management for the full 3-month cycle. Ad spend (paid directly to Meta and Google) is separate so you maintain 100% control over your daily ad budget without markups."
         },
         {
           "question": "How does the Associated Channels collaboration work?",
@@ -54,23 +94,15 @@
         },
         {
           "question": "How quickly will our project website and campaigns go live?",
-          "answer": "We execute rapidly. Your custom project landing page, ad creatives, and campaign setup will be fully configured and launched within 5 to 7 business days from onboarding and receiving your project collateral."
-        },
-        {
-          "question": "What types of real estate projects is this package best suited for?",
-          "answer": "This package is specifically engineered for residential apartment launches, luxury villa developments, commercial retail/office spaces, and plotted townships seeking predictable, high-volume buyer inquiries and booked site visits."
+          "answer": "We execute rapidly. Your custom project landing page, ad creatives, WhatsApp funnels, and campaigns will be fully configured and launched within 5 to 7 business days from onboarding and collateral collection."
         },
         {
           "question": "Do we get complete ownership of the landing page, videos, and leads?",
           "answer": "Yes, 100%. All landing pages, domain configurations, AI promotional videos, ad creative designs, and prospective buyer databases belong exclusively to your firm."
         },
         {
-          "question": "How do we monitor performance and communicate with your team?",
-          "answer": "You receive a dedicated Growth Account Manager. You get live lead alerts on WhatsApp/Email, weekly analytical reports tracking Cost Per Lead (CPL) and site visits, and scheduled bi-weekly review calls."
-        },
-        {
-          "question": "How do I get started with the ₹2 Lac Builder Package?",
-          "answer": "You can click 'Select Plan & Get Started' to initiate onboarding online, message us on WhatsApp, or call our team directly at 9096090701. We will schedule a kickoff session within 24 hours."
+          "question": "How do I get started with the Channel Partner Plan?",
+          "answer": "Click 'Select Plan & Get Started' to proceed to checkout where you can choose your project ticket size option, message us on WhatsApp, or call our team directly at 9096090701. We will schedule a kickoff session within 24 hours."
         }
       ]
     }

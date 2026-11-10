@@ -5,6 +5,40 @@ import Image from "next/image";
 import { useCart } from "../hooks/useCart";
 import { useRouter } from "next/navigation";
 
+const defaultCpTiers = [
+  {
+    id: "cp_80l",
+    name: "Project Upto ₹80 Lakh",
+    ticketScope: "Project upto ₹80 Lakh",
+    shortLabel: "Upto ₹80L",
+    price: 75000,
+    priceDisplay: "75,000",
+    period: "for 3 Months",
+    monthlyEffective: "₹25,000 Effective per Month"
+  },
+  {
+    id: "cp_1_5cr",
+    name: "Project ₹80 Lakh to ₹1.5 Cr",
+    ticketScope: "Project ₹80 Lakh to ₹1.5 Cr",
+    shortLabel: "₹80L - ₹1.5Cr",
+    price: 90000,
+    priceDisplay: "90,000",
+    period: "for 3 Months",
+    monthlyEffective: "₹30,000 Effective per Month",
+    popular: true
+  },
+  {
+    id: "cp_3cr",
+    name: "Project ₹1.5 Cr to ₹3 Cr",
+    ticketScope: "Project ₹1.5 Cr to ₹3 Cr",
+    shortLabel: "₹1.5Cr - ₹3Cr",
+    price: 150000,
+    priceDisplay: "1.5 Lakh",
+    period: "for 3 Months",
+    monthlyEffective: "₹50,000 Effective per Month"
+  }
+];
+
 const defaultIndustries = [
   {
     id: "real-estate",
@@ -44,6 +78,7 @@ const defaultIndustries = [
 export default function PricingPopup({ dialogRef }) {
   const [industryList, setIndustryList] = useState(defaultIndustries);
   const [selectedIndustry, setSelectedIndustry] = useState("real-estate");
+  const [selectedTierId, setSelectedTierId] = useState("cp_80l");
   const { addToCart, clearCart } = useCart();
   const router = useRouter();
 
@@ -73,26 +108,28 @@ export default function PricingPopup({ dialogRef }) {
   const currentIndustry =
     industryList.find((i) => i.id === selectedIndustry) || industryList[0] || defaultIndustries[0];
   const pkg = currentIndustry?.package || defaultIndustries[0].package;
+  const tiers = pkg.tiers || defaultCpTiers;
+  const activeTier = tiers.find((t) => t.id === selectedTierId) || tiers[0];
 
   const handleBuyNow = () => {
     clearCart();
-    const planName = `${pkg.name} (${currentIndustry.name} - ₹${pkg.priceDisplay || pkg.price})`;
+    const planName = `${pkg.name} (${activeTier.ticketScope || activeTier.name})`;
     const featureTitles = (pkg.features || []).map((f) => (typeof f === "string" ? f : f.title));
     addToCart({
-      id: pkg.id || `plan_${currentIndustry.id}`,
+      id: activeTier.id || pkg.id || `plan_${currentIndustry.id}`,
       name: planName,
-      price: Number(pkg.price) || 200000,
+      price: Number(activeTier.price) || 75000,
       period: "/3 months",
       features: featureTitles
     });
     if (dialogRef.current) {
       dialogRef.current.close();
     }
-    router.push("/checkout");
+    router.push(`/checkout?plan=${encodeURIComponent(planName)}&price=${activeTier.price}`);
   };
 
   const getWhatsAppInquiryUrl = () => {
-    const msg = `Hi AiDigital team! I am interested in the ${currentIndustry.name} package (${pkg.name} - ₹${pkg.priceDisplay || pkg.price}). Please connect with me.`;
+    const msg = `Hi AiDigital team! I am interested in the ${currentIndustry.name} Channel Partner package for ${activeTier.ticketScope || activeTier.name} (₹${activeTier.priceDisplay} for 3 Months). Please connect with me.`;
     return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
   };
 
@@ -497,6 +534,50 @@ export default function PricingPopup({ dialogRef }) {
             font-weight: 700;
             color: #5C6460;
           }
+          .popup-cp-options-strip {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin: 10px 0;
+          }
+          .popup-cp-option-pill {
+            background: #F8F5EF;
+            border: 1.5px solid rgba(185, 151, 79, 0.35);
+            border-radius: 10px;
+            padding: 6px 8px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            line-height: 1.2;
+            transition: all 0.2s ease;
+            outline: none;
+          }
+          .popup-cp-option-pill:hover {
+            border-color: #B9974F;
+            background: #FFFFFF;
+          }
+          .popup-cp-option-pill.active {
+            background: #1e4d42;
+            border-color: #B9974F;
+            box-shadow: 0 4px 12px rgba(30, 77, 66, 0.2);
+          }
+          .popup-cp-pill-title {
+            font-size: 10.5px;
+            font-weight: 700;
+            color: #1e4d42;
+          }
+          .popup-cp-option-pill.active .popup-cp-pill-title {
+            color: #FFFFFF;
+          }
+          .popup-cp-pill-price {
+            font-size: 11px;
+            font-weight: 800;
+            color: #B9974F;
+          }
+          .popup-cp-option-pill.active .popup-cp-pill-price {
+            color: #FDE68A;
+          }
           .popup-c-view-all {
             text-align: center;
             margin-top: 8px;
@@ -596,33 +677,44 @@ export default function PricingPopup({ dialogRef }) {
             <div className="popup-badge-row">
               <span className="popup-mini-badge">
                 <span className="material-symbols-outlined">verified</span>
-                {currentIndustry.badge || "Digital Marketing Partner for Real Estate"}
+                {currentIndustry.badge || "Digital Marketing Partner for Real Estate Channel Partners"}
               </span>
-              {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
-                <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#B9974F", color: "#1e4d42" }}>
-                  <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>handshake</span>
-                  <span>AI DIGITAL ASSOCIATE CHANNEL</span>
-                </span>
-              )}
+              <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#B9974F", color: "#1e4d42" }}>
+                <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>handshake</span>
+                <span>AI DIGITAL ASSOCIATE CHANNEL</span>
+              </span>
+            </div>
+
+            {/* 3 Ticket Size Options */}
+            <div className="popup-cp-options-strip">
+              {tiers.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => setSelectedTierId(t.id)}
+                  className={`popup-cp-option-pill ${selectedTierId === t.id ? "active" : ""}`}
+                >
+                  <span className="popup-cp-pill-title">{t.shortLabel || t.ticketScope || t.name}</span>
+                  <span className="popup-cp-pill-price">₹{t.priceDisplay}</span>
+                </button>
+              ))}
             </div>
 
             <div className="popup-compact-price-wrap">
               <div className="popup-c-price-left">
                 <span className="popup-c-currency">₹</span>
-                <span className="popup-c-amount">{pkg.priceDisplay || "2 LAC"}</span>
+                <span className="popup-c-amount">{activeTier.priceDisplay}</span>
                 <span style={{ fontSize: "14px", fontWeight: "800", color: "#B9974F", marginLeft: "4px" }}>+ GST</span>
               </div>
               <div className="popup-c-price-right">
-                <span className="popup-c-period-pill">{pkg.period || "/ 3 MONTHS"}</span>
+                <span className="popup-c-period-pill">{activeTier.period || "/ 3 MONTHS"}</span>
                 <div className="popup-c-effective">
                   <span className="material-symbols-outlined">payments</span>
                   <span>
-                    {pkg.price && typeof pkg.price === "number" && (pkg.period?.includes("3") || !pkg.period)
-                      ? `Effectively ~₹${Math.round(pkg.price / 3).toLocaleString()}/mo`
-                      : "Effectively ~₹66,666/mo"}
+                    {activeTier.monthlyEffective || "₹25,000 Effective per Month"}
                   </span>
                 </div>
-                <span className="popup-c-engine-tag">Full Agency Growth Engine</span>
+                <span className="popup-c-engine-tag">{activeTier.ticketScope || activeTier.name}</span>
               </div>
             </div>
 
@@ -647,7 +739,7 @@ export default function PricingPopup({ dialogRef }) {
             {/* CTAs */}
             <div className="popup-compact-ctas">
               <button onClick={handleBuyNow} className="popup-c-btn-buy">
-                <span>Select Plan & Buy Now (₹{pkg.priceDisplay || "2 LAC"})</span>
+                <span>Select Plan & Buy Now (₹{activeTier.priceDisplay})</span>
                 <span className="material-symbols-outlined">arrow_forward</span>
               </button>
 

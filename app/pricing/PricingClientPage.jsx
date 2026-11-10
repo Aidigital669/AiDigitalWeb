@@ -9,28 +9,65 @@ import useScrollReveal from "../hooks/useScrollReveal";
 import { useVisibility } from "../context/VisibilityContext";
 import PageHiddenNotice from "../components/PageHiddenNotice";
 
+const defaultCpTiers = [
+  {
+    id: "cp_80l",
+    name: "Project Upto ₹80 Lakh",
+    ticketScope: "Project upto ₹80 Lakh",
+    price: 75000,
+    priceDisplay: "75,000",
+    period: "for 3 Months",
+    monthlyEffective: "₹25,000 Effective per Month",
+    icon: "apartment",
+    popular: false
+  },
+  {
+    id: "cp_1_5cr",
+    name: "Project ₹80 Lakh to ₹1.5 Cr",
+    ticketScope: "Project ₹80 Lakh to ₹1.5 Cr",
+    price: 90000,
+    priceDisplay: "90,000",
+    period: "for 3 Months",
+    monthlyEffective: "₹30,000 Effective per Month",
+    icon: "domain",
+    popular: true
+  },
+  {
+    id: "cp_3cr",
+    name: "Project ₹1.5 Cr to ₹3 Cr",
+    ticketScope: "Project ₹1.5 Cr to ₹3 Cr",
+    price: 150000,
+    priceDisplay: "1.5 Lakh",
+    period: "for 3 Months",
+    monthlyEffective: "₹50,000 Effective per Month",
+    icon: "corporate_fare",
+    popular: false
+  }
+];
+
 const defaultIndustries = [
   {
     id: "real-estate",
     name: "Real Estate",
-    badge: "Digital Marketing Partner for Real Estate",
-    bannerImage: "/Price.jpeg",
+    badge: "Digital Marketing Partner for Real Estate Channel Partners",
+    bannerImage: "/Price_CP.jpg",
     contactPhone: "9096090701",
     contactWebsite: "www.aidigital.biz",
-    contactLocation: "Pune, Maharashtra",
+    contactLocation: "Office No: 315, Boulevard Tower, Bramha Corp, Sadhu Vaswani Chowk, Camp, Pune, Maharashtra 411001",
     package: {
-      id: "builder_complete_2lac_3mo",
-      name: "Complete Digital Marketing Package",
-      hook: "COMPLETE DIGITAL MARKETING PACKAGE",
-      headline: "Digital Marketing Partner for Real Estate",
-      subtitle: "Scale Property Sales, Site Visits & Closings",
-      channelPartner: "Associate Channel",
-      price: 200000,
-      priceDisplay: "2 LAC",
+      id: "cp_growth_engine_3mo",
+      name: "Real Estate Channel Partner Marketing Plan",
+      hook: "REAL ESTATE CHANNEL PARTNER MARKETING PACKAGE",
+      headline: "Digital Marketing Partner for Real Estate Channel Partners",
+      subtitle: "Your Success Our Business — Scale Property Sales, Site Visits & Closings",
+      channelPartner: "AI DIGITAL ASSOCIATE CHANNEL",
+      price: 75000,
+      priceDisplay: "75,000",
       period: "FOR 3 MONTHS",
+      tiers: defaultCpTiers,
       features: [
         { title: "WhatsApp Marketing + Quality Data", desc: "Automated broadcast, instant brochure sharing & verified buyer data", icon: "chat" },
-        { title: "Leads Calling", desc: "Proactive buyer outreach, tele-calling & phone qualification for inquiries", icon: "call" },
+        { title: "Leads Calling & Verification", desc: "Proactive buyer outreach, tele-calling & phone qualification for inquiries", icon: "call" },
         { title: "Project Website & Landing Page", desc: "High-CRO launch microsite with floor plans & automated lead capture funnels", icon: "desktop_windows" },
         { title: "Meta & Youtube & Google Ads", desc: "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", icon: "bar_chart" },
         { title: "Reels & Short-Form Content", desc: "Engaging property reels showcasing amenities, site progress & walkthroughs", icon: "smart_display" },
@@ -47,12 +84,16 @@ const defaultIndustries = [
     },
     faqs: [
       {
-        question: "What is included in the ₹2 Lac Complete Real Estate Marketing Package?",
-        answer: "This package provides a comprehensive 3-month growth engine for builders, developers, and real estate channel partners. It includes WhatsApp Marketing + Quality Data, Leads Calling, Project Website & Landing Page, Meta & Youtube & Google Ads, Reels & Short-Form Content, AI Promotional Videos, Associated Channels support, and Campaign Monitoring & Optimization."
+        question: "What are the 3 Channel Partner (CP) plan options based on ticket size?",
+        answer: "Our Real Estate Channel Partner Plan has 3 tailored options based on property ticket size: (1) Project upto ₹80 Lakh at ₹75,000 for 3 Months (₹25,000/mo), (2) Project ₹80 Lakh to ₹1.5 Cr at ₹90,000 for 3 Months (₹30,000/mo), and (3) Project ₹1.5 Cr to ₹3 Cr at ₹1.5 Lakh for 3 Months (₹50,000/mo). You can choose your option directly on the checkout page or pricing card."
       },
       {
-        question: "Does the ₹2 Lac fee include advertising budget or is it separate?",
-        answer: "The ₹2 Lac fee covers our full agency management, creative production, video development, landing page building, lead qualification team, and strategy for all 3 months. Ad spend (paid directly to Meta and Google) is separate and determined based on your target unit sales, inventory ticket size, and project locality. We help you set an optimal ad budget with zero wastage."
+        question: "What is included across all CP marketing package options?",
+        answer: "Every tier includes WhatsApp Marketing + Quality Data, Leads Calling & Qualification, Project Landing Page, Meta Ads & Google Search Ads management, Reels & Short-Form Content, AI Promotional Videos, Associated Channels CP network activation, and daily Campaign Optimization."
+      },
+      {
+        question: "Does the fee include advertising budget or is it separate?",
+        answer: "The fee covers agency execution, creative production, video generation, landing page development, tele-calling lead qualification, and strategic management for the full 3-month cycle. Ad spend (paid directly to Meta and Google) is separate so you maintain 100% control over your daily ad budget without markups."
       },
       {
         question: "How does the Associated Channels collaboration work?",
@@ -64,23 +105,15 @@ const defaultIndustries = [
       },
       {
         question: "How quickly will our project website and campaigns go live?",
-        answer: "We execute rapidly. Your custom project landing page, ad creatives, and campaign setup will be fully configured and launched within 5 to 7 business days from onboarding and receiving your project collateral."
-      },
-      {
-        question: "What types of real estate projects is this package best suited for?",
-        answer: "This package is specifically engineered for residential apartment launches, luxury villa developments, commercial retail/office spaces, and plotted townships seeking predictable, high-volume buyer inquiries and booked site visits."
+        answer: "We execute rapidly. Your custom project landing page, ad creatives, WhatsApp funnels, and campaigns will be fully configured and launched within 5 to 7 business days from onboarding and collateral collection."
       },
       {
         question: "Do we get complete ownership of the landing page, videos, and leads?",
         answer: "Yes, 100%. All landing pages, domain configurations, AI promotional videos, ad creative designs, and prospective buyer databases belong exclusively to your firm."
       },
       {
-        question: "How do we monitor performance and communicate with your team?",
-        answer: "You receive a dedicated Growth Account Manager. You get live lead alerts on WhatsApp/Email, weekly analytical reports tracking Cost Per Lead (CPL) and site visits, and scheduled bi-weekly review calls."
-      },
-      {
-        question: "How do I get started with the ₹2 Lac Builder Package?",
-        answer: "You can click 'Select Plan & Get Started' to initiate onboarding online, message us on WhatsApp, or call our team directly at 9096090701. We will schedule a kickoff session within 24 hours."
+        question: "How do I get started with the Channel Partner Plan?",
+        answer: "Click 'Select Plan & Get Started' to proceed to checkout where you can choose your project ticket size option, message us on WhatsApp, or call our team directly at 9096090701. We will schedule a kickoff session within 24 hours."
       }
     ]
   }
@@ -93,6 +126,7 @@ export default function PricingClientPage() {
 
   const [industryList, setIndustryList] = useState(defaultIndustries);
   const [selectedIndustry, setSelectedIndustry] = useState("real-estate");
+  const [selectedTierId, setSelectedTierId] = useState("cp_80l");
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
 
   useScrollReveal([]);
@@ -119,21 +153,25 @@ export default function PricingClientPage() {
     industryList.find((i) => i.id === selectedIndustry) || industryList[0] || defaultIndustries[0];
   const pkg = currentIndustry?.package || defaultIndustries[0].package;
   const faqs = currentIndustry?.faqs || defaultIndustries[0].faqs;
+  const tiers = pkg.tiers || defaultCpTiers;
+  const activeTier = tiers.find((t) => t.id === selectedTierId) || tiers[0];
 
-  const handleBuyNow = () => {
+  const handleBuyNow = (tierToBuy = activeTier) => {
     clearCart();
+    const target = tierToBuy || activeTier;
+    const planName = `${pkg.name} (${target.ticketScope || target.name})`;
     addToCart({
-      id: pkg.id || "pkg_" + currentIndustry.id,
-      name: pkg.name || `${currentIndustry.name} Digital Marketing Package`,
-      price: pkg.price || 200000,
-      period: pkg.period || "/3 months",
+      id: target.id || pkg.id || "pkg_" + currentIndustry.id,
+      name: planName,
+      price: target.price || 75000,
+      period: target.period || "/3 months",
       features: (pkg.features || []).map((f) => f.title)
     });
-    router.push("/checkout");
+    router.push(`/checkout?plan=${encodeURIComponent(planName)}&price=${target.price}`);
   };
 
   const getWhatsAppInquiryUrl = () => {
-    const msg = `Hi! I am interested in your ${currentIndustry.name} marketing package (${pkg.name} - ₹${pkg.priceDisplay || pkg.price}). Please connect with me.`;
+    const msg = `Hi! I am interested in your Real Estate Channel Partner Marketing Plan for ${activeTier.ticketScope || activeTier.name} (₹${activeTier.priceDisplay} for 3 Months). Please connect with me.`;
     return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
   };
 
@@ -152,7 +190,7 @@ export default function PricingClientPage() {
           {parts[0]}
           <button
             type="button"
-            onClick={handleBuyNow}
+            onClick={() => handleBuyNow()}
             className="builder-faq-inline-cta"
             title="Click to select plan and get started"
           >
@@ -180,11 +218,11 @@ export default function PricingClientPage() {
           AiDigital <span>Plans</span>
         </h1>
         <p className="pricing-hero-sub reveal delay-200">
-          Unlock growth with data-driven marketing and high-performance assets tailored for your business needs.
+          Unlock growth with data-driven marketing and high-performance assets tailored for Real Estate Channel Partners.
         </p>
       </section>
 
-      {/* Package Showcase: Banner + Pricing Card for Selected Industry */}
+      {/* 1 Single Plan Showcase: Flyer Banner on Left + Pricing Card on Right */}
       <section id="package" className="builder-pricing-section">
         <div className="builder-container">
           <div className="builder-grid">
@@ -192,8 +230,8 @@ export default function PricingClientPage() {
             <div className="builder-banner-wrapper reveal">
               <div className="builder-banner-frame">
                 <Image
-                  src={currentIndustry.bannerImage || "/Price.jpeg"}
-                  alt={`${currentIndustry.name} Marketing Package Banner`}
+                  src={currentIndustry.bannerImage || "/Price_CP.jpg"}
+                  alt={`${currentIndustry.name} Channel Partner Marketing Package`}
                   width={1086}
                   height={1448}
                   priority
@@ -234,51 +272,77 @@ export default function PricingClientPage() {
                   <span className="material-symbols-outlined">location_on</span>
                   <div>
                     <span className="strip-label">OUR LOCATION</span>
-                    <strong>{currentIndustry.contactLocation || "Camp, Pune"}</strong>
+                    <strong>{currentIndustry.contactLocation || "Camp, Pune, Maharashtra"}</strong>
                   </div>
                 </a>
               </div>
             </div>
 
-            {/* Right Column: Pricing & Deliverables Card */}
+            {/* Right Column: 1 Unified Channel Partner Pricing & Deliverables Card */}
             <div className="builder-card-wrapper reveal delay-100">
               <div className="builder-package-card">
                 <div className="builder-header-tags">
                   <div className="builder-card-badge">
                     <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>verified</span>
-                    {currentIndustry.badge || "Digital Marketing Partner for Real Estate"}
+                    {currentIndustry.badge || "Digital Marketing Partner for Real Estate Channel Partners"}
                   </div>
-                  {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
-                    <div className="builder-asicote-badge">
-                      <span className="material-symbols-outlined">handshake</span>
-                      <span>AI DIGITAL ASSOCIATE CHANNEL</span>
-                    </div>
-                  )}
+                  <div className="builder-asicote-badge">
+                    <span className="material-symbols-outlined">handshake</span>
+                    <span>AI DIGITAL ASSOCIATE CHANNEL</span>
+                  </div>
                 </div>
 
-                <span className="builder-hook-eyebrow">{pkg.hook || "COMPLETE DIGITAL MARKETING PACKAGE"}</span>
+                <span className="builder-hook-eyebrow">{pkg.hook || "REAL ESTATE CHANNEL PARTNER MARKETING PACKAGE"}</span>
                 <h2 className="builder-card-title">
-                  {pkg.headline || "Digital Marketing Partner for Real Estate"}
+                  {pkg.headline || "Digital Marketing Partner for Real Estate Channel Partners"}
                 </h2>
                 <p className="builder-card-subtitle">
-                  {pkg.subtitle || "Scale Property Sales, Site Visits & Closings"}
+                  {pkg.subtitle || "Your Success Our Business — Scale Property Sales, Site Visits & Closings"}
                 </p>
+
+                {/* 3 Choose Options based on Project Ticket Size */}
+                <div className="builder-ticket-picker">
+                  <div className="builder-ticket-picker-label">
+                    <span className="material-symbols-outlined">tune</span>
+                    <span>CHOOSE YOUR PROJECT TICKET SIZE:</span>
+                  </div>
+                  <div className="builder-ticket-options">
+                    {tiers.map((t) => {
+                      const isSel = selectedTierId === t.id;
+                      return (
+                        <button
+                          key={t.id}
+                          type="button"
+                          onClick={() => setSelectedTierId(t.id)}
+                          className={`builder-ticket-option-btn ${isSel ? "active" : ""}`}
+                        >
+                          <span className="material-symbols-outlined">{t.icon || "apartment"}</span>
+                          <div className="ticket-btn-info">
+                            <strong>{t.ticketScope || t.name}</strong>
+                            <span>₹{t.priceDisplay}</span>
+                          </div>
+                          {t.popular && <span className="ticket-popular-pill">Popular</span>}
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
 
                 {/* Dark Luxury Price Banner */}
                 <div className="builder-price-banner">
                   <div>
-                    <span className="builder-price-lead">COMPLETE DIGITAL MARKETING PACKAGE</span>
+                    <span className="builder-price-lead">
+                      {activeTier.ticketScope || activeTier.name}
+                    </span>
                     <div className="builder-price-main">
                       <span className="builder-price-currency">₹</span>
-                      <span className="builder-price-amount">{pkg.priceDisplay || pkg.price}</span>
+                      <span className="builder-price-amount">{activeTier.priceDisplay}</span>
                       <span className="builder-price-gst" style={{ fontSize: "16px", fontWeight: "700", color: "#FDE68A", marginLeft: "6px" }}>+ GST</span>
-                      {pkg.period && <span className="builder-price-period">{pkg.period}</span>}
+                      <span className="builder-price-period">{activeTier.period || "FOR 3 MONTHS"}</span>
                     </div>
                   </div>
                   <div className="builder-price-subtext">
-                    {pkg.price && typeof pkg.price === "number" && pkg.period?.includes("3")
-                      ? `Effectively ~₹${Math.round(pkg.price / 3).toLocaleString()}/month`
-                      : "High-ROI Execution"}
+                    {activeTier.monthlyEffective || `Effectively ~₹${Math.round(activeTier.price / 3).toLocaleString()}/month`}
                     <br />
                     Full Agency Growth Engine
                   </div>
@@ -337,9 +401,9 @@ export default function PricingClientPage() {
 
                 {/* Card Action Buttons */}
                 <div className="builder-actions">
-                  <button onClick={handleBuyNow} className="builder-btn-buy">
+                  <button onClick={() => handleBuyNow()} className="builder-btn-buy">
                     <span className="material-symbols-outlined">rocket_launch</span>
-                    Select Plan & Get Started (₹{pkg.priceDisplay || pkg.price})
+                    Select Plan &amp; Proceed to Checkout (₹{activeTier.priceDisplay})
                   </button>
 
                   <div className="builder-actions-secondary">
@@ -367,17 +431,17 @@ export default function PricingClientPage() {
         </div>
       </section>
 
-      {/* FAQs Related to Plans (Just Down Area) */}
+      {/* FAQs Related to Plans */}
       {faqs && faqs.length > 0 && (
         <section id="faqs" className="builder-faqs-section">
           <div className="builder-faqs-container">
             <div className="builder-faqs-header">
               <span className="builder-faqs-badge">Got Questions?</span>
               <h2 className="builder-faqs-title">
-                Frequently Asked Questions About The {currentIndustry.name} Package
+                Frequently Asked Questions About The Channel Partner Package
               </h2>
               <p className="builder-faqs-sub">
-                Everything you need to know about our {currentIndustry.name} marketing strategy and deliverables.
+                Everything you need to know about our Real Estate Channel Partner marketing strategy and deliverables.
               </p>
             </div>
 
@@ -410,11 +474,11 @@ export default function PricingClientPage() {
                         <div className="builder-faq-actions">
                           <button
                             type="button"
-                            onClick={handleBuyNow}
+                            onClick={() => handleBuyNow()}
                             className="builder-faq-btn-primary"
                           >
                             <span className="material-symbols-outlined">rocket_launch</span>
-                            Select Plan &amp; Get Started (₹{pkg.priceDisplay || pkg.price})
+                            Select Plan &amp; Proceed to Checkout (₹{activeTier.priceDisplay})
                           </button>
 
                           <a
