@@ -1,0 +1,44 @@
+[
+  {
+    "id": 1,
+    "code": "SAVE5",
+    "discount_percent": "5.00",
+    "min_order_amount": "3000.00",
+    "max_discount_amount": null,
+    "is_active": 1,
+    "usage_limit": null,
+    "times_used": 0,
+    "description": "5% OFF on orders of ₹3,000 or more",
+    "expires_at": null,
+    "created_at": "2026-07-04T10:41:57.000Z",
+    "updated_at": "2026-07-04T10:41:57.000Z"
+  },
+  {
+    "id": 2,
+    "code": "GROWTH10",
+    "discount_percent": "10.00",
+    "min_order_amount": "8000.00",
+    "max_discount_amount": null,
+    "is_active": 1,
+    "usage_limit": null,
+    "times_used": 0,
+    "description": "10% OFF on orders of ₹8,000 or more",
+    "expires_at": null,
+    "created_at": "2026-07-04T10:41:57.000Z",
+    "updated_at": "2026-07-04T10:41:57.000Z"
+  },
+  {
+    "id": 3,
+    "code": "SCALE15",
+    "discount_percent": "15.00",
+    "min_order_amount": "15000.00",
+    "max_discount_amount": null,
+    "is_active": 1,
+    "usage_limit": null,
+    "times_used": 0,
+    "description": "15% OFF on orders of ₹15,000 or more",
+    "expires_at": null,
+    "created_at": "2026-07-04T10:41:57.000Z",
+    "updated_at": "2026-07-04T10:41:57.000Z"
+  }
+]

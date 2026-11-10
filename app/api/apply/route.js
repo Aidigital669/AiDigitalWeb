@@ -4,7 +4,8 @@ import { sendWhatsAppMessage } from "../../../lib/whatsapp";
 import fs from "fs";
 import path from "path";
 import crypto from "crypto";
-import pool from "../../../lib/db";
+import pool, { ensureAllTables } from "../../../lib/db";
+import { upsertFallback } from "../../../lib/dbFallback";
 
 export async function POST(req) {
   try {
@@ -42,37 +43,36 @@ export async function POST(req) {
     fs.writeFileSync(filepath, buffer);
     const resumeUrl = `/uploads/resumes/${filename}`;
 
-    // 2. Save to MySQL Database (Admin Panel)
+    // 2. Dual persistence: Save to JSON Fallback immediately
+    const appRecord = {
+      id: Date.now(),
+      name,
+      email,
+      phone,
+      address,
+      city,
+      district,
+      job_title: jobTitle,
+      message,
+      resume_url: resumeUrl,
+      status: "Pending",
+      created_at: new Date().toISOString()
+    };
+    upsertFallback("applications", appRecord);
+
+    // Save to MySQL Database (Admin Panel)
     try {
-      await pool.query(`
-        CREATE TABLE IF NOT EXISTS job_applications (
-          id INT AUTO_INCREMENT PRIMARY KEY,
-          name VARCHAR(255) NOT NULL,
-          email VARCHAR(255) NOT NULL,
-          phone VARCHAR(50) NOT NULL,
-          address TEXT,
-          city VARCHAR(100),
-          district VARCHAR(100),
-          job_title VARCHAR(255) NOT NULL,
-          message TEXT,
-          resume_url TEXT,
-          status VARCHAR(50) DEFAULT 'Pending',
-          created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-      `);
-
-      // Ensure new columns exist (in case table was created earlier without them)
-      try { await pool.query("ALTER TABLE job_applications ADD COLUMN address TEXT"); } catch (e) {}
-      try { await pool.query("ALTER TABLE job_applications ADD COLUMN city VARCHAR(100)"); } catch (e) {}
-      try { await pool.query("ALTER TABLE job_applications ADD COLUMN district VARCHAR(100)"); } catch (e) {}
-
-      await pool.query(
+      await ensureAllTables();
+      const [insertRes] = await pool.query(
         "INSERT INTO job_applications (name, email, phone, address, city, district, job_title, message, resume_url) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)",
         [name, email, phone, address, city, district, jobTitle, message, resumeUrl]
       );
+      if (insertRes && insertRes.insertId) {
+        appRecord.id = insertRes.insertId;
+        upsertFallback("applications", appRecord);
+      }
     } catch (dbErr) {
-      console.error("MySQL DB insert failed:", dbErr);
-      // We log but continue, so user still applies even if DB is misconfigured
+      console.warn("MySQL DB insert warning (saved to JSON fallback):", dbErr.message);
     }
 
     // 3. Save to Google Sheets

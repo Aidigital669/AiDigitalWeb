@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import pool, { ensureAllTables } from "../../../lib/db";
 import { sendWhatsAppMessage } from "../../../lib/whatsapp";
 import { isValidEmail, isValidMobileNumber, isValidName } from "../../../lib/validation";
 
@@ -33,6 +34,17 @@ export async function POST(req) {
         { error: "Please enter a valid 10-digit mobile phone number." },
         { status: 400 }
       );
+    }
+
+    // Save lead inquiry directly to local MySQL database
+    try {
+      await ensureAllTables();
+      await pool.query(
+        "INSERT INTO contact_inquiries (name, email, phone, service, message) VALUES (?, ?, ?, ?, ?)",
+        [name, email, phone, service, message]
+      );
+    } catch (dbErr) {
+      console.warn("Could not save to contact_inquiries in DB:", dbErr.message);
     }
 
     // 2. Forward lead to Management System / WorkForce OS (https://aidigitalworkspace.com/dashboard/sales)

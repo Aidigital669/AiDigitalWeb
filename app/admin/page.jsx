@@ -1453,13 +1453,56 @@ export default function AdminPage() {
                     <span style={styles.statLabel}>Dispatched alerts</span>
                   </div>
 
-                  <div style={styles.miniCard}>
+                  <div 
+                    style={{ ...styles.miniCard, cursor: "pointer" }}
+                    onClick={() => { setActiveTab("reminders"); setEditingBlog(null); loadRemindersData(); }}
+                    title="Click to view Payment Reminders"
+                  >
                     <div style={styles.miniCardHeader}>
                       <Icon name="alarm" style={{ color: "#e56030" }} />
                       <h4 style={{ margin: 0 }}>Payment Reminders</h4>
                     </div>
-                    <p style={styles.statNumber}>{stats.counts.payment_reminders || 0}</p>
-                    <span style={styles.statLabel}>Scheduled reminders</span>
+                    <p style={styles.statNumber}>{stats.counts?.payment_reminders || 0}</p>
+                    <span style={styles.statLabel}>Scheduled reminders →</span>
+                  </div>
+
+                  <div 
+                    style={{ ...styles.miniCard, cursor: "pointer", border: "1px solid rgba(245, 158, 11, 0.3)", backgroundColor: "rgba(245, 158, 11, 0.05)" }}
+                    onClick={() => { setActiveTab("onboarding"); setEditingBlog(null); loadOnboardingData(); }}
+                    title="Click to view Client Onboarding"
+                  >
+                    <div style={styles.miniCardHeader}>
+                      <Icon name="assignment" style={{ color: "#f59e0b" }} />
+                      <h4 style={{ margin: 0, color: "#f59e0b" }}>Onboarding</h4>
+                    </div>
+                    <p style={styles.statNumber}>{stats.counts?.onboarding_details || 0}</p>
+                    <span style={{ fontSize: "12px", color: "#f59e0b", fontWeight: "600" }}>Client profiles →</span>
+                  </div>
+
+                  <div 
+                    style={{ ...styles.miniCard, cursor: "pointer", border: "1px solid rgba(139, 92, 246, 0.3)", backgroundColor: "rgba(139, 92, 246, 0.05)" }}
+                    onClick={() => { setActiveTab("applications"); setEditingBlog(null); loadApplicationsData(); }}
+                    title="Click to view Job Applications"
+                  >
+                    <div style={styles.miniCardHeader}>
+                      <Icon name="badge" style={{ color: "#8b5cf6" }} />
+                      <h4 style={{ margin: 0, color: "#8b5cf6" }}>Applications</h4>
+                    </div>
+                    <p style={styles.statNumber}>{stats.counts?.job_applications || 0}</p>
+                    <span style={{ fontSize: "12px", color: "#8b5cf6", fontWeight: "600" }}>Job seekers →</span>
+                  </div>
+
+                  <div 
+                    style={{ ...styles.miniCard, cursor: "pointer" }}
+                    onClick={() => { setActiveTab("promos"); setEditingBlog(null); loadPromoData(); }}
+                    title="Click to view Promo Codes"
+                  >
+                    <div style={styles.miniCardHeader}>
+                      <Icon name="sell" style={{ color: "#10b981" }} />
+                      <h4 style={{ margin: 0 }}>Promo Codes</h4>
+                    </div>
+                    <p style={styles.statNumber}>{stats.counts?.promo_codes || 0}</p>
+                    <span style={styles.statLabel}>Active coupons →</span>
                   </div>
                 </div>
               </div>

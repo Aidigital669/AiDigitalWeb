@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import pool from "../../../../lib/db";
+import pool, { ensureAllTables } from "../../../../lib/db";
+import { readFallback } from "../../../../lib/dbFallback";
 
 // Ensure promo_codes table exists and has default codes
 async function ensurePromoTable() {
@@ -66,11 +67,25 @@ export async function POST(req) {
 
     const cleanCode = code.trim().toUpperCase();
 
-    // Fetch promo code from DB
-    const [rows] = await pool.query(
-      "SELECT * FROM promo_codes WHERE code = ?",
-      [cleanCode]
-    );
+    let rows = [];
+    try {
+      await ensureAllTables();
+      const [dbRows] = await pool.query(
+        "SELECT * FROM promo_codes WHERE code = ?",
+        [cleanCode]
+      );
+      rows = dbRows;
+    } catch (e) {
+      console.warn("DB promo check warning:", e.message);
+    }
+
+    if (!rows || rows.length === 0) {
+      const fallbackList = readFallback("promos", []);
+      const found = fallbackList.find(p => p.code?.toUpperCase() === cleanCode);
+      if (found) {
+        rows = [found];
+      }
+    }
 
     if (rows.length === 0) {
       if (cleanCode === "PLAN6M15" || cleanCode === "6MONTHS15" || cleanCode === "6MONTH15") {

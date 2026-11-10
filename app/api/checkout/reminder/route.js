@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { pool } from "../../../../lib/db";
+import { pool, ensureAllTables } from "../../../../lib/db";
+import { upsertFallback } from "../../../../lib/dbFallback";
 import { sendWhatsAppMessage } from "../../../../lib/whatsapp";
 import { sendEmail } from "../../../../lib/email";
 import { isValidEmail, isValidMobileNumber, isValidName } from "../../../../lib/validation";
@@ -47,26 +48,41 @@ export async function POST(req) {
     }
 
     const reminderId = Math.random().toString(36).substring(2, 15);
+    const reminderRecord = {
+      id: reminderId,
+      customer_name: name || "Unknown",
+      customer_email: email || "N/A",
+      customer_phone: phone || "N/A",
+      plan_name: planName || "Unknown Plan",
+      plan_price: planPrice || "N/A",
+      reminder_date: reminderDate || "Not specified",
+      status: "Pending",
+      created_at: new Date().toISOString()
+    };
 
-    // Save to Database
+    // 1. Dual persistence: Save to JSON fallback
+    upsertFallback("reminders", reminderRecord);
+
+    // 2. Save to Database
     try {
+      await ensureAllTables();
       const insertQuery = `
         INSERT INTO payment_reminders (
           id, customer_name, customer_email, customer_phone, 
-          plan_name, plan_price, reminder_date
-        ) VALUES (?, ?, ?, ?, ?, ?, ?)
+          plan_name, plan_price, reminder_date, status
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, 'Pending')
       `;
       await pool.query(insertQuery, [
         reminderId,
-        name || "Unknown",
-        email || "N/A",
-        phone || "N/A",
-        planName || "Unknown Plan",
-        planPrice || "N/A",
-        reminderDate || "Not specified"
+        reminderRecord.customer_name,
+        reminderRecord.customer_email,
+        reminderRecord.customer_phone,
+        reminderRecord.plan_name,
+        reminderRecord.plan_price,
+        reminderRecord.reminder_date
       ]);
     } catch (dbErr) {
-      console.warn("Could not save reminder to MySQL database. Error:", dbErr.message);
+      console.warn("Could not save reminder to MySQL database (saved to fallback). Error:", dbErr.message);
     }
 
     // Format notification messages
