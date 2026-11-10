@@ -167,9 +167,9 @@ export default function PricingClientPage() {
 
   const [industryList, setIndustryList] = useState(defaultIndustries);
   const [selectedIndustry, setSelectedIndustry] = useState("real-estate");
-  const [selectedPkgId, setSelectedPkgId] = useState("builder_complete_2lac_3mo");
   const [selectedCpTierId, setSelectedCpTierId] = useState("cp_80l");
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const [lightboxImage, setLightboxImage] = useState(null);
 
   useScrollReveal([]);
 
@@ -200,40 +200,56 @@ export default function PricingClientPage() {
       ? currentIndustry.packages
       : [defaultBuilderPackage, defaultCpPackage];
 
-  // Current active package based on switcher
-  const pkg = availablePackages.find((p) => p.id === selectedPkgId) || availablePackages[0] || currentIndustry.package || defaultBuilderPackage;
-  const isCpPackage = pkg.id?.includes("cp_") || pkg.category === "cp";
+  // Distinguish both packages so they appear side-by-side in one row
+  const builderPkg =
+    availablePackages.find((p) => p.category === "builder" || p.id?.includes("builder")) ||
+    defaultBuilderPackage;
 
-  // CP Tiers if CP package is selected
-  const cpTiers = pkg.tiers || defaultCpTiers;
+  const cpPkg =
+    availablePackages.find((p) => p.category === "cp" || p.id?.includes("cp")) ||
+    defaultCpPackage;
+
+  // CP Tiers for the Channel Partner package
+  const cpTiers = cpPkg.tiers || defaultCpTiers;
   const activeCpTier = cpTiers.find((t) => t.id === selectedCpTierId) || cpTiers[0];
 
   const faqs = currentIndustry?.faqs || defaultIndustries[0].faqs;
 
-  const currentPrice = isCpPackage ? activeCpTier.price : (pkg.price || 200000);
-  const currentPriceDisplay = isCpPackage ? activeCpTier.priceDisplay : (pkg.priceDisplay || "2 LAC");
-  const currentMonthlyEffective = isCpPackage ? activeCpTier.monthlyEffective : (pkg.monthlyEffective || "₹66,667 Effective per Month");
-  const currentBannerImage = pkg.bannerImage || (isCpPackage ? "/Price_CP.jpg" : (currentIndustry.bannerImage || "/Price.jpeg"));
-
-  const handleBuyNow = () => {
+  // Builder purchase handler
+  const handleBuyBuilder = () => {
     clearCart();
-    const planName = isCpPackage
-      ? `${pkg.name} (${activeCpTier.ticketScope || activeCpTier.name})`
-      : (pkg.name || `${currentIndustry.name} Digital Marketing Package`);
-
+    const planName = builderPkg.name || "Complete Digital Marketing Package for Builders";
     addToCart({
-      id: isCpPackage ? activeCpTier.id : (pkg.id || "pkg_" + currentIndustry.id),
+      id: builderPkg.id || "builder_complete_2lac_3mo",
       name: planName,
-      price: currentPrice,
+      price: builderPkg.price || 200000,
       period: "/3 months",
-      features: (pkg.features || []).map((f) => f.title)
+      features: (builderPkg.features || []).map((f) => f.title)
     });
-    router.push(`/checkout?plan=${encodeURIComponent(planName)}&price=${currentPrice}`);
+    router.push(`/checkout?package=${builderPkg.id || "builder_complete_2lac_3mo"}&price=${builderPkg.price || 200000}`);
   };
 
-  const getWhatsAppInquiryUrl = () => {
-    const scopePart = isCpPackage ? ` for ${activeCpTier.ticketScope || activeCpTier.name}` : "";
-    const msg = `Hi! I am interested in your ${pkg.name}${scopePart} (₹${currentPriceDisplay} for 3 Months). Please connect with me.`;
+  const getBuilderWhatsAppUrl = () => {
+    const msg = `Hi! I am interested in your Complete Digital Marketing Package for Builders (₹2 LAC for 3 Months). Please connect with me.`;
+    return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
+  };
+
+  // CP purchase handler
+  const handleBuyCp = () => {
+    clearCart();
+    const planName = `${cpPkg.name} (${activeCpTier.ticketScope || activeCpTier.name})`;
+    addToCart({
+      id: activeCpTier.id,
+      name: planName,
+      price: activeCpTier.price,
+      period: "/3 months",
+      features: (cpPkg.features || []).map((f) => f.title)
+    });
+    router.push(`/checkout?package=${cpPkg.id || "cp_growth_engine_3mo"}&tier=${activeCpTier.id}&price=${activeCpTier.price}`);
+  };
+
+  const getCpWhatsAppUrl = () => {
+    const msg = `Hi! I am interested in your Real Estate Channel Partner Plan for ${activeCpTier.ticketScope || activeCpTier.name} (₹${activeCpTier.priceDisplay} for 3 Months). Please connect with me.`;
     return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
   };
 
@@ -250,14 +266,18 @@ export default function PricingClientPage() {
       return (
         <>
           {parts[0]}
-          <button
-            type="button"
-            onClick={handleBuyNow}
+          <a
+            href="#packages"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.getElementById("packages");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
             className="builder-faq-inline-cta"
-            title="Click to select plan and get started"
+            title="Click to view plans and get started"
           >
             {selectPlanPhrase}
-          </button>
+          </a>
           {parts[1]}
         </>
       );
@@ -280,246 +300,347 @@ export default function PricingClientPage() {
           AiDigital <span>Plans</span>
         </h1>
         <p className="pricing-hero-sub reveal delay-200">
-          Unlock high-performance real estate growth engines engineered for Builders, Developers &amp; Channel Partners.
+          High-performance real estate marketing engines engineered for Builders, Developers &amp; Channel Partners.
         </p>
 
-        {/* PACKAGE SELECTOR TOGGLE (Builder vs Channel Partner) */}
+        {/* Quick jump anchor links to packages */}
         <div className="pricing-pkg-switcher-container reveal delay-250">
           <div className="pricing-pkg-switcher">
-            <button
-              type="button"
-              onClick={() => setSelectedPkgId("builder_complete_2lac_3mo")}
-              className={`pricing-pkg-tab ${selectedPkgId === "builder_complete_2lac_3mo" ? "active" : ""}`}
+            <a
+              href="#builder-pack"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("builder-pack")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="pricing-pkg-tab"
             >
               <span className="material-symbols-outlined">apartment</span>
               <span>🏢 Builder Package (₹2 LAC)</span>
-            </button>
+            </a>
 
-            <button
-              type="button"
-              onClick={() => setSelectedPkgId("cp_growth_engine_3mo")}
-              className={`pricing-pkg-tab ${selectedPkgId === "cp_growth_engine_3mo" ? "active" : ""}`}
+            <a
+              href="#cp-pack"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById("cp-pack")?.scrollIntoView({ behavior: "smooth" });
+              }}
+              className="pricing-pkg-tab"
             >
               <span className="material-symbols-outlined">handshake</span>
               <span>🤝 Channel Partner (CP) Package</span>
-            </button>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* Package Showcase: Banner on Left + Pricing Card on Right */}
-      <section id="package" className="builder-pricing-section">
+      {/* 2 PACKS IN ONE ROW SECTION */}
+      <section id="packages" className="builder-pricing-section">
         <div className="builder-container">
-          <div className="builder-grid">
-            {/* Left Column: Visual Banner */}
-            <div className="builder-banner-wrapper reveal">
-              <div className="builder-banner-frame">
-                <Image
-                  key={currentBannerImage}
-                  src={currentBannerImage}
-                  alt={`${pkg.name} Banner`}
-                  width={1086}
-                  height={1448}
-                  priority
-                  className="builder-banner-image"
-                />
-              </div>
+          <div className="builder-plans-row">
 
-              {/* Direct Contact Strip matching banner */}
-              <div className="builder-contact-strip">
-                <a
-                  href={`tel:${(currentIndustry.contactPhone || "9096090701").replace(/\s+/g, "")}`}
-                  className="builder-strip-item"
+            {/* PACK 1: BUILDER PACKAGE */}
+            <div id="builder-pack" className="builder-plan-column-card reveal">
+              <div>
+                {/* Minimized Image Banner */}
+                <div
+                  className="builder-min-banner-wrap"
+                  onClick={() => setLightboxImage(builderPkg.bannerImage || "/Price.jpeg")}
+                  title="Click to view full flyer"
                 >
-                  <span className="material-symbols-outlined">call</span>
-                  <div>
-                    <span className="strip-label">CALL US NOW</span>
-                    <strong>{currentIndustry.contactPhone || "9096090701"}</strong>
-                  </div>
-                </a>
-                <a
-                  href={`https://${(currentIndustry.contactWebsite || "www.aidigital.biz").replace(/^https?:\/\//, "")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="builder-strip-item"
-                >
-                  <span className="material-symbols-outlined">language</span>
-                  <div>
-                    <span className="strip-label">VISIT OUR WEBSITE</span>
-                    <strong>{currentIndustry.contactWebsite || "www.aidigital.biz"}</strong>
-                  </div>
-                </a>
-                <a
-                  href="https://maps.app.goo.gl/ouQRtxBcSQCpJdZW9"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="builder-strip-item"
-                >
-                  <span className="material-symbols-outlined">location_on</span>
-                  <div>
-                    <span className="strip-label">OUR LOCATION</span>
-                    <strong>{currentIndustry.contactLocation || "Camp, Pune, Maharashtra"}</strong>
-                  </div>
-                </a>
-              </div>
-            </div>
+                  <Image
+                    src={builderPkg.bannerImage || "/Price.jpeg"}
+                    alt={builderPkg.name}
+                    width={1086}
+                    height={1448}
+                    className="builder-min-banner-img"
+                    priority
+                  />
+                  <div className="builder-min-banner-overlay" />
+                  <span className="builder-min-banner-tag">
+                    <span className="material-symbols-outlined">apartment</span>
+                    BUILDERS &amp; DEVELOPERS
+                  </span>
+                  <span className="builder-min-banner-zoom">
+                    <span className="material-symbols-outlined">zoom_in</span>
+                    View Flyer
+                  </span>
+                </div>
 
-            {/* Right Column: Pricing & Deliverables Card */}
-            <div className="builder-card-wrapper reveal delay-100">
-              <div className="builder-package-card">
-                <div className="builder-header-tags">
-                  <div className="builder-card-badge">
-                    <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>verified</span>
-                    {pkg.badge || currentIndustry.badge || "Digital Marketing Partner for Real Estate"}
-                  </div>
-                  <div className="builder-asicote-badge">
+                {/* Minimized Badges */}
+                <div className="builder-min-badges">
+                  <span className="builder-min-badge">
+                    <span className="material-symbols-outlined">verified</span>
+                    Real Estate Builders
+                  </span>
+                  <span className="builder-min-asicote">
                     <span className="material-symbols-outlined">handshake</span>
-                    <span>AI DIGITAL ASSOCIATE CHANNEL</span>
-                  </div>
+                    AI DIGITAL ASSOCIATE CHANNEL
+                  </span>
                 </div>
 
-                <span className="builder-hook-eyebrow">{pkg.hook || "COMPLETE DIGITAL MARKETING PACKAGE"}</span>
-                <h2 className="builder-card-title">
-                  {pkg.headline || "Digital Marketing Partner for Real Estate"}
-                </h2>
-                <p className="builder-card-subtitle">
-                  {pkg.subtitle || "Scale Property Sales, Site Visits & Closings"}
-                </p>
+                {/* Minimized Titles */}
+                <span className="builder-min-hook">{builderPkg.hook || "COMPLETE DIGITAL MARKETING PACKAGE"}</span>
+                <h2 className="builder-min-title">{builderPkg.headline || builderPkg.name}</h2>
+                <p className="builder-min-subtitle">{builderPkg.subtitle || "Scale Property Sales, Site Visits & Closings"}</p>
 
-                {/* If CP Package: Show the 3 Ticket-Size Options */}
-                {isCpPackage && (
-                  <div className="builder-ticket-picker">
-                    <div className="builder-ticket-picker-label">
-                      <span className="material-symbols-outlined">tune</span>
-                      <span>CHOOSE YOUR PROJECT TICKET SIZE:</span>
-                    </div>
-                    <div className="builder-ticket-options">
-                      {cpTiers.map((t) => {
-                        const isSel = selectedCpTierId === t.id;
-                        return (
-                          <button
-                            key={t.id}
-                            type="button"
-                            onClick={() => setSelectedCpTierId(t.id)}
-                            className={`builder-ticket-option-btn ${isSel ? "active" : ""}`}
-                          >
-                            <span className="material-symbols-outlined">{t.icon || "apartment"}</span>
-                            <div className="ticket-btn-info">
-                              <strong>{t.ticketScope || t.name}</strong>
-                              <span>₹{t.priceDisplay}</span>
-                            </div>
-                            {t.popular && <span className="ticket-popular-pill">Popular</span>}
-                          </button>
-                        );
-                      })}
-                    </div>
+                {/* Minimized Dark Luxury Price Strip */}
+                <div className="builder-min-price-box">
+                  <div className="builder-min-price-main">
+                    <span className="builder-min-price-curr">₹</span>
+                    <span className="builder-min-price-val">{builderPkg.priceDisplay || "2 LAC"}</span>
+                    <span className="builder-min-price-gst">+ GST</span>
+                    <span className="builder-min-price-dur">FOR 3 MONTHS</span>
                   </div>
-                )}
-
-                {/* Dark Luxury Price Banner */}
-                <div className="builder-price-banner">
-                  <div>
-                    <span className="builder-price-lead">
-                      {isCpPackage ? activeCpTier.ticketScope : "COMPLETE DIGITAL MARKETING PACKAGE"}
-                    </span>
-                    <div className="builder-price-main">
-                      <span className="builder-price-currency">₹</span>
-                      <span className="builder-price-amount">{currentPriceDisplay}</span>
-                      <span className="builder-price-gst" style={{ fontSize: "16px", fontWeight: "700", color: "#FDE68A", marginLeft: "6px" }}>+ GST</span>
-                      <span className="builder-price-period">{pkg.period || "FOR 3 MONTHS"}</span>
-                    </div>
-                  </div>
-                  <div className="builder-price-subtext">
-                    {currentMonthlyEffective}
+                  <div className="builder-min-price-sub">
+                    {builderPkg.monthlyEffective || "₹66,667 Effective / Mo"}
                     <br />
-                    Full Agency Growth Engine
+                    <span>Full Agency Growth Engine</span>
                   </div>
                 </div>
 
-                {/* Associate Channel Growth Outcomes Card */}
-                <div className="builder-asicote-card">
-                  <div className="builder-asicote-card-header">
-                    <span className="material-symbols-outlined asicote-handshake-icon">handshake</span>
-                    <div className="asicote-brand-wrap">
-                      <span className="asicote-brand">AI DIGITAL</span>
-                      <span className="asicote-sub">ASSOCIATE CHANNEL</span>
-                    </div>
+                {/* Minimized Deliverables Grid */}
+                <div className="builder-min-deliverables">
+                  <div className="builder-min-deliv-header">
+                    <span>What's Included</span>
+                    <span className="builder-min-deliv-count">{(builderPkg.features || []).length} Deliverables</span>
                   </div>
-                  <div className="builder-outcomes-grid">
-                    {(pkg.outcomes && pkg.outcomes.length > 0
-                      ? pkg.outcomes
-                      : [
-                          "More Quality Leads",
-                          "Stronger Brand Presence",
-                          "Better Project Visibility",
-                          "End-to-End Support"
-                        ]
-                    ).map((item, idx) => (
-                      <div className="builder-outcome-item" key={idx}>
-                        <span className="material-symbols-outlined">check_circle</span>
-                        <span>{item}</span>
+                  <div className="builder-min-deliv-grid">
+                    {(builderPkg.features || []).map((feat, idx) => (
+                      <div className="builder-min-deliv-item" key={idx}>
+                        <span className="material-symbols-outlined">{feat.icon || "check_circle"}</span>
+                        <div>
+                          <strong>{feat.title}</strong>
+                          <p>{feat.desc}</p>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
+              </div>
 
-                {/* Services Deliverables Grid */}
-                {pkg.features && pkg.features.length > 0 && (
-                  <div id="deliverables" className="builder-services-wrapper">
-                    <div className="builder-services-heading">
-                      <span>What's Included in This Package</span>
-                      <span className="builder-services-count">{pkg.features.length} Core Deliverables</span>
-                    </div>
-
-                    <div className="builder-services-grid">
-                      {pkg.features.map((feat, idx) => (
-                        <div className="builder-service-card" key={idx}>
-                          <div className="builder-service-icon">
-                            <Icon name={feat.icon || "check_circle"} />
-                          </div>
-                          <div className="builder-service-text">
-                            <strong>{feat.title}</strong>
-                            <p>{feat.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Card Action Buttons */}
-                <div className="builder-actions">
-                  <button onClick={handleBuyNow} className="builder-btn-buy">
-                    <span className="material-symbols-outlined">rocket_launch</span>
-                    {isCpPackage
-                      ? `Select Plan & Proceed to Checkout (₹${currentPriceDisplay})`
-                      : `Select Builder Plan & Get Started (₹${currentPriceDisplay})`}
-                  </button>
-
-                  <div className="builder-actions-secondary">
-                    <a
-                      href={getWhatsAppInquiryUrl()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="builder-btn-wa"
-                    >
-                      <span className="material-symbols-outlined">chat</span>
-                      Inquire on WhatsApp
-                    </a>
-                    <a
-                      href={`tel:${(currentIndustry.contactPhone || "+91 9096090701").replace(/\s+/g, "")}`}
-                      className="builder-btn-call"
-                    >
-                      <span className="material-symbols-outlined">call</span>
-                      Call: {currentIndustry.contactPhone || "9096090701"}
-                    </a>
-                  </div>
+              {/* Card Actions */}
+              <div className="builder-min-actions">
+                <button onClick={handleBuyBuilder} className="builder-min-btn-buy">
+                  <span className="material-symbols-outlined">rocket_launch</span>
+                  Select Builder Plan &amp; Buy Now (₹{builderPkg.priceDisplay || "2 LAC"})
+                </button>
+                <div className="builder-min-btn-row">
+                  <a
+                    href={getBuilderWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="builder-min-btn-wa"
+                  >
+                    <span className="material-symbols-outlined">chat</span>
+                    WhatsApp
+                  </a>
+                  <a
+                    href={`tel:${(currentIndustry.contactPhone || "+91 9096090701").replace(/\s+/g, "")}`}
+                    className="builder-min-btn-call"
+                  >
+                    <span className="material-symbols-outlined">call</span>
+                    Call: {currentIndustry.contactPhone || "9096090701"}
+                  </a>
                 </div>
               </div>
             </div>
+
+            {/* PACK 2: CHANNEL PARTNER (CP) PACKAGE */}
+            <div id="cp-pack" className="builder-plan-column-card reveal delay-100">
+              <div>
+                {/* Minimized Image Banner */}
+                <div
+                  className="builder-min-banner-wrap"
+                  onClick={() => setLightboxImage(cpPkg.bannerImage || "/Price_CP.jpg")}
+                  title="Click to view full flyer"
+                >
+                  <Image
+                    src={cpPkg.bannerImage || "/Price_CP.jpg"}
+                    alt={cpPkg.name}
+                    width={1086}
+                    height={1448}
+                    className="builder-min-banner-img"
+                    priority
+                  />
+                  <div className="builder-min-banner-overlay" />
+                  <span className="builder-min-banner-tag" style={{ color: "#86EFAC" }}>
+                    <span className="material-symbols-outlined">handshake</span>
+                    CHANNEL PARTNERS (CP)
+                  </span>
+                  <span className="builder-min-banner-zoom">
+                    <span className="material-symbols-outlined">zoom_in</span>
+                    View Flyer
+                  </span>
+                </div>
+
+                {/* Minimized Badges */}
+                <div className="builder-min-badges">
+                  <span className="builder-min-badge">
+                    <span className="material-symbols-outlined">verified</span>
+                    Real Estate Channel Partners
+                  </span>
+                  <span className="builder-min-asicote">
+                    <span className="material-symbols-outlined">handshake</span>
+                    AI DIGITAL ASSOCIATE CHANNEL
+                  </span>
+                </div>
+
+                {/* Minimized Titles */}
+                <span className="builder-min-hook">{cpPkg.hook || "REAL ESTATE CHANNEL PARTNER MARKETING PACKAGE"}</span>
+                <h2 className="builder-min-title">{cpPkg.headline || cpPkg.name}</h2>
+                <p className="builder-min-subtitle">{cpPkg.subtitle || "Your Success Our Business — Scale Sales & Closings"}</p>
+
+                {/* 3 Ticket-Size Choose Options */}
+                <div className="builder-min-ticket-wrap">
+                  <div className="builder-min-ticket-label">
+                    <span className="material-symbols-outlined">tune</span>
+                    CHOOSE PROJECT TICKET SIZE:
+                  </div>
+                  <div className="builder-min-ticket-grid">
+                    {cpTiers.map((t) => {
+                      const isSel = selectedCpTierId === t.id;
+                      return (
+                        <button
+                          key={t.id}
+                          type="button"
+                          onClick={() => setSelectedCpTierId(t.id)}
+                          className={`builder-min-ticket-btn ${isSel ? "active" : ""}`}
+                        >
+                          {t.popular && <span className="builder-min-ticket-pop">POPULAR</span>}
+                          <span className="builder-min-ticket-scope">{t.ticketScope || t.name}</span>
+                          <span className="builder-min-ticket-price">₹{t.priceDisplay}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Minimized Dark Luxury Price Strip */}
+                <div className="builder-min-price-box">
+                  <div className="builder-min-price-main">
+                    <span className="builder-min-price-curr">₹</span>
+                    <span className="builder-min-price-val">{activeCpTier.priceDisplay}</span>
+                    <span className="builder-min-price-gst">+ GST</span>
+                    <span className="builder-min-price-dur">FOR 3 MONTHS</span>
+                  </div>
+                  <div className="builder-min-price-sub">
+                    {activeCpTier.monthlyEffective}
+                    <br />
+                    <span>Full Agency Growth Engine</span>
+                  </div>
+                </div>
+
+                {/* Minimized Deliverables Grid */}
+                <div className="builder-min-deliverables">
+                  <div className="builder-min-deliv-header">
+                    <span>What's Included</span>
+                    <span className="builder-min-deliv-count">{(cpPkg.features || []).length} Deliverables</span>
+                  </div>
+                  <div className="builder-min-deliv-grid">
+                    {(cpPkg.features || []).map((feat, idx) => (
+                      <div className="builder-min-deliv-item" key={idx}>
+                        <span className="material-symbols-outlined">{feat.icon || "check_circle"}</span>
+                        <div>
+                          <strong>{feat.title}</strong>
+                          <p>{feat.desc}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Card Actions */}
+              <div className="builder-min-actions">
+                <button onClick={handleBuyCp} className="builder-min-btn-buy">
+                  <span className="material-symbols-outlined">rocket_launch</span>
+                  Select CP Plan &amp; Buy Now (₹{activeCpTier.priceDisplay})
+                </button>
+                <div className="builder-min-btn-row">
+                  <a
+                    href={getCpWhatsAppUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="builder-min-btn-wa"
+                  >
+                    <span className="material-symbols-outlined">chat</span>
+                    WhatsApp
+                  </a>
+                  <a
+                    href={`tel:${(currentIndustry.contactPhone || "+91 9096090701").replace(/\s+/g, "")}`}
+                    className="builder-min-btn-call"
+                  >
+                    <span className="material-symbols-outlined">call</span>
+                    Call: {currentIndustry.contactPhone || "9096090701"}
+                  </a>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          {/* Consolidated Contact Strip below both cards */}
+          <div className="builder-shared-contact-strip reveal delay-200">
+            <a
+              href={`tel:${(currentIndustry.contactPhone || "9096090701").replace(/\s+/g, "")}`}
+              className="builder-strip-item"
+            >
+              <span className="material-symbols-outlined">call</span>
+              <div>
+                <span className="strip-label">CALL US NOW</span>
+                <strong>{currentIndustry.contactPhone || "9096090701"}</strong>
+              </div>
+            </a>
+            <a
+              href={`https://${(currentIndustry.contactWebsite || "www.aidigital.biz").replace(/^https?:\/\//, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="builder-strip-item"
+            >
+              <span className="material-symbols-outlined">language</span>
+              <div>
+                <span className="strip-label">VISIT OUR WEBSITE</span>
+                <strong>{currentIndustry.contactWebsite || "www.aidigital.biz"}</strong>
+              </div>
+            </a>
+            <a
+              href="https://maps.app.goo.gl/ouQRtxBcSQCpJdZW9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="builder-strip-item"
+            >
+              <span className="material-symbols-outlined">location_on</span>
+              <div>
+                <span className="strip-label">OUR LOCATION</span>
+                <strong>{currentIndustry.contactLocation || "Boulevard Tower, Bramha Corp, Camp, Pune"}</strong>
+              </div>
+            </a>
           </div>
         </div>
       </section>
+
+      {/* Lightbox Modal for Full Flyer View */}
+      {lightboxImage && (
+        <div className="builder-flyer-lightbox" onClick={() => setLightboxImage(null)}>
+          <div className="builder-flyer-lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <button
+              type="button"
+              className="builder-flyer-lightbox-close"
+              onClick={() => setLightboxImage(null)}
+              title="Close"
+            >
+              <span className="material-symbols-outlined">close</span>
+            </button>
+            <Image
+              src={lightboxImage}
+              alt="Plan Flyer Full Size"
+              width={1086}
+              height={1448}
+              style={{ maxHeight: "85vh", width: "auto", display: "block", objectFit: "contain" }}
+            />
+          </div>
+        </div>
+      )}
 
       {/* FAQs Related to Plans */}
       {faqs && faqs.length > 0 && (
@@ -564,28 +685,38 @@ export default function PricingClientPage() {
                         <div className="builder-faq-actions">
                           <button
                             type="button"
-                            onClick={handleBuyNow}
+                            onClick={handleBuyBuilder}
                             className="builder-faq-btn-primary"
                           >
-                            <span className="material-symbols-outlined">rocket_launch</span>
-                            Select Plan &amp; Proceed to Checkout (₹{currentPriceDisplay})
+                            <span className="material-symbols-outlined">apartment</span>
+                            Buy Builder Package (₹{builderPkg.priceDisplay || "2 LAC"})
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={handleBuyCp}
+                            className="builder-faq-btn-primary"
+                            style={{ background: "#059669" }}
+                          >
+                            <span className="material-symbols-outlined">handshake</span>
+                            Buy CP Plan (₹{activeCpTier.priceDisplay})
                           </button>
 
                           <a
-                            href="#package"
+                            href="#packages"
                             onClick={(e) => {
                               e.preventDefault();
-                              const el = document.getElementById("package");
+                              const el = document.getElementById("packages");
                               if (el) el.scrollIntoView({ behavior: "smooth" });
                             }}
                             className="builder-faq-btn-secondary"
                           >
                             <span className="material-symbols-outlined">visibility</span>
-                            View Plan Details
+                            Compare Both Plans
                           </a>
 
                           <a
-                            href={getWhatsAppInquiryUrl()}
+                            href={getBuilderWhatsAppUrl()}
                             target="_blank"
                             rel="noopener noreferrer"
                             className="builder-faq-btn-wa"
