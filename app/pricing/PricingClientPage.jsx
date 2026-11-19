@@ -9,80 +9,231 @@ import useScrollReveal from "../hooks/useScrollReveal";
 import { useVisibility } from "../context/VisibilityContext";
 import PageHiddenNotice from "../components/PageHiddenNotice";
 
-const defaultIndustries = [
+const defaultCpTiers = [
   {
-    id: "real-estate",
-    name: "Real Estate",
-    badge: "Digital Marketing Partner for Real Estate",
-    bannerImage: "/Price.jpeg",
-    contactPhone: "9096090701",
-    contactWebsite: "www.aidigital.biz",
-    contactLocation: "Pune, Maharashtra",
-    package: {
-      id: "builder_complete_2lac_3mo",
-      name: "Complete Digital Marketing Package",
-      hook: "COMPLETE DIGITAL MARKETING PACKAGE",
-      headline: "Digital Marketing Partner for Real Estate",
-      subtitle: "Scale Property Sales, Site Visits & Closings",
-      channelPartner: "Associate Channel",
-      price: 200000,
-      priceDisplay: "2 LAC",
-      period: "FOR 3 MONTHS",
-      features: [
-        { title: "WhatsApp Marketing + Quality Data", desc: "Automated broadcast, instant brochure sharing & verified buyer data", icon: "chat" },
-        { title: "Leads Calling", desc: "Proactive buyer outreach, tele-calling & phone qualification for inquiries", icon: "call" },
-        { title: "Project Website & Landing Page", desc: "High-CRO launch microsite with floor plans & automated lead capture funnels", icon: "desktop_windows" },
-        { title: "Meta & Youtube & Google Ads", desc: "High-intent buyer campaigns across Meta (FB & IG), Google Search & YouTube Ads", icon: "bar_chart" },
-        { title: "Reels & Short-Form Content", desc: "Engaging property reels showcasing amenities, site progress & walkthroughs", icon: "smart_display" },
-        { title: "AI Promotional Videos", desc: "AI-assisted cinematic property walkthroughs, teasers & social promo videos", icon: "memory" },
-        { title: "Associated Channels", desc: "Channel partner network collaboration & broker channel activation support", icon: "handshake" },
-        { title: "Campaign Monitoring & Optimization", desc: "Daily ad tracking, continuous ROAS scaling & weekly verified CPL reporting", icon: "troubleshoot" }
-      ],
-      outcomes: [
-        "More Quality Leads",
-        "Stronger Brand Presence",
-        "Better Project Visibility",
-        "End-to-End Support"
-      ]
-    },
-    faqs: [
-      {
-        question: "What is included in the ₹2 Lac Complete Real Estate Marketing Package?",
-        answer: "This package provides a comprehensive 3-month growth engine for builders, developers, and real estate channel partners. It includes WhatsApp Marketing + Quality Data, Leads Calling, Project Website & Landing Page, Meta & Youtube & Google Ads, Reels & Short-Form Content, AI Promotional Videos, Associated Channels support, and Campaign Monitoring & Optimization."
-      },
-      {
-        question: "Does the ₹2 Lac fee include advertising budget or is it separate?",
-        answer: "The ₹2 Lac fee covers our full agency management, creative production, video development, landing page building, lead qualification team, and strategy for all 3 months. Ad spend (paid directly to Meta and Google) is separate and determined based on your target unit sales, inventory ticket size, and project locality. We help you set an optimal ad budget with zero wastage."
-      },
-      {
-        question: "How does the Associated Channels collaboration work?",
-        answer: "Through Associated Channels, we provide verified real estate marketing expertise, structured channel partner alignment, broker channel activation, and proven lead qualification funnels designed to deliver more quality leads, stronger brand presence, better project visibility, and end-to-end sales support."
-      },
-      {
-        question: "How does the Lead Verification and Qualification support work?",
-        answer: "We ensure your sales team never wastes time on junk or fake inquiries. Our dedicated qualification team calls and WhatsApp-verifies every incoming inquiry to confirm the buyer's budget, preferred unit configuration (e.g., 2 BHK, 3 BHK, Penthouse), location interest, and buying timeframe before handing them over or booking a site visit."
-      },
-      {
-        question: "How quickly will our project website and campaigns go live?",
-        answer: "We execute rapidly. Your custom project landing page, ad creatives, and campaign setup will be fully configured and launched within 5 to 7 business days from onboarding and receiving your project collateral."
-      },
-      {
-        question: "What types of real estate projects is this package best suited for?",
-        answer: "This package is specifically engineered for residential apartment launches, luxury villa developments, commercial retail/office spaces, and plotted townships seeking predictable, high-volume buyer inquiries and booked site visits."
-      },
-      {
-        question: "Do we get complete ownership of the landing page, videos, and leads?",
-        answer: "Yes, 100%. All landing pages, domain configurations, AI promotional videos, ad creative designs, and prospective buyer databases belong exclusively to your firm."
-      },
-      {
-        question: "How do we monitor performance and communicate with your team?",
-        answer: "You receive a dedicated Growth Account Manager. You get live lead alerts on WhatsApp/Email, weekly analytical reports tracking Cost Per Lead (CPL) and site visits, and scheduled bi-weekly review calls."
-      },
-      {
-        question: "How do I get started with the ₹2 Lac Builder Package?",
-        answer: "You can click 'Select Plan & Get Started' to initiate onboarding online, message us on WhatsApp, or call our team directly at 9096090701. We will schedule a kickoff session within 24 hours."
-      }
+    id: "plan_google_ads",
+    name: "Google Ads Management",
+    scope: "Google Ads Management",
+    ticketRange: "Paid Search & PPC",
+    category: "ads",
+    price: 7500,
+    priceDisplay: "7,500",
+    period: "per Month",
+    monthlyEffective: "₹7,500 Effective per Month",
+    subtitle: "High-Intent Google Search, PPC, Display & Performance Max Ad Campaigns",
+    icon: "ads_click",
+    popular: true,
+    features: [
+      "Google Search & PPC Setup",
+      "High-Intent Keyword Research",
+      "Negative Keyword Filtering",
+      "Conversion & Goal Tracking",
+      "Monthly ROAS Optimization & Reporting"
     ]
+  },
+  {
+    id: "plan_meta_ads",
+    name: "Meta Ads (FB & Instagram)",
+    scope: "Meta Ads",
+    ticketRange: "Paid Social",
+    category: "ads",
+    price: 3000,
+    priceDisplay: "3,000",
+    period: "per Month",
+    monthlyEffective: "₹3,000 Effective per Month",
+    subtitle: "Laser-Targeted Instagram & Facebook Paid Ads & Retargeting Funnels",
+    icon: "share",
+    popular: false,
+    features: [
+      "Facebook & Instagram Ads Setup",
+      "Audience Demographic Targeting",
+      "Ad Creative & Copy Testing",
+      "Meta Pixel & Event Integration",
+      "Lead Generation & Traffic Funnels"
+    ]
+  },
+  {
+    id: "plan_performance_marketing",
+    name: "Performance Marketing",
+    scope: "Performance Marketing (Meta & Google)",
+    ticketRange: "Multi-Channel Growth",
+    category: "ads",
+    price: 5000,
+    priceDisplay: "5,000 / 10,000",
+    period: "per Month",
+    monthlyEffective: "Meta ₹5,000 | Google ₹10,000",
+    subtitle: "Data-Backed CAC Reduction, Conversion Funnel Optimization & ROAS Scaling",
+    icon: "trending_up",
+    popular: true,
+    features: [
+      "Meta Ads Option: ₹5,000/mo",
+      "Google Ads Option: ₹10,000/mo",
+      "Full-Funnel CAC Optimization",
+      "Dynamic Multi-Touch Attribution",
+      "Weekly Strategy Calls & Dashboard"
+    ]
+  },
+  {
+    id: "plan_reel_shoot",
+    name: "Reel Shoot",
+    scope: "Reel Shoot",
+    ticketRange: "Media Production",
+    category: "media",
+    price: 6000,
+    priceDisplay: "6,000",
+    period: "Starting from",
+    monthlyEffective: "Starts at ₹6,000 per Shoot",
+    subtitle: "On-Location Shoot with Scripting, Direction & 4K Video Editing",
+    icon: "videocam",
+    popular: false,
+    features: [
+      "On-Location HD / 4K Shoot",
+      "Direction & Creative Coaching",
+      "Scripted Concepts & Storylines",
+      "Studio Lighting & Pro Audio Sync",
+      "3-5 High-Converting Reels/Shorts"
+    ]
+  },
+  {
+    id: "plan_ai_videos",
+    name: "AI Videos",
+    scope: "AI Videos",
+    ticketRange: "AI Media",
+    category: "media",
+    price: 599,
+    priceDisplay: "599",
+    period: "Starting from",
+    monthlyEffective: "Starts at ₹599 per Video",
+    subtitle: "Cinematic AI Promotional Videos, Realistic Voiceovers & Viral Product Teasers",
+    icon: "movie",
+    popular: false,
+    features: [
+      "AI Video Generation (30-45 Sec)",
+      "Realistic AI Voiceover & Scripts",
+      "Cinematic Visuals & Transitions",
+      "Sound Effects & Background Audio",
+      "Ready for Reels, Shorts & Ads"
+    ]
+  },
+  {
+    id: "plan_social_graphics",
+    name: "Social Media Graphics (10 Posts)",
+    scope: "Social Media Graphics",
+    ticketRange: "Content Pack",
+    category: "media",
+    price: 500,
+    priceDisplay: "500",
+    period: "for 10 Posts",
+    monthlyEffective: "Just ₹50 per Custom Creative",
+    subtitle: "10 Custom High-Res Branded Post Creatives, Flyers & Promotional Banners",
+    icon: "palette",
+    popular: true,
+    features: [
+      "10 Custom High-Res Post Graphics",
+      "Brand Palette & Font Matching",
+      "Promotional Flyers & Banners",
+      "Optimized for Instagram, FB & LinkedIn",
+      "PNG & JPG Formats Included"
+    ]
+  },
+  {
+    id: "plan_website_dev",
+    name: "Website Development",
+    scope: "Website Development",
+    ticketRange: "Web & Tech",
+    category: "growth",
+    price: 5000,
+    priceDisplay: "5,000",
+    period: "Starting from",
+    monthlyEffective: "Starts at ₹5,000 One-Time",
+    subtitle: "High-Speed, Mobile-Responsive, SEO-Ready Business Website & Landing Pages",
+    icon: "desktop_windows",
+    popular: false,
+    features: [
+      "Custom Responsive Website / Landing Page",
+      "Mobile, Tablet & Desktop Optimized",
+      "Fast Loading Speed & High-CRO Layout",
+      "Contact Form & WhatsApp Integration",
+      "Basic SEO Meta Tags & Schema"
+    ]
+  },
+  {
+    id: "plan_brand_dev",
+    name: "Brand Development Program",
+    scope: "Brand Development Program",
+    ticketRange: "Brand Authority",
+    category: "growth",
+    price: 20000,
+    priceDisplay: "20,000",
+    period: "Starting from",
+    monthlyEffective: "Starts at ₹20,000 One-Time",
+    subtitle: "360° Complete Brand Identity, Logo Design, Guidelines & Launch Strategy",
+    icon: "workspace_premium",
+    popular: true,
+    features: [
+      "Official Logo Design & Icon Variations",
+      "Brand Color Palette & Typography Rules",
+      "Complete Brand Style Guidelines Doc",
+      "Collateral Kit (Cards, Letterhead, Social Kit)",
+      "Brand Positioning & Market Launch Strategy"
+    ]
+  }
+];
+
+const defaultPillars = [
+  {
+    title: "Google & Meta Ads Management",
+    desc: "High-intent Google Search (₹7,500) and laser-targeted Meta Ads (₹3,000) built for scalable lead generation.",
+    icon: "ads_click"
+  },
+  {
+    title: "Performance Marketing",
+    desc: "Advanced multi-channel attribution and CAC reduction across Meta (₹5,000) and Google (₹10,000).",
+    icon: "trending_up"
+  },
+  {
+    title: "Professional Media & Video Shoots",
+    desc: "On-location reel shoots (₹6,000) and high-impact AI promotional video production (₹599).",
+    icon: "videocam"
+  },
+  {
+    title: "Content, Web & Brand Growth",
+    desc: "10 custom social graphics for ₹500, modern websites from ₹5,000, and 360° brand development programs from ₹20,000.",
+    icon: "workspace_premium"
+  }
+];
+
+const defaultDeliverables = [
+  { title: "Google Ads & PPC Campaigns", desc: "High-intent keyword targeting, negative keyword filtering, conversion tracking & monthly ROAS scaling (₹7,500/mo).", icon: "ads_click" },
+  { title: "Meta Ads & Retargeting Funnels", desc: "Laser audience segmentation, creative visual testing & lead generation on Facebook & Instagram (₹3,000/mo).", icon: "share" },
+  { title: "Data-Driven Performance Marketing", desc: "Advanced full-funnel CAC reduction and conversion scaling on Meta (₹5,000) & Google (₹10,000).", icon: "trending_up" },
+  { title: "Professional Reel Shoots & Video Content", desc: "On-location shoots with scripted concepts, studio lighting & 4K editing (Starts at ₹6,000).", icon: "videocam" },
+  { title: "AI Promotional Videos & Teasers", desc: "AI-generated short video reels with realistic voiceovers, dynamic visuals & captions (Starts at ₹599).", icon: "movie" },
+  { title: "Social Media Graphics Pack", desc: "10 custom high-resolution branded post creatives, promotional flyers & banners (₹500 for 10 Posts).", icon: "palette" },
+  { title: "High-Conversion Website Development", desc: "Lightning-fast, mobile-responsive, SEO-optimized business websites & landing funnels (Starts at ₹5,000).", icon: "desktop_windows" },
+  { title: "360° Brand Development Program", desc: "Complete brand identity: custom logo, color system, style guidelines & launch roadmap (Starts at ₹20,000).", icon: "workspace_premium" }
+];
+
+const defaultFaqs = [
+  {
+    question: "Which plan is best for getting immediate customer inquiries?",
+    answer: "For immediate high-intent leads, our Google Ads Management (₹7,500/mo) and Meta Ads (₹3,000/mo) or Performance Marketing (Meta ₹5,000 / Google ₹10,000) deliver measurable customer inquiries within days."
+  },
+  {
+    question: "What is included in the Reel Shoot (Starting ₹6,000)?",
+    answer: "It includes an on-location video shoot featuring scripted creative concepts, professional lighting, directional coaching, and 3-5 edited high-converting reels/shorts."
+  },
+  {
+    question: "How does the AI Videos service work (Starting ₹599)?",
+    answer: "Our team leverages state-of-the-art AI video tools to create engaging 30-45 second video reels with realistic voiceovers, dynamic visuals, and branded captions optimized for social media ads."
+  },
+  {
+    question: "How fast will my 10 Social Media Graphics (₹500) be delivered?",
+    answer: "Initial drafts are typically delivered within 2-3 business days. You receive 10 custom high-resolution graphics matching your brand colors and typography, with one round of revisions included."
+  },
+  {
+    question: "Can I combine multiple services into a custom package?",
+    answer: "Absolutely! You can select multiple individual plans or contact our team for a tailored combo package combining website design, social media content, and paid advertising."
   }
 ];
 
@@ -91,13 +242,17 @@ export default function PricingClientPage() {
   const { addToCart, clearCart } = useCart();
   const router = useRouter();
 
-  const [industryList, setIndustryList] = useState(defaultIndustries);
-  const [selectedIndustry, setSelectedIndustry] = useState("real-estate");
+  const [cpTiers, setCpTiers] = useState(defaultCpTiers);
+  const [selectedTierId, setSelectedTierId] = useState("plan_google_ads");
+  const [activeCategory, setActiveCategory] = useState("all");
+  const [perfSubOption, setPerfSubOption] = useState("meta"); // meta (5000) or google (10000) or both (15000)
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
+  const [showFlyerModal, setShowFlyerModal] = useState(false);
+  const [industryData, setIndustryData] = useState(null);
 
   useScrollReveal([]);
 
-  // Fetch dynamic industries and packages configured by admin
+  // Fetch dynamic plans from API
   useEffect(() => {
     fetch("/api/industry-plans?t=" + Date.now(), { cache: "no-store" })
       .then((res) => {
@@ -106,349 +261,468 @@ export default function PricingClientPage() {
       })
       .then((data) => {
         if (data && Array.isArray(data.industries) && data.industries.length > 0) {
-          setIndustryList(data.industries);
-          if (!data.industries.some((i) => i.id === selectedIndustry)) {
-            setSelectedIndustry(data.industries[0].id);
+          const mainInd = data.industries[0];
+          setIndustryData(mainInd);
+          if (Array.isArray(mainInd.cpTiers) && mainInd.cpTiers.length > 0) {
+            setCpTiers(mainInd.cpTiers);
+            if (!mainInd.cpTiers.some((t) => t.id === selectedTierId)) {
+              setSelectedTierId(mainInd.cpTiers[0].id);
+            }
           }
         }
       })
-      .catch((err) => console.warn("Using default industry plans:", err));
+      .catch((err) => console.warn("Using default service plans:", err));
   }, []);
 
-  const currentIndustry =
-    industryList.find((i) => i.id === selectedIndustry) || industryList[0] || defaultIndustries[0];
-  const pkg = currentIndustry?.package || defaultIndustries[0].package;
-  const faqs = currentIndustry?.faqs || defaultIndustries[0].faqs;
+  const activeTier = cpTiers.find((t) => t.id === selectedTierId) || cpTiers[0] || defaultCpTiers[0];
 
-  const handleBuyNow = () => {
-    clearCart();
-    addToCart({
-      id: pkg.id || "pkg_" + currentIndustry.id,
-      name: pkg.name || `${currentIndustry.name} Digital Marketing Package`,
-      price: pkg.price || 200000,
-      period: pkg.period || "/3 months",
-      features: (pkg.features || []).map((f) => f.title)
-    });
-    router.push("/checkout");
-  };
-
-  const getWhatsAppInquiryUrl = () => {
-    const msg = `Hi! I am interested in your ${currentIndustry.name} marketing package (${pkg.name} - ₹${pkg.priceDisplay || pkg.price}). Please connect with me.`;
-    return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
-  };
-
-  const isGetStartedFaq = (question = "") => {
-    const q = question.toLowerCase();
-    return q.includes("get started") || q.includes("how do i get started") || q.includes("select plan");
-  };
-
-  const renderFaqAnswer = (answer = "") => {
-    if (!answer) return null;
-    const selectPlanPhrase = "'Select Plan & Get Started'";
-    if (answer.includes(selectPlanPhrase)) {
-      const parts = answer.split(selectPlanPhrase);
-      return (
-        <>
-          {parts[0]}
-          <button
-            type="button"
-            onClick={handleBuyNow}
-            className="builder-faq-inline-cta"
-            title="Click to select plan and get started"
-          >
-            {selectPlanPhrase}
-          </button>
-          {parts[1]}
-        </>
-      );
+  // Calculate effective price for performance marketing if selected
+  const getCalculatedPrice = (tier = activeTier) => {
+    if (tier.id === "plan_performance_marketing") {
+      if (perfSubOption === "google") return 10000;
+      if (perfSubOption === "both") return 15000;
+      return 5000;
     }
-    return answer;
+    return Number(tier.price) || 5000;
+  };
+
+  const getCalculatedPriceDisplay = (tier = activeTier) => {
+    if (tier.id === "plan_performance_marketing") {
+      if (perfSubOption === "google") return "10,000";
+      if (perfSubOption === "both") return "15,000";
+      return "5,000";
+    }
+    return tier.priceDisplay;
+  };
+
+  const handleBuyNow = (tierToBuy = activeTier) => {
+    clearCart();
+    const targetTier = tierToBuy || activeTier;
+    const finalPrice = getCalculatedPrice(targetTier);
+    const finalPriceDisplay = getCalculatedPriceDisplay(targetTier);
+    
+    let planTitle = `${targetTier.name} (₹${finalPriceDisplay})`;
+    if (targetTier.id === "plan_performance_marketing") {
+      const optionName = perfSubOption === "google" ? "Google Option" : perfSubOption === "both" ? "Meta + Google Option" : "Meta Option";
+      planTitle = `Performance Marketing - ${optionName} (₹${finalPriceDisplay})`;
+    }
+
+    addToCart({
+      id: targetTier.id,
+      name: planTitle,
+      price: finalPrice,
+      period: targetTier.period,
+      features: targetTier.features || [
+        `Service Scope: ${targetTier.scope}`,
+        targetTier.monthlyEffective,
+        targetTier.subtitle
+      ]
+    });
+    router.push(`/checkout?plan=${encodeURIComponent(planTitle)}&price=${finalPrice}`);
+  };
+
+  const getWhatsAppInquiryUrl = (tier = activeTier) => {
+    const finalPriceDisplay = getCalculatedPriceDisplay(tier);
+    const msg = `Hi! I am interested in your ${tier.name} package (₹${finalPriceDisplay} ${tier.period || ""}). Please share more details and help me get started.`;
+    return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
   };
 
   if (!isPageVisible("pricing")) {
     return <PageHiddenNotice pageName="Pricing Plans" />;
   }
 
+  const pillars = industryData?.pillars || defaultPillars;
+  const deliverables = industryData?.package?.features || defaultDeliverables;
+  const faqs = industryData?.faqs || defaultFaqs;
+
+  const filteredTiers = activeCategory === "all" 
+    ? cpTiers 
+    : cpTiers.filter((t) => t.category === activeCategory);
+
   return (
-    <div className="pricing-page-wrapper">
+    <div className="pricing-page-wrapper cp-compressed-page">
       <SiteHeader active="pricing" />
 
-      {/* Top Hero Section */}
-      <section className="pricing-hero">
-        <div className="badge-pill reveal">Your Success, Our Business</div>
-        <h1 className="pricing-main-title reveal delay-100">
-          AiDigital <span>Plans</span>
-        </h1>
-        <p className="pricing-hero-sub reveal delay-200">
-          Unlock growth with data-driven marketing and high-performance assets tailored for your business needs.
-        </p>
-      </section>
-
-      {/* Package Showcase: Banner + Pricing Card for Selected Industry */}
-      <section id="package" className="builder-pricing-section">
-        <div className="builder-container">
-          <div className="builder-grid">
-            {/* Left Column: Visual Banner */}
-            <div className="builder-banner-wrapper reveal">
-              <div className="builder-banner-frame">
-                <Image
-                  src={currentIndustry.bannerImage || "/Price.jpeg"}
-                  alt={`${currentIndustry.name} Marketing Package Banner`}
-                  width={1086}
-                  height={1448}
-                  priority
-                  className="builder-banner-image"
-                />
-              </div>
-
-              {/* Direct Contact Strip matching banner */}
-              <div className="builder-contact-strip">
-                <a
-                  href={`tel:${(currentIndustry.contactPhone || "9096090701").replace(/\s+/g, "")}`}
-                  className="builder-strip-item"
-                >
-                  <span className="material-symbols-outlined">call</span>
-                  <div>
-                    <span className="strip-label">CALL US NOW</span>
-                    <strong>{currentIndustry.contactPhone || "9096090701"}</strong>
-                  </div>
-                </a>
-                <a
-                  href={`https://${(currentIndustry.contactWebsite || "www.aidigital.biz").replace(/^https?:\/\//, "")}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="builder-strip-item"
-                >
-                  <span className="material-symbols-outlined">language</span>
-                  <div>
-                    <span className="strip-label">VISIT OUR WEBSITE</span>
-                    <strong>{currentIndustry.contactWebsite || "www.aidigital.biz"}</strong>
-                  </div>
-                </a>
-                <a
-                  href="https://maps.app.goo.gl/ouQRtxBcSQCpJdZW9"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="builder-strip-item"
-                >
-                  <span className="material-symbols-outlined">location_on</span>
-                  <div>
-                    <span className="strip-label">OUR LOCATION</span>
-                    <strong>{currentIndustry.contactLocation || "Camp, Pune"}</strong>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            {/* Right Column: Pricing & Deliverables Card */}
-            <div className="builder-card-wrapper reveal delay-100">
-              <div className="builder-package-card">
-                <div className="builder-header-tags">
-                  <div className="builder-card-badge">
-                    <span className="material-symbols-outlined" style={{ fontSize: "16px" }}>verified</span>
-                    {currentIndustry.badge || "Digital Marketing Partner for Real Estate"}
-                  </div>
-                  {(pkg.channelPartner || currentIndustry.id === "real-estate") && (
-                    <div className="builder-asicote-badge">
-                      <span className="material-symbols-outlined">handshake</span>
-                      <span>AI DIGITAL ASSOCIATE CHANNEL</span>
-                    </div>
-                  )}
-                </div>
-
-                <span className="builder-hook-eyebrow">{pkg.hook || "COMPLETE DIGITAL MARKETING PACKAGE"}</span>
-                <h2 className="builder-card-title">
-                  {pkg.headline || "Digital Marketing Partner for Real Estate"}
-                </h2>
-                <p className="builder-card-subtitle">
-                  {pkg.subtitle || "Scale Property Sales, Site Visits & Closings"}
-                </p>
-
-                {/* Dark Luxury Price Banner */}
-                <div className="builder-price-banner">
-                  <div>
-                    <span className="builder-price-lead">COMPLETE DIGITAL MARKETING PACKAGE</span>
-                    <div className="builder-price-main">
-                      <span className="builder-price-currency">₹</span>
-                      <span className="builder-price-amount">{pkg.priceDisplay || pkg.price}</span>
-                      <span className="builder-price-gst" style={{ fontSize: "16px", fontWeight: "700", color: "#FDE68A", marginLeft: "6px" }}>+ GST</span>
-                      {pkg.period && <span className="builder-price-period">{pkg.period}</span>}
-                    </div>
-                  </div>
-                  <div className="builder-price-subtext">
-                    {pkg.price && typeof pkg.price === "number" && pkg.period?.includes("3")
-                      ? `Effectively ~₹${Math.round(pkg.price / 3).toLocaleString()}/month`
-                      : "High-ROI Execution"}
-                    <br />
-                    Full Agency Growth Engine
-                  </div>
-                </div>
-
-                {/* Associate Channel Growth Outcomes Card */}
-                <div className="builder-asicote-card">
-                  <div className="builder-asicote-card-header">
-                    <span className="material-symbols-outlined asicote-handshake-icon">handshake</span>
-                    <div className="asicote-brand-wrap">
-                      <span className="asicote-brand">AI DIGITAL</span>
-                      <span className="asicote-sub">ASSOCIATE CHANNEL</span>
-                    </div>
-                  </div>
-                  <div className="builder-outcomes-grid">
-                    {(pkg.outcomes && pkg.outcomes.length > 0
-                      ? pkg.outcomes
-                      : [
-                          "More Quality Leads",
-                          "Stronger Brand Presence",
-                          "Better Project Visibility",
-                          "End-to-End Support"
-                        ]
-                    ).map((item, idx) => (
-                      <div className="builder-outcome-item" key={idx}>
-                        <span className="material-symbols-outlined">check_circle</span>
-                        <span>{item}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Services Deliverables Grid */}
-                {pkg.features && pkg.features.length > 0 && (
-                  <div id="deliverables" className="builder-services-wrapper">
-                    <div className="builder-services-heading">
-                      <span>What's Included in This Package</span>
-                      <span className="builder-services-count">{pkg.features.length} Core Deliverables</span>
-                    </div>
-
-                    <div className="builder-services-grid">
-                      {pkg.features.map((feat, idx) => (
-                        <div className="builder-service-card" key={idx}>
-                          <div className="builder-service-icon">
-                            <Icon name={feat.icon || "check_circle"} />
-                          </div>
-                          <div className="builder-service-text">
-                            <strong>{feat.title}</strong>
-                            <p>{feat.desc}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Card Action Buttons */}
-                <div className="builder-actions">
-                  <button onClick={handleBuyNow} className="builder-btn-buy">
-                    <span className="material-symbols-outlined">rocket_launch</span>
-                    Select Plan & Get Started (₹{pkg.priceDisplay || pkg.price})
-                  </button>
-
-                  <div className="builder-actions-secondary">
-                    <a
-                      href={getWhatsAppInquiryUrl()}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="builder-btn-wa"
-                    >
-                      <span className="material-symbols-outlined">chat</span>
-                      Inquire on WhatsApp
-                    </a>
-                    <a
-                      href={`tel:${(currentIndustry.contactPhone || "+91 9096090701").replace(/\s+/g, "")}`}
-                      className="builder-btn-call"
-                    >
-                      <span className="material-symbols-outlined">call</span>
-                      Call: {currentIndustry.contactPhone || "9096090701"}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* Main Section: Agency Services & Growth Plans */}
+      <section id="plans" className="cp-pricing-hero-section">
+        <div className="cp-container">
+          {/* Header Banner */}
+          <div className="cp-header-block reveal" style={{ marginBottom: "20px" }}>
+            <h1 className="cp-main-title">Plans</h1>
           </div>
-        </div>
-      </section>
 
-      {/* FAQs Related to Plans (Just Down Area) */}
-      {faqs && faqs.length > 0 && (
-        <section id="faqs" className="builder-faqs-section">
-          <div className="builder-faqs-container">
-            <div className="builder-faqs-header">
-              <span className="builder-faqs-badge">Got Questions?</span>
-              <h2 className="builder-faqs-title">
-                Frequently Asked Questions About The {currentIndustry.name} Package
-              </h2>
-              <p className="builder-faqs-sub">
-                Everything you need to know about our {currentIndustry.name} marketing strategy and deliverables.
-              </p>
+          {/* Category Filter Tabs */}
+          <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap", margin: "32px 0 20px 0" }}>
+            {[
+              { id: "all", label: "All Services & Plans (8)", icon: "dashboard" },
+              { id: "ads", label: "Paid Ads & Performance (3)", icon: "campaign" },
+              { id: "media", label: "Media & Video Production (3)", icon: "videocam" },
+              { id: "growth", label: "Web & Brand Growth (2)", icon: "rocket_launch" }
+            ].map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setActiveCategory(cat.id)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "6px",
+                  padding: "10px 18px",
+                  borderRadius: "100px",
+                  fontSize: "13px",
+                  fontWeight: activeCategory === cat.id ? "700" : "500",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  border: activeCategory === cat.id ? "1.5px solid #B9974F" : "1px solid rgba(255, 255, 255, 0.12)",
+                  background: activeCategory === cat.id ? "#1e4d42" : "rgba(255, 255, 255, 0.04)",
+                  color: activeCategory === cat.id ? "#FFFFFF" : "#cbd5e1"
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: "16px", color: activeCategory === cat.id ? "#B9974F" : "#94a3b8" }}>
+                  {cat.icon}
+                </span>
+                <span>{cat.label}</span>
+              </button>
+            ))}
+          </div>
+
+          {/* 8 PLANS GRID SECTION */}
+          <div className="cp-grid-section reveal delay-200">
+            <div className="cp-grid-header">
+              <div className="cp-grid-title-wrap">
+                <span className="material-symbols-outlined cp-grid-icon">tune</span>
+                <span className="cp-grid-label">CHOOSE YOUR GROWTH PACKAGE</span>
+              </div>
+              <span className="cp-grid-hint">Click any card to inspect deliverables &amp; proceed</span>
             </div>
 
-            <div className="builder-faqs-list">
-              {faqs.map((faq, index) => {
-                const isOpen = openFaqIndex === index;
+            <div className="cp-plans-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+              {filteredTiers.map((tier) => {
+                const isSelected = tier.id === selectedTierId;
+                const isPerfPlan = tier.id === "plan_performance_marketing";
                 return (
-                  <div className={`builder-faq-item ${isOpen ? "open" : ""}`} key={index}>
-                    <button
-                      className="builder-faq-trigger"
-                      onClick={() => setOpenFaqIndex(isOpen ? -1 : index)}
-                      aria-expanded={isOpen}
-                    >
-                      <h3>{faq.question}</h3>
-                      <span className="builder-faq-toggle-icon material-symbols-outlined">
-                        {isOpen ? "close" : "add"}
+                  <div
+                    key={tier.id}
+                    className={`cp-plan-card ${isSelected ? "selected" : ""} ${tier.popular ? "popular" : ""}`}
+                    onClick={() => setSelectedTierId(tier.id)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        setSelectedTierId(tier.id);
+                      }
+                    }}
+                    aria-label={`Select ${tier.scope} Plan`}
+                  >
+                    {/* Badge top corner if popular */}
+                    {tier.popular && (
+                      <div className="cp-card-popular-badge">
+                        <span className="material-symbols-outlined">hotel_class</span>
+                        TOP RECOMMENDED
+                      </div>
+                    )}
+
+                    {/* Radio / Selection Indicator */}
+                    <div className="cp-card-select-indicator">
+                      <span className="material-symbols-outlined">
+                        {isSelected ? "check_circle" : "radio_button_unchecked"}
                       </span>
-                    </button>
-                    <div
-                      className="builder-faq-content"
-                      style={{
-                        maxHeight: isOpen ? "600px" : "0",
-                        opacity: isOpen ? 1 : 0,
-                        padding: isOpen ? "0 24px 22px 24px" : "0 24px 0 24px"
-                      }}
-                    >
-                      <p>{renderFaqAnswer(faq.answer)}</p>
+                      <span>{isSelected ? "Selected Plan" : "Click to Select"}</span>
+                    </div>
 
-                      {isGetStartedFaq(faq.question) && (
-                        <div className="builder-faq-actions">
-                          <button
-                            type="button"
-                            onClick={handleBuyNow}
-                            className="builder-faq-btn-primary"
-                          >
-                            <span className="material-symbols-outlined">rocket_launch</span>
-                            Select Plan &amp; Get Started (₹{pkg.priceDisplay || pkg.price})
-                          </button>
+                    {/* Icon */}
+                    <div className="cp-card-icon-wrap">
+                      <span className="material-symbols-outlined cp-building-icon">
+                        {tier.icon || "star"}
+                      </span>
+                    </div>
 
-                          <a
-                            href="#package"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              const el = document.getElementById("package");
-                              if (el) el.scrollIntoView({ behavior: "smooth" });
-                            }}
-                            className="builder-faq-btn-secondary"
-                          >
-                            <span className="material-symbols-outlined">visibility</span>
-                            View Plan Details
-                          </a>
+                    {/* Scope / Title */}
+                    <div className="cp-card-scope-wrap">
+                      <span className="cp-scope-prefix">{tier.ticketRange || "Service Package"}</span>
+                      <h2 className="cp-card-scope-title">{tier.scope}</h2>
+                      {tier.subtitle && <p className="cp-card-subtitle">{tier.subtitle}</p>}
+                    </div>
 
-                          <a
-                            href={getWhatsAppInquiryUrl()}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="builder-faq-btn-wa"
-                          >
-                            <span className="material-symbols-outlined">chat</span>
-                            WhatsApp Us
-                          </a>
+                    {/* Pricing Pill */}
+                    <div className="cp-price-pill-wrap">
+                      <div className="cp-gold-pill">
+                        <span className="cp-pill-currency">₹</span>
+                        <span className="cp-pill-amount">
+                          {isPerfPlan ? (perfSubOption === "google" ? "10,000" : perfSubOption === "both" ? "15,000" : "5,000") : tier.priceDisplay}
+                        </span>
+                        <span className="cp-pill-period">{tier.period || "/month"}</span>
+                      </div>
+                    </div>
+
+                    {/* Monthly Effective / Unit Cost */}
+                    <div className="cp-card-monthly-box">
+                      <span className="material-symbols-outlined">payments</span>
+                      <strong>{tier.monthlyEffective}</strong>
+                    </div>
+
+                    {/* Sub-selector for Performance Marketing */}
+                    {isPerfPlan && (
+                      <div 
+                        style={{ margin: "10px 0", background: "rgba(0,0,0,0.3)", padding: "8px", borderRadius: "8px", border: "1px solid rgba(185,151,79,0.25)" }}
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        <span style={{ fontSize: "11px", fontWeight: "700", color: "#B9974F", display: "block", marginBottom: "6px" }}>
+                          SELECT PLATFORM:
+                        </span>
+                        <div style={{ display: "flex", gap: "4px" }}>
+                          {[
+                            { key: "meta", label: "Meta (₹5K)" },
+                            { key: "google", label: "Google (₹10K)" },
+                            { key: "both", label: "Both (₹15K)" }
+                          ].map((opt) => (
+                            <button
+                              key={opt.key}
+                              type="button"
+                              onClick={() => {
+                                setPerfSubOption(opt.key);
+                                setSelectedTierId("plan_performance_marketing");
+                              }}
+                              style={{
+                                flex: 1,
+                                fontSize: "10.5px",
+                                fontWeight: "700",
+                                padding: "6px 2px",
+                                borderRadius: "4px",
+                                cursor: "pointer",
+                                border: "none",
+                                background: perfSubOption === opt.key ? "#B9974F" : "rgba(255,255,255,0.08)",
+                                color: perfSubOption === opt.key ? "#0E2721" : "#e2e8f0"
+                              }}
+                            >
+                              {opt.label}
+                            </button>
+                          ))}
                         </div>
-                      )}
+                      </div>
+                    )}
+
+                    {/* Feature Checklist inside card */}
+                    {tier.features && (
+                      <ul style={{ listStyle: "none", padding: 0, margin: "14px 0", textAlign: "left", fontSize: "12px", color: "#cbd5e1", lineHeight: "1.6" }}>
+                        {tier.features.slice(0, 4).map((f, fIdx) => (
+                          <li key={fIdx} style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "5px" }}>
+                            <span className="material-symbols-outlined" style={{ fontSize: "15px", color: "#10b981" }}>check_circle</span>
+                            <span>{f}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+
+                    {/* Action Button inside card */}
+                    <div className="cp-card-action">
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setSelectedTierId(tier.id);
+                          handleBuyNow(tier);
+                        }}
+                        className={`cp-card-btn ${isSelected ? "active" : ""}`}
+                      >
+                        <span className="material-symbols-outlined">rocket_launch</span>
+                        {isSelected ? "Proceed with this Plan" : "Choose this Plan"}
+                      </button>
                     </div>
                   </div>
                 );
               })}
             </div>
           </div>
-        </section>
-      )}
+
+          {/* Active Tier Summary & Quick Checkout Bar */}
+          <div className="cp-checkout-bar reveal delay-250">
+            <div className="cp-bar-summary">
+              <div className="cp-bar-summary-badge">
+                <span className="material-symbols-outlined">check_circle</span>
+                <span>Active Selection</span>
+              </div>
+              <div className="cp-bar-title-row">
+                <h3 className="cp-bar-plan-name">
+                  {activeTier.id === "plan_performance_marketing" 
+                    ? `Performance Marketing (${perfSubOption === "google" ? "Google Option" : perfSubOption === "both" ? "Meta + Google Option" : "Meta Option"})`
+                    : activeTier.scope}
+                </h3>
+                <span className="cp-bar-divider">•</span>
+                <span className="cp-bar-price">₹{getCalculatedPriceDisplay(activeTier)}</span>
+                <span className="cp-bar-period">({activeTier.period || "per Month"}) + GST</span>
+              </div>
+              <span className="cp-bar-effective">{activeTier.monthlyEffective}</span>
+            </div>
+
+            <div className="cp-bar-actions">
+              <button
+                type="button"
+                onClick={() => handleBuyNow(activeTier)}
+                className="cp-bar-btn-buy"
+              >
+                <span className="material-symbols-outlined">rocket_launch</span>
+                Select Plan &amp; Buy Now (₹{getCalculatedPriceDisplay(activeTier)})
+              </button>
+
+              <a
+                href={getWhatsAppInquiryUrl(activeTier)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="cp-bar-btn-wa"
+              >
+                <span className="material-symbols-outlined">chat</span>
+                Inquire on WhatsApp
+              </a>
+
+              <a
+                href="tel:9096090701"
+                className="cp-bar-btn-call"
+              >
+                <span className="material-symbols-outlined">call</span>
+                Call: 9096090701
+              </a>
+            </div>
+          </div>
+
+          {/* Compressed Deliverables & Outcomes Section */}
+          <div className="cp-deliverables-compact reveal delay-300">
+            {/* Associate Channel Banner */}
+            <div className="cp-asicote-card">
+              <div className="cp-asicote-header">
+                <div className="cp-asicote-brand-wrap">
+                  <span className="material-symbols-outlined cp-asicote-icon">handshake</span>
+                  <span className="cp-asicote-brand">AI DIGITAL</span>
+                  <span className="cp-asicote-sub">GROWTH ASSURANCE</span>
+                </div>
+                <div className="cp-asicote-tag">Included with All 8 Plans</div>
+              </div>
+
+              <div className="cp-outcomes-grid">
+                <div className="cp-outcome-item">
+                  <span className="material-symbols-outlined">check_circle</span>
+                  <span>More Verified Leads</span>
+                </div>
+                <div className="cp-outcome-item">
+                  <span className="material-symbols-outlined">check_circle</span>
+                  <span>Stronger Brand Authority</span>
+                </div>
+                <div className="cp-outcome-item">
+                  <span className="material-symbols-outlined">check_circle</span>
+                  <span>High-Intent Targeting</span>
+                </div>
+                <div className="cp-outcome-item">
+                  <span className="material-symbols-outlined">check_circle</span>
+                  <span>End-to-End Dedicated Support</span>
+                </div>
+              </div>
+            </div>
+
+            {/* 8 Core Deliverables in a compact 4x2 grid */}
+            <div className="cp-services-section">
+              <div className="cp-services-heading">
+                <span>WHAT'S INCLUDED ACROSS OUR AGENCY SERVICES</span>
+                <span className="cp-services-count">{deliverables.length} Core Capabilities</span>
+              </div>
+
+              <div className="cp-services-grid">
+                {deliverables.map((feat, idx) => (
+                  <div className="cp-service-card" key={idx}>
+                    <div className="cp-service-icon">
+                      <Icon name={feat.icon || "check_circle"} />
+                    </div>
+                    <div className="cp-service-text">
+                      <strong>{feat.title}</strong>
+                      <p>{feat.desc}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Compact Contact Strip */}
+          <div className="cp-contact-strip reveal delay-350">
+            <a href="tel:9096090701" className="cp-contact-item">
+              <span className="material-symbols-outlined">call</span>
+              <div>
+                <span className="cp-contact-label">CALL US DIRECTLY</span>
+                <strong>9096090701</strong>
+              </div>
+            </a>
+
+            <a
+              href="https://www.aidigital.biz"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cp-contact-item"
+            >
+              <span className="material-symbols-outlined">language</span>
+              <div>
+                <span className="cp-contact-label">VISIT OUR WEBSITE</span>
+                <strong>www.aidigital.biz</strong>
+              </div>
+            </a>
+
+            <a
+              href="https://maps.app.goo.gl/ouQRtxBcSQCpJdZW9"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cp-contact-item"
+            >
+              <span className="material-symbols-outlined">location_on</span>
+              <div>
+                <span className="cp-contact-label">OUR OFFICE</span>
+                <strong>Office No: 315, Boulevard Tower, Bramha Corp, Camp, Pune 411001</strong>
+              </div>
+            </a>
+          </div>
+
+          {/* FAQs Accordion */}
+          {faqs && faqs.length > 0 && (
+            <div className="cp-faqs-section reveal delay-400">
+              <div className="cp-faqs-header">
+                <span className="cp-faqs-badge">Got Questions?</span>
+                <h2 className="cp-faqs-title">Frequently Asked Questions</h2>
+                <p className="cp-faqs-sub">
+                  Everything you need to know about our agency services, delivery timelines, and pricing plans.
+                </p>
+              </div>
+
+              <div className="cp-faqs-list">
+                {faqs.map((faq, index) => {
+                  const isOpen = openFaqIndex === index;
+                  return (
+                    <div className={`cp-faq-item ${isOpen ? "open" : ""}`} key={index}>
+                      <button
+                        type="button"
+                        className="cp-faq-trigger"
+                        onClick={() => setOpenFaqIndex(isOpen ? -1 : index)}
+                        aria-expanded={isOpen}
+                      >
+                        <h3>{faq.question}</h3>
+                        <span className="material-symbols-outlined cp-faq-toggle-icon">
+                          {isOpen ? "close" : "add"}
+                        </span>
+                      </button>
+                      <div
+                        className="cp-faq-content"
+                        style={{
+                          maxHeight: isOpen ? "500px" : "0",
+                          opacity: isOpen ? 1 : 0,
+                          padding: isOpen ? "0 24px 20px 24px" : "0 24px 0 24px"
+                        }}
+                      >
+                        <p>{faq.answer}</p>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </section>
 
       <SiteFooter />
     </div>

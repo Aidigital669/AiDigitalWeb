@@ -1,11 +1,17 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { useVisibility } from "../context/VisibilityContext";
 
 export default function BackToTop() {
+  const pathname = usePathname();
   const { isVisible: isFeatureVisible } = useVisibility();
   const [isVisible, setIsVisible] = useState(false);
+
+  if (pathname?.startsWith("/login") || pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin") || pathname?.startsWith("/employee-login")) {
+    return null;
+  }
 
   if (!isFeatureVisible("widget_back_to_top")) return null;
 

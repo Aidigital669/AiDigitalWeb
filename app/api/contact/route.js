@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { sendWhatsAppMessage } from "../../../lib/whatsapp";
 import { isValidEmail, isValidMobileNumber, isValidName } from "../../../lib/validation";
@@ -145,7 +146,7 @@ export async function POST(req) {
     }
 
     try {
-      const clientMsg = `Hi ${name},\n\nThank you for reaching out to *AI Digital*! We have received your inquiry regarding *${service}* services. Our team will review your requirements and get back to you shortly.\n\nBest regards,\nAI Digital Team`;
+      const clientMsg = `Hi ${name},\n\nThank you for reaching out to *BizzMaker*! We have received your inquiry regarding *${service}* services. Our team will review your requirements and get back to you shortly.\n\nBest regards,\nBizzMaker Team`;
       
       await sendWhatsAppMessage({
         to: phone,

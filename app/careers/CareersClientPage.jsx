@@ -46,13 +46,13 @@ const jobOpenings = [
     experience: "Fresher & Graduate",
     type: "Full-Time",
     location: "Field / On-site",
-    description: "Age 18 to 35. Visit field and present AI Digital plans to potential clients. Convert field visits into successful client onboarding. Strong sales and communication skill required.",
+    description: "Age 18 to 35. Visit field and present BizzMaker plans to potential clients. Convert field visits into successful client onboarding. Strong sales and communication skill required.",
     icon: "handshake"
   }
 ];
 
 const getWhatsAppLink = (jobTitle) => {
-  const message = `Hi! I would like to apply for the ${jobTitle} position at AI Digital. Here is my resume/portfolio.`;
+  const message = `Hi! I would like to apply for the ${jobTitle} position at BizzMaker. Here is my resume/portfolio.`;
   return `https://wa.me/919096090701?text=${encodeURIComponent(message)}`;
 };
 

@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { pool } from "../../../lib/db";
 import { isValidMobileNumber, isValidName, isValidPinCode, isValidGstin } from "../../../lib/validation";
@@ -125,7 +126,7 @@ export async function POST(req) {
         [
           recordId,
           payment_id,
-          plans || "AI Digital Plan",
+          plans || "BizzMaker Plan",
           contact_name || null,
           alt_phone || null,
           business_type || "Sole Proprietorship",

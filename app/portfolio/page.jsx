@@ -1,9 +1,9 @@
 import PortfolioClientPage from "./PortfolioClientPage";
 
 export const metadata = {
-  title: "Portfolio | AI Digital",
+  title: "Portfolio | BizzMaker",
   description:
-    "Featured AI Digital projects across websites, SEO, campaigns, AI videos, creative content, and reels.",
+    "Featured BizzMaker projects across websites, SEO, campaigns, AI videos, creative content, and reels.",
   alternates: {
     canonical: "/portfolio",
   }

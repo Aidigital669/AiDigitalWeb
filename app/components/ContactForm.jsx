@@ -177,9 +177,15 @@ export default function ContactForm() {
           disabled={status === "submitting"}
         >
           <option value="" disabled>Service of interest</option>
-          <option value="SEO Growth">SEO Growth</option>
-          <option value="Performance Marketing">Performance Marketing</option>
-          <option value="Web Development">Web Development</option>
+          <option value="Google Ads Management (₹7,500)">Google Ads Management (₹7,500)</option>
+          <option value="Meta Ads (₹3,000)">Meta Ads - FB & Instagram (₹3,000)</option>
+          <option value="Performance Marketing - Meta (₹5,000)">Performance Marketing - Meta (₹5,000)</option>
+          <option value="Performance Marketing - Google (₹10,000)">Performance Marketing - Google (₹10,000)</option>
+          <option value="Reel Shoot (Starting ₹6,000)">Reel Shoot (Starting ₹6,000)</option>
+          <option value="AI Videos (Starting ₹599)">AI Videos (Starting ₹599)</option>
+          <option value="Social Media Graphics - 10 Posts (₹500)">Social Media Graphics - 10 Posts (₹500)</option>
+          <option value="Website Development (Starting ₹5,000)">Website Development (Starting ₹5,000)</option>
+          <option value="Brand Development Program (Starting ₹20,000)">Brand Development Program (Starting ₹20,000)</option>
         </select>
         <textarea
           name="message"

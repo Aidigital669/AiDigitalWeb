@@ -1,17 +1,12 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
+import React, { useRef, useEffect } from "react";
+import Image from "next/image";
 import PricingPopup from "./PricingPopup";
-import { Icon } from "./SiteChrome";
 
 export default function HeroVideo() {
   const dialogRef = useRef(null);
-  const videoRef = useRef(null);
   const containerRef = useRef(null);
-  const manuallyPausedRef = useRef(false);
-  const [isMuted, setIsMuted] = useState(true);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [showPlayFeedback, setShowPlayFeedback] = useState(false);
 
   // Triggers the pricing popup natively with a 10-second delay when the page renders
   useEffect(() => {
@@ -24,167 +19,89 @@ export default function HeroVideo() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Ensure autoplay on mount
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {
-        setIsPlaying(false);
-      });
-    }
-  }, []);
-
-  // Auto-pause video when scrolled away from video section, resume when scrolled back into view
-  useEffect(() => {
-    const target = containerRef.current || videoRef.current;
-    if (!target) return;
-
-    const handleIntersection = (entries) => {
-      entries.forEach((entry) => {
-        const video = videoRef.current;
-        if (!video) return;
-
-        if (!entry.isIntersecting || entry.intersectionRatio < 0.15) {
-          // Scrolled out of the video header section -> pause/stop video
-          if (!video.paused) {
-            video.pause();
-            setIsPlaying(false);
-          }
-        } else {
-          // Scrolled back into view -> resume playing if user didn't manually pause
-          if (video.paused && !manuallyPausedRef.current) {
-            video.play().then(() => {
-              setIsPlaying(true);
-            }).catch(() => {});
-          }
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(handleIntersection, {
-      threshold: [0, 0.15, 0.5]
-    });
-
-    observer.observe(target);
-
-    // Instant fallback for fast scrolling
-    const handleScroll = () => {
-      const video = videoRef.current;
-      const container = containerRef.current;
-      if (!video || !container) return;
-
-      const rect = container.getBoundingClientRect();
-      // If header is scrolled past the viewport
-      if (rect.bottom <= 50 || rect.top >= window.innerHeight) {
-        if (!video.paused) {
-          video.pause();
-          setIsPlaying(false);
-        }
-      } else if (rect.bottom > 100 && rect.top < window.innerHeight - 100) {
-        if (video.paused && !manuallyPausedRef.current) {
-          video.play().then(() => {
-            setIsPlaying(true);
-          }).catch(() => {});
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
-    return () => {
-      observer.disconnect();
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  const toggleMute = (e) => {
-    if (e) e.stopPropagation();
-    if (videoRef.current) {
-      const nextMuted = !videoRef.current.muted;
-      videoRef.current.muted = nextMuted;
-      setIsMuted(nextMuted);
-    }
-  };
-
-  const togglePlay = () => {
-    if (videoRef.current) {
-      if (videoRef.current.paused) {
-        manuallyPausedRef.current = false;
-        videoRef.current.play().then(() => setIsPlaying(true)).catch(() => {});
-      } else {
-        manuallyPausedRef.current = true;
-        videoRef.current.pause();
-        setIsPlaying(false);
-      }
-      setShowPlayFeedback(true);
-      setTimeout(() => setShowPlayFeedback(false), 700);
-    }
-  };
-
   return (
-    <div className="hero-full-video-header" ref={containerRef} aria-label="Header Video">
+    <section className="modern-hero-section" aria-label="BizzMaker Header">
       {/* Background Pricing Lead Modal (opens on 10s delay) */}
       <PricingPopup dialogRef={dialogRef} />
 
-      {/* Full Header Video (100% full brightness & opacity, zero dark overlays) */}
-      <video
-        ref={videoRef}
-        src="/Header.mp4"
-        autoPlay
-        loop
-        muted={isMuted}
-        playsInline
-        disablePictureInPicture
-        controlsList="nodownload nofullscreen noremoteplayback"
-        preload="auto"
-        onClick={togglePlay}
-        className="hero-header-main-video"
-      />
+      {/* Top Ambient Glow */}
+      <div className="modern-hero-ambient-glow" aria-hidden="true" />
 
-      {/* Click feedback animation (Play/Pause ripple) */}
-      {showPlayFeedback && (
-        <div className="hero-video-ripple-feedback" aria-hidden="true">
-          <div className="ripple-circle">
-            <Icon name={isPlaying ? "play_arrow" : "pause"} />
+      <div className="modern-hero-container">
+        {/* 1. Modern Eyebrow Pill */}
+        <div className="modern-hero-badge reveal">
+          <span className="modern-hero-pulse-dot" aria-hidden="true" />
+          <span>BIZZMAKER • DIGITAL MARKETING AGENCY</span>
+          <span style={{ opacity: 0.5 }}>•</span>
+          <span className="badge-tag-highlight">2026 ROI PLAYBOOK</span>
+          <span className="material-symbols-outlined" style={{ fontSize: "16px", color: "#B9974F" }}>
+            arrow_forward
+          </span>
+        </div>
+
+        {/* 2. Main High-Converting Headline (H1) */}
+        <h1 className="modern-hero-title reveal delay-100">
+          Scale Your Business with <br />
+          <span className="modern-hero-gradient-text">High-ROI Digital Marketing</span>
+        </h1>
+
+        {/* 3. Persuasive Subheading */}
+        <p className="modern-hero-subtitle reveal delay-150">
+          BizzMaker builds high-intent Google Search &amp; P-Max campaigns, laser-targeted Meta Ads,
+          conversion-optimized websites, and viral reel production engineered to lower CAC and maximize your ROAS.
+        </p>
+
+        {/* 4. Action Dual CTAs */}
+        <div className="modern-hero-cta-group reveal delay-200">
+          <a href="/pricing" className="modern-hero-btn-primary">
+            <span className="material-symbols-outlined">rocket_launch</span>
+            Explore Growth Plans &rarr;
+          </a>
+          <a
+            href="https://wa.me/919096090701?text=Hi%20BizzMaker!%20I%20would%20like%20to%20learn%20more%20about%20your%20digital%20marketing%20packages%20and%20scaling%20strategy."
+            target="_blank"
+            rel="noopener noreferrer"
+            className="modern-hero-btn-secondary"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372s-1.04 1.016-1.04 2.479 1.065 2.876 1.213 3.074c.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.695.248-1.29.173-1.414z" />
+            </svg>
+            Chat on WhatsApp
+          </a>
+        </div>
+
+        {/* 6. Hero Visual Showcase Card (Houses BizzMaker GIF) */}
+        <div className="modern-hero-visual-frame reveal delay-300" ref={containerRef}>
+          <div className="modern-hero-visual-inner">
+            {/* Floating Live Marketing Metric Chips */}
+            <div className="modern-floating-chip chip-tl">
+              <span className="material-symbols-outlined" style={{ color: "#00F5A0", fontSize: "18px" }}>trending_up</span>
+              <span>Google Ads • 6.8x ROAS</span>
+            </div>
+
+            <div className="modern-floating-chip chip-br">
+              <span className="material-symbols-outlined" style={{ color: "#B9974F", fontSize: "18px" }}>campaign</span>
+              <span>Meta Ads • +340% Leads</span>
+            </div>
+
+            <div className="modern-floating-chip chip-bl">
+              <span className="material-symbols-outlined" style={{ color: "#00F5A0", fontSize: "18px" }}>bolt</span>
+              <span>Web CRO • +180% Conversions</span>
+            </div>
+
+            {/* The Custom BizzMaker Digital Marketing Animated GIF */}
+            <Image
+              src="/bizzmaker-header.gif"
+              alt="BizzMaker Digital Marketing Neural Engine & Performance Ads"
+              width={1080}
+              height={600}
+              priority
+              unoptimized
+              className="modern-hero-gif-img"
+            />
           </div>
         </div>
-      )}
-
-      {/* Floating Animated Sound Controls */}
-      <div className="hero-video-controls-overlay">
-        <button
-          type="button"
-          className={`hero-video-sound-pill ${!isMuted ? "sound-active" : ""}`}
-          onClick={toggleMute}
-          aria-label={isMuted ? "Unmute video sound" : "Mute video sound"}
-          title={isMuted ? "Unmute audio" : "Mute audio"}
-        >
-          <span className="sound-pulse-ring" aria-hidden="true" />
-          <Icon name={isMuted ? "volume_off" : "volume_up"} />
-          <span>{isMuted ? "Sound On" : "Playing Sound"}</span>
-          {!isMuted && (
-            <span className="sound-equalizer-bars" aria-hidden="true">
-              <span className="eq-bar bar-1" />
-              <span className="eq-bar bar-2" />
-              <span className="eq-bar bar-3" />
-            </span>
-          )}
-        </button>
-
-        <button
-          type="button"
-          className="hero-video-play-pill"
-          onClick={togglePlay}
-          aria-label={isPlaying ? "Pause video" : "Play video"}
-          title={isPlaying ? "Pause video" : "Play video"}
-        >
-          <Icon name={isPlaying ? "pause" : "play_arrow"} />
-        </button>
       </div>
-
-      {/* Animated Luxury Shimmer Light Border at bottom of header */}
-      <div className="hero-header-shimmer-line" aria-hidden="true">
-        <div className="shimmer-light-beam" />
-      </div>
-    </div>
+    </section>
   );
 }

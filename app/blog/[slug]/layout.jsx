@@ -20,12 +20,12 @@ export async function generateMetadata({ params }) {
   const slug = resolvedParams.slug;
   const blog = await getBlog(slug);
   
-  let title = "Blog | AI Digital";
+  let title = "Blog | BizzMaker";
   let description = "Insights and strategies on AI, SEO, and Performance Marketing.";
   let coverImage = "/creative_content/Creative1.jpeg";
   
   if (blog) {
-    title = `${blog.title} | AI Digital`;
+    title = `${blog.title} | BizzMaker`;
     if (blog.excerpt) description = blog.excerpt;
     if (blog.cover_image) coverImage = blog.cover_image;
   }
@@ -64,12 +64,12 @@ export default async function BlogSlugLayout({ children, params }) {
   const slug = resolvedParams.slug;
   const blog = await getBlog(slug);
 
-  let title = "Blog | AI Digital";
+  let title = "Blog | BizzMaker";
   let description = "Insights and strategies on AI, SEO, and Performance Marketing.";
   let coverImage = "/creative_content/Creative1.jpeg";
   
   if (blog) {
-    title = `${blog.title} | AI Digital`;
+    title = `${blog.title} | BizzMaker`;
     if (blog.excerpt) description = blog.excerpt;
     if (blog.cover_image) coverImage = blog.cover_image;
   }
@@ -83,7 +83,7 @@ export default async function BlogSlugLayout({ children, params }) {
     url: `https://www.aidigital.biz/blog/${slug}`,
     publisher: {
       "@type": "Organization",
-      name: "AI Digital",
+      name: "BizzMaker",
       logo: {
         "@type": "ImageObject",
         url: "https://www.aidigital.biz/Logo.png"

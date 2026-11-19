@@ -46,8 +46,8 @@ export function Icon({ name, className = "" }) {
 
 export function Logo() {
   return (
-    <a className="logo" href="/" aria-label="AI Digital home">
-      <Image src="/Logo.png" alt="AI Digital Logo" width={180} height={101} priority />
+    <a className="logo" href="/" aria-label="BizzMaker home">
+      <Image src="/Logo.png" alt="BizzMaker Logo" width={180} height={101} priority />
     </a>
   );
 }
@@ -57,6 +57,7 @@ export function SiteHeader({ active = "home" }) {
   const [currentActive, setCurrentActive] = useState(active);
   const [mounted, setMounted] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [loginMenuOpen, setLoginMenuOpen] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -142,7 +143,30 @@ export function SiteHeader({ active = "home" }) {
           </a>
         ))}
       </div>
-      <div className="nav-actions-wrapper">
+      <div className="nav-actions-wrapper" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        {/* Simple Login Button */}
+        <a
+          className="nav-button nav-button-employee"
+          href="/admin"
+          title="Admin Portal"
+          style={{
+            background: "rgba(30, 77, 66, 0.08)",
+            border: "1px solid rgba(30, 77, 66, 0.25)",
+            color: "#1e4d42",
+            padding: "8px 16px",
+            fontSize: "0.85rem",
+            fontWeight: 600,
+            borderRadius: "8px",
+            display: "inline-flex",
+            alignItems: "center",
+            gap: "6px",
+            textDecoration: "none",
+            cursor: "pointer"
+          }}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: "17px" }}>login</span>
+          Login
+        </a>
         {isVisible("home_contact") ? (
           <a className="nav-button" href="/#contact">Contact Us &rarr;</a>
         ) : null}
@@ -164,6 +188,17 @@ export function SiteHeader({ active = "home" }) {
               {item.label}
             </a>
           ))}
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: "10px", marginTop: "6px", display: "flex", flexDirection: "column", gap: "6px" }}>
+            <a
+              className="mobile-menu-cta"
+              href="/admin"
+              style={{ background: "#1e4d42", color: "#fff", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "8px", padding: "10px 14px", borderRadius: "8px", fontSize: "13px" }}
+              onClick={() => setMenuOpen(false)}
+            >
+              <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>login</span>
+              <span>Login / Admin Portal</span>
+            </a>
+          </div>
           {isVisible("home_contact") && (
             <a className="mobile-menu-cta" href="/#contact" onClick={() => setMenuOpen(false)}>Contact Us</a>
           )}
@@ -211,7 +246,7 @@ export function SiteFooter() {
           <Logo />
           <strong>Innovate. Connect. Grow.</strong>
           <p>
-            AI Digital is an AI-powered digital marketing agency helping
+            BizzMaker is an AI-powered digital marketing agency helping
             businesses improve visibility, engagement, leads and measurable growth.
           </p>
           <div className="socials">
@@ -224,31 +259,31 @@ export function SiteFooter() {
               title="Google Business Profile & Location (GMB)"
             >
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z"/>
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z" />
               </svg>
             </a>
             {/* Instagram */}
             <a href="https://www.instagram.com/aidigitalbiz01/" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>
+                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.051.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z" />
               </svg>
             </a>
             {/* Facebook */}
             <a href="https://www.facebook.com/profile.php?id=61585657074769" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>
+                <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.267h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z" />
               </svg>
             </a>
             {/* LinkedIn */}
             <a href="https://www.linkedin.com/in/ai-digital-48120b3a0/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+                <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.779-1.75-1.75s.784-1.75 1.75-1.75 1.75.779 1.75 1.75-.784 1.75-1.75 1.75zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z" />
               </svg>
             </a>
             {/* YouTube */}
             <a href="https://www.youtube.com/@aidigitalbiz01" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
               <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor">
-                <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.108C19.513 3.545 12 3.545 12 3.545s-7.512 0-9.388.51a3.002 3.002 0 0 0-2.11 2.108C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.108c1.876.512 9.388.512 9.388.512s7.513 0 9.388-.512a3.003 3.003 0 0 0 2.11-2.108C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+                <path d="M23.498 6.163a3.003 3.003 0 0 0-2.11-2.108C19.513 3.545 12 3.545 12 3.545s-7.512 0-9.388.51a3.002 3.002 0 0 0-2.11 2.108C0 8.033 0 12 0 12s0 3.967.502 5.837a3.003 3.003 0 0 0 2.11 2.108c1.876.512 9.388.512 9.388.512s7.513 0 9.388-.512a3.003 3.003 0 0 0 2.11-2.108C24 15.967 24 12 24 12s0-3.967-.502-5.837zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
               </svg>
             </a>
           </div>
@@ -284,7 +319,7 @@ export function SiteFooter() {
           );
         })}
       </div>
-      <div className="copyright">Copyright 2013-2026 AI Digital, All Right Reserved</div>
+      <div className="copyright">Copyright 2013-2026 BizzMaker, All Right Reserved</div>
     </footer>
   );
 }

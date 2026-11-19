@@ -1,4 +1,3 @@
-import { Inter, Sora } from "next/font/google";
 import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
@@ -9,27 +8,16 @@ import GlobalCursorGlow from "./components/GlobalCursorGlow";
 import VisitorTracker from "./components/VisitorTracker";
 import { VisibilityProvider } from "./context/VisibilityContext";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
-
-const sora = Sora({
-  subsets: ["latin"],
-  variable: "--font-headline",
-  weight: ["600", "700"],
-  display: "swap",
-});
-
 export const metadata = {
   metadataBase: new URL("https://www.aidigital.biz"),
-  title: "AI Digital | Neural Growth Marketing",
+  icons: {
+    icon: "/Logo.png",
+  },
+  title: "BizzMaker | Neural Growth Marketing",
   description:
     "AI-powered digital marketing for SEO, performance campaigns, social growth, design, and analytics.",
   keywords: [
-    "AI Digital",
+    "BizzMaker",
     "Neural Growth Marketing",
     "Digital Marketing Agency",
     "SEO Services",
@@ -40,11 +28,11 @@ export const metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "AI Digital | Neural Growth Marketing",
+    title: "BizzMaker | Neural Growth Marketing",
     description:
       "AI-powered digital marketing for SEO, performance campaigns, social growth, design, and analytics.",
     url: "https://www.aidigital.biz",
-    siteName: "AI Digital",
+    siteName: "BizzMaker",
     locale: "en_US",
     type: "website",
     images: [
@@ -52,13 +40,13 @@ export const metadata = {
         url: "https://www.aidigital.biz/Logo.png",
         width: 1600,
         height: 900,
-        alt: "AI Digital Logo",
+        alt: "BizzMaker Logo",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Digital | Neural Growth Marketing",
+    title: "BizzMaker | Neural Growth Marketing",
     description:
       "AI-powered digital marketing for SEO, performance campaigns, social growth, design, and analytics.",
     images: ["https://www.aidigital.biz/Logo.png"],
@@ -83,11 +71,12 @@ export default function RootLayout({ children }) {
   const gtmId = process.env.NEXT_PUBLIC_GTM_ID;
 
   return (
-    <html lang="en" className={`${inter.variable} ${sora.variable}`}>
+    <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/Logo.png" type="image/png" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+          href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Sora:wght@600;700&family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
         />
         <script
@@ -96,7 +85,7 @@ export default function RootLayout({ children }) {
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "AI Digital",
+              name: "BizzMaker",
               url: "https://www.aidigital.biz",
               logo: "https://www.aidigital.biz/Logo.png",
               description:
@@ -115,6 +104,31 @@ export default function RootLayout({ children }) {
             }),
           }}
         />
+      </head>
+      <body suppressHydrationWarning>
+        {gtmId && (
+          <noscript
+            dangerouslySetInnerHTML={{
+              __html: `<iframe src="https://www.googletagmanager.com/ns.html?id=${gtmId}" height="0" width="0" style="display:none;visibility:hidden"></iframe>`,
+            }}
+          />
+        )}
+        <noscript
+          dangerouslySetInnerHTML={{
+            __html: `<img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=975563025122146&ev=PageView&noscript=1" alt="" />`,
+          }}
+        />
+        <VisibilityProvider>
+          <GlobalCursorGlow />
+          <Suspense fallback={null}>
+            <VisitorTracker />
+          </Suspense>
+          {children}
+          <ChatWidget />
+          <WhatsAppFloating />
+          <BackToTop />
+        </VisibilityProvider>
+
         {gtmId && (
           <Script
             id="gtm-script"
@@ -165,37 +179,6 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-      </head>
-      <body>
-        {gtmId && (
-          <noscript>
-            <iframe
-              src={`https://www.googletagmanager.com/ns.html?id=${gtmId}`}
-              height="0"
-              width="0"
-              style={{ display: "none", visibility: "hidden" }}
-            />
-          </noscript>
-        )}
-        <noscript>
-          <img
-            height="1"
-            width="1"
-            style={{ display: "none" }}
-            src="https://www.facebook.com/tr?id=975563025122146&ev=PageView&noscript=1"
-            alt=""
-          />
-        </noscript>
-        <VisibilityProvider>
-          <GlobalCursorGlow />
-          <Suspense fallback={null}>
-            <VisitorTracker />
-          </Suspense>
-          {children}
-          <ChatWidget />
-          <WhatsAppFloating />
-          <BackToTop />
-        </VisibilityProvider>
       </body>
     </html>
   );

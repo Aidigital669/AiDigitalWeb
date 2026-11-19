@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import pool from "../../../lib/db";
 
@@ -9,8 +10,8 @@ function checkAuth(req) {
 const fallbackBlogs = [
   {
     id: "b1",
-    title: "Welcome to AI Digital Blogs",
-    slug: "welcome-to-ai-digital-blogs",
+    title: "Welcome to BizzMaker Blogs",
+    slug: "welcome-to-bizzmaker-blogs",
     content: `## Exploring AI Powered Digital Marketing
 
 Welcome to our blog! We specialize in generating high-performing leads, developing optimized web applications, and building AI videos.

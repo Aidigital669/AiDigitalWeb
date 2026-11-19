@@ -70,7 +70,7 @@ export default function BlogListingPage() {
         <section style={styles.heroSection}>
           <div style={styles.eyebrow}>Insights & Knowledge</div>
           <h1 style={styles.mainTitle}>
-            AI Digital <span>Blogs</span>
+            BizzMaker <span>Blogs</span>
           </h1>
           <p style={styles.subtitle}>
             Stay ahead with the latest strategies in AI-driven marketing, web development frameworks, and SEO conversions.

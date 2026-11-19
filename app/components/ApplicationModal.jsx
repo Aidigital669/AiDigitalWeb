@@ -173,7 +173,7 @@ export default function ApplicationModal({ isOpen, onClose, jobTitle, jobDescrip
             marginBottom: "16px"
           }}>
             <h3 style={{ fontSize: "1.2rem", marginBottom: "8px" }}>Application Submitted!</h3>
-            <p>Thank you for applying to AI Digital. We will review your profile and contact you shortly.</p>
+            <p>Thank you for applying to BizzMaker. We will review your profile and contact you shortly.</p>
             <button 
               onClick={onClose}
               className="btn-card-solid"

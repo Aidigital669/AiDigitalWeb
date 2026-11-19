@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import pool from "../../../../lib/db";
 import crypto from "crypto";
@@ -107,7 +108,7 @@ export async function POST(req) {
     if (sourceType === "devto") {
       // 1. Fetch articles list from Dev.to
       const listRes = await fetch(`https://dev.to/api/articles?username=${encodeURIComponent(username)}`, {
-        headers: { "User-Agent": "Mozilla/5.0 (AI Digital Blog Importer)" },
+        headers: { "User-Agent": "Mozilla/5.0 (BizzMaker Blog Importer)" },
       });
       if (!listRes.ok) {
         throw new Error(`Failed to fetch Dev.to articles list: ${listRes.statusText}`);
@@ -119,7 +120,7 @@ export async function POST(req) {
       for (const item of limitList) {
         try {
           const detailRes = await fetch(`https://dev.to/api/articles/${item.id}`, {
-            headers: { "User-Agent": "Mozilla/5.0 (AI Digital Blog Importer)" },
+            headers: { "User-Agent": "Mozilla/5.0 (BizzMaker Blog Importer)" },
           });
           if (detailRes.ok) {
             const detail = await detailRes.json();
@@ -140,7 +141,7 @@ export async function POST(req) {
     } else if (sourceType === "rss") {
       // 1. Fetch RSS Feed XML
       const rssRes = await fetch(feedUrl, {
-        headers: { "User-Agent": "Mozilla/5.0 (AI Digital Blog Importer)" },
+        headers: { "User-Agent": "Mozilla/5.0 (BizzMaker Blog Importer)" },
       });
       if (!rssRes.ok) {
         throw new Error(`Failed to fetch RSS Feed: ${rssRes.statusText}`);

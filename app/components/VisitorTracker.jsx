@@ -82,7 +82,7 @@ export default function VisitorTracker() {
       is_new_visitor: isNew ? 1 : 0,
       page_url: window.location.href,
       page_path: pathname || "/",
-      page_title: document.title || "AI Digital",
+      page_title: document.title || "BizzMaker",
       referrer: document.referrer || "Direct",
       utm_source: utmSource,
       utm_medium: utmMedium,

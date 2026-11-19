@@ -1,6 +1,7 @@
 {
-  "name": "ai-digital-neural-tech",
-  "version": "0.1.0",
+  "name": "bizzmaker",
+  "version": "1.0.0",
+  "description": "BizzMaker - High-Performance Digital Marketing Platform & Admin CMS",
   "private": true,
   "scripts": {
     "dev": "next dev --hostname 127.0.0.1",
@@ -11,11 +12,13 @@
     "googleapis": "^173.0.0",
     "mysql2": "^3.11.0",
     "next": "^15.3.0",
-    "nextjs": "^0.0.3",
     "nodemailer": "^9.0.1",
-    "razorpay": "^2.9.6",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "twilio": "^6.0.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.5",
+    "tailwindcss": "^4.3.5"
   }
 }

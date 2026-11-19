@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Checkout | AI Digital",
+  title: "Checkout | BizzMaker",
   description: "Secure checkout for your digital marketing services.",
   alternates: {
     canonical: "/checkout",

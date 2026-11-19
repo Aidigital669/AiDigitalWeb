@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from 'next/server';
 
 export async function GET() {
@@ -10,7 +11,7 @@ export async function GET() {
       profile_photo_url: "https://ui-avatars.com/api/?name=Ramesh+Sharma&background=0D8ABC&color=fff",
       rating: 5,
       relative_time_description: "3 weeks ago",
-      text: "AI Digital absolutely transformed our online presence! The website design is stunning and their SEO strategies doubled our organic traffic in just a few months. Highly recommended for any business in Pune looking to scale.",
+      text: "BizzMaker absolutely transformed our online presence! The website design is stunning and their SEO strategies doubled our organic traffic in just a few months. Highly recommended for any business in Pune looking to scale.",
       time: Date.now() / 1000 - 1814400,
     },
     {
@@ -19,7 +20,7 @@ export async function GET() {
       profile_photo_url: "https://ui-avatars.com/api/?name=Priya+Desai&background=E56030&color=fff",
       rating: 5,
       relative_time_description: "a month ago",
-      text: "Working with the AI Digital team has been a game changer for our Google Ads. They are highly professional, data-driven, and transparent. We've seen an incredible ROI since partnering with them.",
+      text: "Working with the BizzMaker team has been a game changer for our Google Ads. They are highly professional, data-driven, and transparent. We've seen an incredible ROI since partnering with them.",
       time: Date.now() / 1000 - 2592000,
     },
     {
@@ -37,7 +38,7 @@ export async function GET() {
       profile_photo_url: "https://ui-avatars.com/api/?name=Neha+Patel&background=random",
       rating: 5,
       relative_time_description: "3 months ago",
-      text: "We tried several marketing agencies before finding AI Digital. Their combination of human strategy and AI insights is what makes them stand out. Finally, our marketing spend is generating real leads.",
+      text: "We tried several marketing agencies before finding BizzMaker. Their combination of human strategy and AI insights is what makes them stand out. Finally, our marketing spend is generating real leads.",
       time: Date.now() / 1000 - 7776000,
     },
     {

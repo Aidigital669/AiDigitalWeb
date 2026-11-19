@@ -66,7 +66,7 @@ export default function PaymentSuccessPage() {
       const params = new URLSearchParams(window.location.search);
       setPaymentId(params.get("payment_id") || "pay_mock123456");
       setAmount(params.get("amount") || "0");
-      setPlans(params.get("plans") || "AI Digital Plan");
+      setPlans(params.get("plans") || "BizzMaker Plan");
       setPhone(params.get("phone") || "");
       setPromoCode(params.get("promo_code") || "None");
     }
@@ -456,7 +456,7 @@ export default function PaymentSuccessPage() {
                       frameBorder="0"
                       marginHeight="0"
                       marginWidth="0"
-                      title="AiDigitals Onboarding Google Form"
+                      title="BizzMaker Onboarding Google Form"
                       style={{ display: "block" }}
                       onLoad={() => {
                         setIframeLoadCount((prev) => {
@@ -527,7 +527,7 @@ export default function PaymentSuccessPage() {
                 <div style={{ textAlign: "center", padding: "24px 0" }}>
                   <span className="material-symbols-outlined" style={{ fontSize: "56px", color: "#10b981", marginBottom: "16px", display: "block" }}>task_alt</span>
                   <h3 style={{ fontSize: "1.6rem", fontWeight: "800", marginBottom: "8px", color: "var(--text)" }}>Business Profile Saved!</h3>
-                  <p style={{ color: "var(--orange)", fontWeight: "700", fontSize: "1rem", marginBottom: "16px" }}>Thanks for choosing AiDigitals!</p>
+                  <p style={{ color: "var(--orange)", fontWeight: "700", fontSize: "1rem", marginBottom: "16px" }}>Thanks for choosing BizzMaker!</p>
                   {requestCallBack && (
                     <div style={{
                       display: "inline-flex", alignItems: "center", gap: "6px",
@@ -681,7 +681,7 @@ export default function PaymentSuccessPage() {
                 <div style={{ textAlign: "center", padding: "24px 0" }}>
                   <span className="material-symbols-outlined" style={{ fontSize: "56px", color: "var(--blue)", marginBottom: "16px", display: "block" }}>calendar_today</span>
                   <h3 style={{ fontSize: "1.6rem", fontWeight: "800", marginBottom: "8px", color: "var(--text)" }}>Strategy Call Booked!</h3>
-                  <p style={{ color: "var(--orange)", fontWeight: "700", fontSize: "1rem", marginBottom: "16px" }}>Thanks for choosing AiDigitals!</p>
+                  <p style={{ color: "var(--orange)", fontWeight: "700", fontSize: "1rem", marginBottom: "16px" }}>Thanks for choosing BizzMaker!</p>
                   <p style={{ color: "var(--muted)", maxWidth: "550px", margin: "0 auto 24px auto" }}>
                     We have booked your strategy meeting slot for <strong>{selectedDate}</strong> at <strong>{selectedTimeSlot}</strong>.
                     A Google Meet invite will be sent to your email shortly.

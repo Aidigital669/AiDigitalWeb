@@ -1,17 +1,23 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import { useVisibility } from "../context/VisibilityContext";
 
 export default function ChatWidget() {
+  const pathname = usePathname();
   const { isVisible } = useVisibility();
   const [isOpen, setIsOpen] = useState(false);
+
+  if (pathname?.startsWith("/login") || pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin") || pathname?.startsWith("/employee-login")) {
+    return null;
+  }
 
   if (!isVisible("widget_chat")) return null;
   const [messages, setMessages] = useState([
     {
       sender: "model",
-      text: "Hi! I'm AiDigital Bot, your growth assistant. Ask me anything about our digital marketing, web development packages, or Razorpay pricing plans!"
+      text: "Hi! I'm BizzMaker Bot, your growth assistant. Ask me anything about our digital marketing, web development packages, or growth plans!"
     }
   ]);
   const [inputValue, setInputValue] = useState("");
@@ -91,7 +97,7 @@ export default function ChatWidget() {
                 </svg>
               </div>
               <div>
-                <h4 className="bot-title">AiDigital Bot</h4>
+                <h4 className="bot-title">BizzMaker Bot</h4>
                 <p className="bot-status">Online & ready to grow</p>
               </div>
             </div>

@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Blog | AI Digital",
+  title: "Blog | BizzMaker",
   description: "Insights and strategies on AI, SEO, and Performance Marketing.",
   alternates: {
     canonical: "/blog",

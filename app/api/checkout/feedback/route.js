@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { pool } from "../../../../lib/db";
 import { sendWhatsAppMessage } from "../../../../lib/whatsapp";
@@ -152,7 +153,7 @@ ${additionalNotes ? `\nAdditional Feedback:\n${additionalNotes}` : ""}
 Please follow up with this potential customer.
 
 Best regards,
-AI Digital Notification System`;
+BizzMaker Notification System`;
 
       await sendEmail({
         to: adminEmail,

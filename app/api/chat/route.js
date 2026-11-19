@@ -6,7 +6,7 @@ import fs from "fs";
 import path from "path";
 
 const BASE_SYSTEM_PROMPT = `
-You are "AiDigital Bot", the helpful AI assistant for "aidigitals" (AI Digital), a premium digital marketing and tech agency.
+You are "BizzMaker Bot", the helpful AI assistant for BizzMaker, a premium digital marketing and tech agency.
 Your goal is to answer visitor questions, give information about our services and pricing, and guide them to make a purchase or submit an inquiry.
 
 Core Tone and Style:
@@ -14,9 +14,9 @@ Core Tone and Style:
 - Suggest solutions based on the services we offer.
 - Keep responses short (under 2-3 sentences where possible) to maintain engagement in a chat widget interface.
 
-About aidigitals (AI Digital):
+About BizzMaker:
 - We specialize in AI-powered digital growth, high-performance web development, SEO, and paid ad campaigns.
-- We have a shopping cart integrated into the website. Clicking "Buy Now" on any plan adds it to their cart and redirects them to the checkout page (/cart) where they can pay securely via Razorpay.
+- We have a shopping cart integrated into the website. Clicking "Buy Now" on any plan adds it to their cart and redirects them to the checkout page (/checkout) where they can complete details and purchase directly via WhatsApp.
 
 Services & Packages:
 [SERVICES_AND_PACKAGES_PLACEHOLDER]
@@ -132,7 +132,7 @@ export async function POST(req) {
     if (!apiKey) {
       return NextResponse.json({
         role: "model",
-        text: "Hi there! I am the AiDigital Bot. (API Key not configured yet, showing demo mode). How can I help you with SEO, performance campaigns, or website packages today?"
+        text: "Hi there! I am the BizzMaker Bot. (API Key not configured yet, showing demo mode). How can I help you with SEO, performance campaigns, or website packages today?"
       });
     }
 
@@ -148,7 +148,7 @@ export async function POST(req) {
       },
       {
         role: "model",
-        parts: [{ text: "Understood. I will act as AiDigital Bot under these instructions." }]
+        parts: [{ text: "Understood. I will act as BizzMaker Bot under these instructions." }]
       },
       ...messages.map(msg => ({
         role: msg.sender === "user" ? "user" : "model",

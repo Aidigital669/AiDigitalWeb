@@ -4,15 +4,15 @@ import React, { useState } from "react";
 
 const faqs = [
   {
-    question: "What services does AI Digital provide?",
+    question: "What services does BizzMaker provide?",
     answer: "We offer a 360-degree approach to digital growth, including SEO, Google Ads & PPC, Facebook & Instagram Marketing, Website Design, Branding, and AI Video Production."
   },
   {
     question: "How much do your marketing services cost?",
-    answer: "Our services are highly affordable and tailored for growing businesses. Pricing starts as low as ₹599 for Social Media Content, ₹2,499/mo for Social Marketing, and ₹7,499 for full SEO Web Design."
+    answer: "Our services are highly affordable and tailored for growing businesses. Pricing starts as low as ₹500 for 10 Social Media Graphics, ₹599 for AI Videos, ₹3,000 for Meta Ads, ₹5,000 for Website Development, ₹6,000 for Professional Reel Shoots, ₹7,500 for Google Ads Management, and ₹20,000 for our complete Brand Development Program."
   },
   {
-    question: "What makes AI Digital different?",
+    question: "What makes BizzMaker different?",
     answer: "We combine expert human strategy with AI-assisted research and performance tracking. This ensures transparent reporting, rapid execution, and proven ROI for our clients."
   },
   {
@@ -24,7 +24,7 @@ const faqs = [
     answer: "Your security is our top priority. We use industry-standard 256-bit encryption and partner with trusted, PCI-compliant payment gateways. We never store your credit card or sensitive financial information directly on our servers."
   },
   {
-    question: "What are the biggest advantages of working with AI Digital?",
+    question: "What are the biggest advantages of working with BizzMaker?",
     answer: "Working with us gives you the agility of a boutique agency with the power of an enterprise. Our biggest advantages are our AI-driven predictive strategies, 100% transparent live reporting, rapid campaign execution, and a dedicated team of growth experts obsessed with your ROI."
   },
   {
@@ -45,7 +45,7 @@ export default function FaqSection() {
       <div className="section-heading compact">
         <span className="eyebrow">Got Questions?</span>
         <h2>Frequently Asked Questions</h2>
-        <p>Everything you need to know about partnering with AI Digital for your growth.</p>
+        <p>Everything you need to know about partnering with BizzMaker for your growth.</p>
       </div>
 
       <div className="faq-container">

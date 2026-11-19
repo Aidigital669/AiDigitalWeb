@@ -115,7 +115,7 @@
       "id": "home_why_us",
       "type": "section",
       "page_group": "home",
-      "name": "Why Choose AI Digital",
+      "name": "Why Choose BizzMaker",
       "description": "6 core value pillars and AI market advantages",
       "is_visible": true,
       "sort_order": 6
@@ -316,7 +316,7 @@
       "name": "Featured Projects Main Grid",
       "description": "Primary grid displaying curated client project showcases",
       "is_visible": true,
-      "sort_order": 27
+      "sort_order": 28
     },
     {
       "id": "portfolio_other_projects",
@@ -325,7 +325,7 @@
       "name": "View Other Projects Section",
       "description": "Expandable 'View Other Projects' section at the bottom of portfolio",
       "is_visible": true,
-      "sort_order": 28
+      "sort_order": 29
     },
     {
       "id": "portfolio_type_websites",
@@ -503,7 +503,7 @@
       "type": "section",
       "page_group": "portfolio",
       "name": "Industry: Digital Marketing",
-      "description": "AI Digital performance campaigns, ROI case studies, and ad promos",
+      "description": "BizzMaker performance campaigns, ROI case studies, and ad promos",
       "is_visible": false,
       "sort_order": 48
     },
@@ -643,5 +643,5 @@
       "sort_order": 63
     }
   ],
-  "updated_at": "2026-09-29T09:05:46.553Z"
+  "updated_at": "2026-11-16T05:48:47.991Z"
 }

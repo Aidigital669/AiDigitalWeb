@@ -50,48 +50,67 @@ const services = [
 const campaigns = [
   {
     icon: "ads_click",
-    title: "Google Ads Management & PPC",
-    body: "High-intent search engine marketing (SEM) campaigns with optimized landing pages, tracking, and continuous ROAS scaling.",
-    tags: ["Search Ads", "Lead Generation", "PPC"],
-    fit: "Paid Search Growth",
-    price: "Starts at ₹4,999/mo",
-    link: "/pricing#ads"
+    title: "Google Ads Management",
+    body: "High-intent Google Search, PPC, Display & Performance Max ad campaigns with conversion tracking, keyword optimization, and continuous ROAS scaling.",
+    tags: ["Search Ads", "PPC", "Conversion Tracking", "ROAS Scaling"],
+    fit: "Intent-driven lead generation & buyer acquisition",
+    link: "/pricing#google-ads"
   },
   {
-    icon: "mail",
-    title: "Facebook Ads & Social Marketing",
-    body: "Data-driven audience targeting, creative testing, and strategic retargeting for accelerated brand awareness and sales growth.",
-    tags: ["Social Ads", "Instagram Marketing", "Retargeting"],
-    fit: "Social Media Sales",
-    price: "Starts at ₹2,499/mo",
-    link: "/pricing#ads"
+    icon: "share",
+    title: "Meta Ads (FB & Instagram)",
+    body: "Laser-focused audience targeting, creative ad set building, demographic research, retargeting funnels, and lead generation across Instagram & Facebook.",
+    tags: ["Facebook Ads", "Instagram Ads", "Retargeting", "Lead Gen"],
+    fit: "Social media customer acquisition & viral reach",
+    link: "/pricing#meta-ads"
   },
   {
-    icon: "webhook",
-    title: "SEO Web Design & Landing Pages",
-    body: "High-performance, CRO-focused web development optimized for search engines, fast loading speeds, and maximum conversions.",
-    tags: ["SEO Web Design", "UX/UI", "Core Web Vitals"],
-    fit: "Conversion Optimization",
-    price: "Starts at ₹7,499",
-    link: "/pricing#websites"
+    icon: "trending_up",
+    title: "Performance Marketing",
+    body: "Data-backed multi-channel performance marketing engineered to lower CAC, scale conversion rates, and maximize end-to-end return on ad spend.",
+    tags: ["Meta Ads Scaling", "Google Ads Scaling", "CAC Reduction", "ROAS Scaling"],
+    fit: "Scaling brands seeking predictable high-volume ROI",
+    link: "/pricing#performance-marketing"
+  },
+  {
+    icon: "videocam",
+    title: "Reel Shoot",
+    body: "Complete on-location professional video shoot featuring scripted creative concepts, professional lighting, directional coaching, and viral reel edits.",
+    tags: ["On-Location Shoot", "Scripted Concepts", "Viral Reels", "4K Video"],
+    fit: "Brands, fashion, lifestyle, clinics & real estate",
+    link: "/pricing#reel-shoot"
   },
   {
     icon: "movie",
-    title: "AI Video Production for Ads",
-    body: "Engaging short-form video concepts, scriptwriting, and AI-driven production for YouTube, Instagram, and TikTok marketing.",
-    tags: ["YouTube Shorts", "Instagram Reels", "Video Ads"],
-    fit: "Viral Video Content",
-    price: "Starts at ₹4,500",
-    link: "/pricing#aivideo"
+    title: "AI Videos",
+    body: "Hyper-engaging AI-generated short videos, cinematic product teasers, AI avatar voiceovers, and dynamic social media reels engineered for ads.",
+    tags: ["AI Avatars", "Reels & Shorts", "Product Teasers", "Voiceovers"],
+    fit: "Affordable viral content & video ad campaigns",
+    link: "/pricing#ai-videos"
   },
   {
-    icon: "post_add",
-    title: "Social Media Content & SEO",
-    body: "High-engagement organic social media posts, SEO-optimized captions, and strategic content scheduling for brand growth.",
-    tags: ["Content Creation", "Brand Growth", "SMM"],
-    fit: "Active Brand Building",
-    price: "Starts at ₹599",
-    link: "/pricing#creative"
+    icon: "palette",
+    title: "Social Media Graphics",
+    body: "10 custom branded high-resolution social media graphic designs, promotional posters, product flyers, and carousel posts tailored for Instagram, Facebook, and LinkedIn.",
+    tags: ["Custom Posts", "Brand Aesthetics", "Carousels", "Flyers"],
+    fit: "Daily social media presence & engagement",
+    link: "/pricing#social-graphics"
+  },
+  {
+    icon: "desktop_windows",
+    title: "Website Development",
+    body: "Modern, lightning-fast, mobile-responsive business websites and landing pages built with clean code, SEO optimization, and high-conversion lead capture funnels.",
+    tags: ["Mobile Responsive", "Landing Pages", "Fast Speed", "Lead Capture"],
+    fit: "Businesses establishing a powerful digital presence",
+    link: "/pricing#website-development"
+  },
+  {
+    icon: "workspace_premium",
+    title: "Brand Development Program",
+    body: "Comprehensive end-to-end brand identity transformation: custom logo design, color palette, typography system, brand voice guidelines, marketing collateral, and launch roadmap.",
+    tags: ["Logo & Identity", "Brand Guidelines", "Collateral Kit", "Market Strategy"],
+    fit: "Established businesses & startups creating market authority",
+    link: "/pricing#brand-development"
   }
 ];
 
@@ -262,7 +281,7 @@ export default function Home() {
             <span className="eyebrow">AI-powered marketing services</span>
             <h2>Choose the Right Services for Your Growth Goal</h2>
             <p>
-              From search visibility to lead generation, AI Digital creates
+              From search visibility to lead generation, BizzMaker creates
               strategy, execution and analytics to help businesses grow with
               measurable campaigns.
             </p>
@@ -270,14 +289,13 @@ export default function Home() {
           <div className="campaign-grid">
             {campaigns.map((campaign, i) => (
               <article className={`campaign-card reveal reveal-delay-${(i % 3) + 1}`} key={campaign.title}>
-                <Icon name={campaign.icon} />
                 <h3>{campaign.title}</h3>
                 <p>{campaign.body}</p>
                 <div className="tag-row">
                   {campaign.tags.map((tag) => <span key={tag}>{tag}</span>)}
                 </div>
                 <small>Recommended for: {campaign.fit}</small>
-                <a href={campaign.link} className="campaign-pricing-btn">Check Pricing</a>
+                <a href={campaign.link} className="campaign-pricing-btn">Explore Plan</a>
               </article>
             ))}
           </div>
@@ -288,7 +306,7 @@ export default function Home() {
       {isVisible("home_why_us") && (
         <section id="why" className="section why">
           <div className="section-heading compact">
-            <h2>Why Choose AI Digital</h2>
+            <h2>Why Choose BizzMaker</h2>
           </div>
           <div className="why-grid">
             {whyItems.map((item, i) => (

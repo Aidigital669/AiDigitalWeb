@@ -1,3 +1,4 @@
+export const dynamic = "force-dynamic";
 import { NextResponse } from "next/server";
 import { pool } from "../../../../lib/db";
 import { sendWhatsAppMessage } from "../../../../lib/whatsapp";
@@ -119,7 +120,7 @@ Plan Details:
 Please follow up with this potential customer on their selected date.
 
 Best regards,
-AI Digital Notification System`;
+BizzMaker Notification System`;
 
       await sendEmail({
         to: adminEmail,
