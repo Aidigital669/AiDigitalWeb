@@ -448,7 +448,7 @@ export default function PricingClientPage() {
               <span className="cp-grid-hint">Select a growth package to get started</span>
             </div>
 
-            <div className="cp-plans-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
+            <div className="cp-plans-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", alignItems: "start" }}>
               {filteredTiers.map((tier) => {
                 const isSelected = tier.id === selectedTierId;
                 const isPerfPlan = tier.id === "plan_performance_marketing";
@@ -542,18 +542,6 @@ export default function PricingClientPage() {
                           ))}
                         </div>
                       </div>
-                    )}
-
-                    {/* Feature Checklist inside card */}
-                    {tier.features && (
-                      <ul style={{ listStyle: "none", padding: 0, margin: "14px 0", textAlign: "left", fontSize: "12px", color: "#cbd5e1", lineHeight: "1.6" }}>
-                        {tier.features.slice(0, 4).map((f, fIdx) => (
-                          <li key={fIdx} style={{ display: "flex", alignItems: "center", gap: "6px", marginBottom: "5px" }}>
-                            <span className="material-symbols-outlined" style={{ fontSize: "15px", color: "#10b981" }}>check_circle</span>
-                            <span>{f}</span>
-                          </li>
-                        ))}
-                      </ul>
                     )}
 
                     {/* Action Button inside card */}

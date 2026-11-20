@@ -9221,21 +9221,23 @@ p {
 .cp-plans-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 22px;
+  gap: 20px;
+  align-items: start;
 }
 
 @media (min-width: 768px) {
   .cp-plans-grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 24px;
+    gap: 20px;
+    align-items: start;
   }
 }
 
 .cp-plan-card {
   background: linear-gradient(150deg, #184137 0%, #0E2822 100%);
   border: 1.5px solid rgba(185, 151, 79, 0.4);
-  border-radius: 22px;
-  padding: 28px 24px;
+  border-radius: 20px;
+  padding: 22px 20px 20px 20px;
   position: relative;
   cursor: pointer;
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -9245,6 +9247,8 @@ p {
   align-items: center;
   text-align: center;
   outline: none;
+  height: auto;
+  min-height: 0;
 }
 
 .cp-plan-card:hover {
@@ -9409,7 +9413,7 @@ p {
   border-radius: 999px;
   font-size: 13px;
   color: #E2E8F0;
-  margin-bottom: 18px;
+  margin-bottom: 6px;
 }
 
 .cp-card-monthly-box .material-symbols-outlined {
@@ -9426,7 +9430,7 @@ p {
 .cp-card-action {
   width: 100%;
   max-width: 380px;
-  margin-top: auto;
+  margin-top: 14px;
 }
 
 .cp-card-btn {
