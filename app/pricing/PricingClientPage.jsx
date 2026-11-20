@@ -237,6 +237,58 @@ const defaultFaqs = [
   }
 ];
 
+function PlanTierIcon({ tier }) {
+  const tierId = tier?.id || "";
+  const tierName = (tier?.name || tier?.scope || "").toLowerCase();
+
+  // 1. Google Ads - Real Google G Logo
+  if (tierId === "plan_google_ads" || (tierName.includes("google") && !tierName.includes("meta"))) {
+    return (
+      <svg width="32" height="32" viewBox="0 0 48 48" aria-label="Google Ads">
+        <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+        <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+        <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.91l7.35-5.73z"/>
+        <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
+      </svg>
+    );
+  }
+
+  // 2. Meta Ads - Real Facebook Logo
+  if (tierId === "plan_meta_ads" || tierName.includes("meta") || tierName.includes("facebook")) {
+    return (
+      <svg width="34" height="34" viewBox="0 0 48 48" aria-label="Facebook Meta">
+        <circle cx="24" cy="24" r="23" fill="#1877F2"/>
+        <path fill="#FFFFFF" d="M26.7 38V24.5h4.5l.7-5.2h-5.2v-3.3c0-1.5.4-2.5 2.6-2.5h2.8V8.9c-.5-.1-2.1-.2-4-.2-4 0-6.7 2.4-6.7 6.9v3.7h-4.5v5.2h4.5V38h5.3z"/>
+      </svg>
+    );
+  }
+
+  // 3. Performance Marketing (Meta & Google)
+  if (tierId === "plan_performance_marketing") {
+    return (
+      <div style={{ display: "flex", alignItems: "center", gap: "5px" }} title="Google & Facebook Ads">
+        <svg width="22" height="22" viewBox="0 0 48 48" aria-label="Google">
+          <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+          <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+          <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.91l7.35-5.73z"/>
+          <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
+        </svg>
+        <span style={{ color: "#FAD978", fontWeight: "800", fontSize: "13px" }}>+</span>
+        <svg width="22" height="22" viewBox="0 0 48 48" aria-label="Facebook">
+          <circle cx="24" cy="24" r="23" fill="#1877F2"/>
+          <path fill="#FFFFFF" d="M26.7 38V24.5h4.5l.7-5.2h-5.2v-3.3c0-1.5.4-2.5 2.6-2.5h2.8V8.9c-.5-.1-2.1-.2-4-.2-4 0-6.7 2.4-6.7 6.9v3.7h-4.5v5.2h4.5V38h5.3z"/>
+        </svg>
+      </div>
+    );
+  }
+
+  return (
+    <span className="material-symbols-outlined cp-building-icon">
+      {tier?.icon || "star"}
+    </span>
+  );
+}
+
 export default function PricingClientPage() {
   const { isVisible, isPageVisible } = useVisibility();
   const { addToCart, clearCart } = useCart();
@@ -393,7 +445,7 @@ export default function PricingClientPage() {
                 <span className="material-symbols-outlined cp-grid-icon">tune</span>
                 <span className="cp-grid-label">CHOOSE YOUR GROWTH PACKAGE</span>
               </div>
-              <span className="cp-grid-hint">Click any card to inspect deliverables &amp; proceed</span>
+              <span className="cp-grid-hint">Select a growth package to get started</span>
             </div>
 
             <div className="cp-plans-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))" }}>
@@ -422,19 +474,9 @@ export default function PricingClientPage() {
                       </div>
                     )}
 
-                    {/* Radio / Selection Indicator */}
-                    <div className="cp-card-select-indicator">
-                      <span className="material-symbols-outlined">
-                        {isSelected ? "check_circle" : "radio_button_unchecked"}
-                      </span>
-                      <span>{isSelected ? "Selected Plan" : "Click to Select"}</span>
-                    </div>
-
                     {/* Icon */}
                     <div className="cp-card-icon-wrap">
-                      <span className="material-symbols-outlined cp-building-icon">
-                        {tier.icon || "star"}
-                      </span>
+                      <PlanTierIcon tier={tier} />
                     </div>
 
                     {/* Scope / Title */}
@@ -523,159 +565,16 @@ export default function PricingClientPage() {
                           setSelectedTierId(tier.id);
                           handleBuyNow(tier);
                         }}
-                        className={`cp-card-btn ${isSelected ? "active" : ""}`}
+                        className="cp-card-btn active"
                       >
                         <span className="material-symbols-outlined">rocket_launch</span>
-                        {isSelected ? "Proceed with this Plan" : "Choose this Plan"}
+                        Choose Plan
                       </button>
                     </div>
                   </div>
                 );
               })}
             </div>
-          </div>
-
-          {/* Active Tier Summary & Quick Checkout Bar */}
-          <div className="cp-checkout-bar reveal delay-250">
-            <div className="cp-bar-summary">
-              <div className="cp-bar-summary-badge">
-                <span className="material-symbols-outlined">check_circle</span>
-                <span>Active Selection</span>
-              </div>
-              <div className="cp-bar-title-row">
-                <h3 className="cp-bar-plan-name">
-                  {activeTier.id === "plan_performance_marketing" 
-                    ? `Performance Marketing (${perfSubOption === "google" ? "Google Option" : perfSubOption === "both" ? "Meta + Google Option" : "Meta Option"})`
-                    : activeTier.scope}
-                </h3>
-                <span className="cp-bar-divider">•</span>
-                <span className="cp-bar-price">₹{getCalculatedPriceDisplay(activeTier)}</span>
-                <span className="cp-bar-period">({activeTier.period || "per Month"}) + GST</span>
-              </div>
-              <span className="cp-bar-effective">{activeTier.monthlyEffective}</span>
-            </div>
-
-            <div className="cp-bar-actions">
-              <button
-                type="button"
-                onClick={() => handleBuyNow(activeTier)}
-                className="cp-bar-btn-buy"
-              >
-                <span className="material-symbols-outlined">rocket_launch</span>
-                Select Plan &amp; Buy Now (₹{getCalculatedPriceDisplay(activeTier)})
-              </button>
-
-              <a
-                href={getWhatsAppInquiryUrl(activeTier)}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="cp-bar-btn-wa"
-              >
-                <span className="material-symbols-outlined">chat</span>
-                Inquire on WhatsApp
-              </a>
-
-              <a
-                href="tel:9096090701"
-                className="cp-bar-btn-call"
-              >
-                <span className="material-symbols-outlined">call</span>
-                Call: 9096090701
-              </a>
-            </div>
-          </div>
-
-          {/* Compressed Deliverables & Outcomes Section */}
-          <div className="cp-deliverables-compact reveal delay-300">
-            {/* Associate Channel Banner */}
-            <div className="cp-asicote-card">
-              <div className="cp-asicote-header">
-                <div className="cp-asicote-brand-wrap">
-                  <span className="material-symbols-outlined cp-asicote-icon">handshake</span>
-                  <span className="cp-asicote-brand">AI DIGITAL</span>
-                  <span className="cp-asicote-sub">GROWTH ASSURANCE</span>
-                </div>
-                <div className="cp-asicote-tag">Included with All 8 Plans</div>
-              </div>
-
-              <div className="cp-outcomes-grid">
-                <div className="cp-outcome-item">
-                  <span className="material-symbols-outlined">check_circle</span>
-                  <span>More Verified Leads</span>
-                </div>
-                <div className="cp-outcome-item">
-                  <span className="material-symbols-outlined">check_circle</span>
-                  <span>Stronger Brand Authority</span>
-                </div>
-                <div className="cp-outcome-item">
-                  <span className="material-symbols-outlined">check_circle</span>
-                  <span>High-Intent Targeting</span>
-                </div>
-                <div className="cp-outcome-item">
-                  <span className="material-symbols-outlined">check_circle</span>
-                  <span>End-to-End Dedicated Support</span>
-                </div>
-              </div>
-            </div>
-
-            {/* 8 Core Deliverables in a compact 4x2 grid */}
-            <div className="cp-services-section">
-              <div className="cp-services-heading">
-                <span>WHAT'S INCLUDED ACROSS OUR AGENCY SERVICES</span>
-                <span className="cp-services-count">{deliverables.length} Core Capabilities</span>
-              </div>
-
-              <div className="cp-services-grid">
-                {deliverables.map((feat, idx) => (
-                  <div className="cp-service-card" key={idx}>
-                    <div className="cp-service-icon">
-                      <Icon name={feat.icon || "check_circle"} />
-                    </div>
-                    <div className="cp-service-text">
-                      <strong>{feat.title}</strong>
-                      <p>{feat.desc}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Compact Contact Strip */}
-          <div className="cp-contact-strip reveal delay-350">
-            <a href="tel:9096090701" className="cp-contact-item">
-              <span className="material-symbols-outlined">call</span>
-              <div>
-                <span className="cp-contact-label">CALL US DIRECTLY</span>
-                <strong>9096090701</strong>
-              </div>
-            </a>
-
-            <a
-              href="https://www.aidigital.biz"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cp-contact-item"
-            >
-              <span className="material-symbols-outlined">language</span>
-              <div>
-                <span className="cp-contact-label">VISIT OUR WEBSITE</span>
-                <strong>www.aidigital.biz</strong>
-              </div>
-            </a>
-
-            <a
-              href="https://maps.app.goo.gl/ouQRtxBcSQCpJdZW9"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="cp-contact-item"
-            >
-              <span className="material-symbols-outlined">location_on</span>
-              <div>
-                <span className="cp-contact-label">OUR OFFICE</span>
-                <strong>Office No: 315, Boulevard Tower, Bramha Corp, Camp, Pune 411001</strong>
-              </div>
-            </a>
           </div>
 
           {/* FAQs Accordion */}

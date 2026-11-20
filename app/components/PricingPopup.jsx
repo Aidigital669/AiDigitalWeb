@@ -98,7 +98,7 @@ const defaultIndustries = [
     name: "Real Estate",
     badge: "Digital Marketing Partner for Real Estate",
     contactPhone: "9096090701",
-    contactWebsite: "www.aidigital.biz",
+    contactWebsite: "www.bizzmaker.in",
     contactLocation: "Pune, Maharashtra",
     package: {
       id: "builder_complete_2lac_3mo",

@@ -28,7 +28,7 @@ export default function IndustryPlansManager({ showToast }) {
     badge: "",
     bannerImage: "/Price.jpeg",
     contactPhone: "9096090701",
-    contactWebsite: "www.aidigital.biz",
+    contactWebsite: "www.bizzmaker.in",
     contactLocation: "Pune, Maharashtra",
     package: {
       id: "",
@@ -88,7 +88,7 @@ export default function IndustryPlansManager({ showToast }) {
       badge: "Digital Marketing Partner",
       bannerImage: "/Price.jpeg",
       contactPhone: "+91 9096090701",
-      contactWebsite: "www.aidigital.biz",
+      contactWebsite: "www.bizzmaker.in",
       contactLocation: "Pune, Maharashtra",
       package: {
         id: "pkg_" + newId,

@@ -1,12 +1,10 @@
 "use client";
 
 import React, { useRef, useEffect } from "react";
-import Image from "next/image";
 import PricingPopup from "./PricingPopup";
 
 export default function HeroVideo() {
   const dialogRef = useRef(null);
-  const containerRef = useRef(null);
 
   // Triggers the pricing popup natively with a 10-second delay when the page renders
   useEffect(() => {
@@ -68,38 +66,6 @@ export default function HeroVideo() {
             </svg>
             Chat on WhatsApp
           </a>
-        </div>
-
-        {/* 6. Hero Visual Showcase Card (Houses BizzMaker GIF) */}
-        <div className="modern-hero-visual-frame reveal delay-300" ref={containerRef}>
-          <div className="modern-hero-visual-inner">
-            {/* Floating Live Marketing Metric Chips */}
-            <div className="modern-floating-chip chip-tl">
-              <span className="material-symbols-outlined" style={{ color: "#00F5A0", fontSize: "18px" }}>trending_up</span>
-              <span>Google Ads • 6.8x ROAS</span>
-            </div>
-
-            <div className="modern-floating-chip chip-br">
-              <span className="material-symbols-outlined" style={{ color: "#B9974F", fontSize: "18px" }}>campaign</span>
-              <span>Meta Ads • +340% Leads</span>
-            </div>
-
-            <div className="modern-floating-chip chip-bl">
-              <span className="material-symbols-outlined" style={{ color: "#00F5A0", fontSize: "18px" }}>bolt</span>
-              <span>Web CRO • +180% Conversions</span>
-            </div>
-
-            {/* The Custom BizzMaker Digital Marketing Animated GIF */}
-            <Image
-              src="/bizzmaker-header.gif"
-              alt="BizzMaker Digital Marketing Neural Engine & Performance Ads"
-              width={1080}
-              height={600}
-              priority
-              unoptimized
-              className="modern-hero-gif-img"
-            />
-          </div>
         </div>
       </div>
     </section>
