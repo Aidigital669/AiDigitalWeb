@@ -28,14 +28,36 @@ const defaultCpTiers = [
     monthlyEffective: "₹3,000 Effective per Month"
   },
   {
-    id: "plan_performance_marketing",
-    name: "Performance Marketing",
-    scope: "Performance Marketing",
-    shortLabel: "Performance (₹5K/10K)",
+    id: "plan_perf_meta",
+    name: "Performance Marketing (Meta)",
+    scope: "Performance Marketing (Meta)",
+    shortLabel: "Performance (Meta ₹5K)",
     price: 5000,
-    priceDisplay: "5,000 / 10,000",
+    priceDisplay: "5,000",
     period: "per Month",
-    monthlyEffective: "Meta ₹5,000 | Google ₹10,000",
+    monthlyEffective: "₹5,000 Effective per Month",
+    popular: false
+  },
+  {
+    id: "plan_perf_google",
+    name: "Performance Marketing (Google)",
+    scope: "Performance Marketing (Google)",
+    shortLabel: "Performance (Google ₹10K)",
+    price: 10000,
+    priceDisplay: "10,000",
+    period: "per Month",
+    monthlyEffective: "₹10,000 Effective per Month",
+    popular: false
+  },
+  {
+    id: "plan_perf_both",
+    name: "Performance Marketing (Meta & Google)",
+    scope: "Performance Marketing (Meta & Google)",
+    shortLabel: "Performance (Both ₹15K)",
+    price: 15000,
+    priceDisplay: "15,000",
+    period: "per Month",
+    monthlyEffective: "₹15,000 Effective per Month",
     popular: true
   },
   {

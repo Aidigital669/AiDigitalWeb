@@ -53,25 +53,46 @@ const defaultCpTiers = [
     ]
   },
   {
-    id: "plan_performance_marketing",
-    name: "Performance Marketing",
-    scope: "Performance Marketing (Meta & Google)",
-    ticketRange: "Multi-Channel Growth",
-    category: "ads",
+    id: "plan_perf_meta",
+    name: "Performance Marketing (Meta)",
+    scope: "Performance Marketing (Meta)",
+    ticketRange: "Paid Social Growth",
+    category: "performance",
     price: 5000,
-    priceDisplay: "5,000 / 10,000",
+    priceDisplay: "5,000",
     period: "per Month",
-    monthlyEffective: "Meta ₹5,000 | Google ₹10,000",
-    subtitle: "Data-Backed CAC Reduction, Conversion Funnel Optimization & ROAS Scaling",
+    monthlyEffective: "₹5,000 Effective per Month",
+    subtitle: "Full-Funnel Meta Conversion Scaling, CAC Reduction & Laser Instagram Targeting",
     icon: "trending_up",
-    popular: true,
-    features: [
-      "Meta Ads Option: ₹5,000/mo",
-      "Google Ads Option: ₹10,000/mo",
-      "Full-Funnel CAC Optimization",
-      "Dynamic Multi-Touch Attribution",
-      "Weekly Strategy Calls & Dashboard"
-    ]
+    popular: false
+  },
+  {
+    id: "plan_perf_google",
+    name: "Performance Marketing (Google)",
+    scope: "Performance Marketing (Google)",
+    ticketRange: "Paid Search & P-Max Growth",
+    category: "performance",
+    price: 10000,
+    priceDisplay: "10,000",
+    period: "per Month",
+    monthlyEffective: "₹10,000 Effective per Month",
+    subtitle: "High-ROAS Google Search, Performance Max Scaling & Conversion Optimization",
+    icon: "trending_up",
+    popular: false
+  },
+  {
+    id: "plan_perf_both",
+    name: "Performance Marketing (Meta & Google)",
+    scope: "Performance Marketing (Meta & Google)",
+    ticketRange: "Full-Funnel Dual Engine",
+    category: "performance",
+    price: 15000,
+    priceDisplay: "15,000",
+    period: "per Month",
+    monthlyEffective: "₹15,000 Effective per Month",
+    subtitle: "Omnichannel Cross-Platform Scaling, CAC Reduction & Combined Attribution on Meta + Google",
+    icon: "trending_up",
+    popular: true
   },
   {
     id: "plan_reel_shoot",
@@ -241,32 +262,10 @@ function PlanTierIcon({ tier }) {
   const tierId = tier?.id || "";
   const tierName = (tier?.name || tier?.scope || "").toLowerCase();
 
-  // 1. Google Ads - Real Google G Logo
-  if (tierId === "plan_google_ads" || (tierName.includes("google") && !tierName.includes("meta"))) {
+  // 1. Dual Google & Meta
+  if (tierId === "plan_perf_both" || (tierName.includes("meta") && tierName.includes("google"))) {
     return (
-      <svg width="32" height="32" viewBox="0 0 48 48" aria-label="Google Ads">
-        <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
-        <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
-        <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.91l7.35-5.73z"/>
-        <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
-      </svg>
-    );
-  }
-
-  // 2. Meta Ads - Real Facebook Logo
-  if (tierId === "plan_meta_ads" || tierName.includes("meta") || tierName.includes("facebook")) {
-    return (
-      <svg width="34" height="34" viewBox="0 0 48 48" aria-label="Facebook Meta">
-        <circle cx="24" cy="24" r="23" fill="#1877F2"/>
-        <path fill="#FFFFFF" d="M26.7 38V24.5h4.5l.7-5.2h-5.2v-3.3c0-1.5.4-2.5 2.6-2.5h2.8V8.9c-.5-.1-2.1-.2-4-.2-4 0-6.7 2.4-6.7 6.9v3.7h-4.5v5.2h4.5V38h5.3z"/>
-      </svg>
-    );
-  }
-
-  // 3. Performance Marketing (Meta & Google)
-  if (tierId === "plan_performance_marketing") {
-    return (
-      <div style={{ display: "flex", alignItems: "center", gap: "5px" }} title="Google & Facebook Ads">
+      <div style={{ display: "flex", alignItems: "center", gap: "5px" }} title="Google & Meta Ads">
         <svg width="22" height="22" viewBox="0 0 48 48" aria-label="Google">
           <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
           <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
@@ -279,6 +278,28 @@ function PlanTierIcon({ tier }) {
           <path fill="#FFFFFF" d="M26.7 38V24.5h4.5l.7-5.2h-5.2v-3.3c0-1.5.4-2.5 2.6-2.5h2.8V8.9c-.5-.1-2.1-.2-4-.2-4 0-6.7 2.4-6.7 6.9v3.7h-4.5v5.2h4.5V38h5.3z"/>
         </svg>
       </div>
+    );
+  }
+
+  // 2. Google Ads or Performance Marketing (Google)
+  if (tierId === "plan_google_ads" || tierId === "plan_perf_google" || (tierName.includes("google") && !tierName.includes("meta"))) {
+    return (
+      <svg width="32" height="32" viewBox="0 0 48 48" aria-label="Google Ads">
+        <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
+        <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
+        <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.91l7.35-5.73z"/>
+        <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
+      </svg>
+    );
+  }
+
+  // 3. Meta Ads or Performance Marketing (Meta)
+  if (tierId === "plan_meta_ads" || tierId === "plan_perf_meta" || tierName.includes("meta") || tierName.includes("facebook")) {
+    return (
+      <svg width="34" height="34" viewBox="0 0 48 48" aria-label="Facebook Meta">
+        <circle cx="24" cy="24" r="23" fill="#1877F2"/>
+        <path fill="#FFFFFF" d="M26.7 38V24.5h4.5l.7-5.2h-5.2v-3.3c0-1.5.4-2.5 2.6-2.5h2.8V8.9c-.5-.1-2.1-.2-4-.2-4 0-6.7 2.4-6.7 6.9v3.7h-4.5v5.2h4.5V38h5.3z"/>
+      </svg>
     );
   }
 
@@ -297,7 +318,6 @@ export default function PricingClientPage() {
   const [cpTiers, setCpTiers] = useState(defaultCpTiers);
   const [selectedTierId, setSelectedTierId] = useState("plan_google_ads");
   const [activeCategory, setActiveCategory] = useState("all");
-  const [perfSubOption, setPerfSubOption] = useState("meta"); // meta (5000) or google (10000) or both (15000)
   const [openFaqIndex, setOpenFaqIndex] = useState(0);
   const [showFlyerModal, setShowFlyerModal] = useState(false);
   const [industryData, setIndustryData] = useState(null);
@@ -328,36 +348,12 @@ export default function PricingClientPage() {
 
   const activeTier = cpTiers.find((t) => t.id === selectedTierId) || cpTiers[0] || defaultCpTiers[0];
 
-  // Calculate effective price for performance marketing if selected
-  const getCalculatedPrice = (tier = activeTier) => {
-    if (tier.id === "plan_performance_marketing") {
-      if (perfSubOption === "google") return 10000;
-      if (perfSubOption === "both") return 15000;
-      return 5000;
-    }
-    return Number(tier.price) || 5000;
-  };
-
-  const getCalculatedPriceDisplay = (tier = activeTier) => {
-    if (tier.id === "plan_performance_marketing") {
-      if (perfSubOption === "google") return "10,000";
-      if (perfSubOption === "both") return "15,000";
-      return "5,000";
-    }
-    return tier.priceDisplay;
-  };
-
   const handleBuyNow = (tierToBuy = activeTier) => {
     clearCart();
     const targetTier = tierToBuy || activeTier;
-    const finalPrice = getCalculatedPrice(targetTier);
-    const finalPriceDisplay = getCalculatedPriceDisplay(targetTier);
-    
-    let planTitle = `${targetTier.name} (₹${finalPriceDisplay})`;
-    if (targetTier.id === "plan_performance_marketing") {
-      const optionName = perfSubOption === "google" ? "Google Option" : perfSubOption === "both" ? "Meta + Google Option" : "Meta Option";
-      planTitle = `Performance Marketing - ${optionName} (₹${finalPriceDisplay})`;
-    }
+    const finalPrice = Number(targetTier.price) || 5000;
+    const finalPriceDisplay = targetTier.priceDisplay || "5,000";
+    const planTitle = `${targetTier.name} (₹${finalPriceDisplay})`;
 
     addToCart({
       id: targetTier.id,
@@ -374,7 +370,7 @@ export default function PricingClientPage() {
   };
 
   const getWhatsAppInquiryUrl = (tier = activeTier) => {
-    const finalPriceDisplay = getCalculatedPriceDisplay(tier);
+    const finalPriceDisplay = tier.priceDisplay || "5,000";
     const msg = `Hi! I am interested in your ${tier.name} package (₹${finalPriceDisplay} ${tier.period || ""}). Please share more details and help me get started.`;
     return `https://wa.me/919096090701?text=${encodeURIComponent(msg)}`;
   };
@@ -406,10 +402,11 @@ export default function PricingClientPage() {
           {/* Category Filter Tabs */}
           <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap", margin: "32px 0 20px 0" }}>
             {[
-              { id: "all", label: "All Services & Plans (8)", icon: "dashboard" },
-              { id: "ads", label: "Paid Ads & Performance (3)", icon: "campaign" },
-              { id: "media", label: "Media & Video Production (3)", icon: "videocam" },
-              { id: "growth", label: "Web & Brand Growth (2)", icon: "rocket_launch" }
+              { id: "all", label: `All Plans (${cpTiers.length})`, icon: "dashboard" },
+              { id: "ads", label: `Paid Ads (${cpTiers.filter((t) => t.category === "ads").length})`, icon: "campaign" },
+              { id: "performance", label: `Performance Marketing (${cpTiers.filter((t) => t.category === "performance").length})`, icon: "trending_up" },
+              { id: "media", label: `Media & Video Production (${cpTiers.filter((t) => t.category === "media").length})`, icon: "videocam" },
+              { id: "growth", label: `Web & Brand Growth (${cpTiers.filter((t) => t.category === "growth").length})`, icon: "rocket_launch" }
             ].map((cat) => (
               <button
                 key={cat.id}
@@ -438,7 +435,7 @@ export default function PricingClientPage() {
             ))}
           </div>
 
-          {/* 8 PLANS GRID SECTION */}
+          {/* PLANS GRID SECTION */}
           <div className="cp-grid-section reveal delay-200">
             <div className="cp-grid-header">
               <div className="cp-grid-title-wrap">
@@ -451,7 +448,6 @@ export default function PricingClientPage() {
             <div className="cp-plans-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", alignItems: "start" }}>
               {filteredTiers.map((tier) => {
                 const isSelected = tier.id === selectedTierId;
-                const isPerfPlan = tier.id === "plan_performance_marketing";
                 return (
                   <div
                     key={tier.id}
@@ -490,9 +486,7 @@ export default function PricingClientPage() {
                     <div className="cp-price-pill-wrap">
                       <div className="cp-gold-pill">
                         <span className="cp-pill-currency">₹</span>
-                        <span className="cp-pill-amount">
-                          {isPerfPlan ? (perfSubOption === "google" ? "10,000" : perfSubOption === "both" ? "15,000" : "5,000") : tier.priceDisplay}
-                        </span>
+                        <span className="cp-pill-amount">{tier.priceDisplay}</span>
                         <span className="cp-pill-period">{tier.period || "/month"}</span>
                       </div>
                     </div>
@@ -502,47 +496,6 @@ export default function PricingClientPage() {
                       <span className="material-symbols-outlined">payments</span>
                       <strong>{tier.monthlyEffective}</strong>
                     </div>
-
-                    {/* Sub-selector for Performance Marketing */}
-                    {isPerfPlan && (
-                      <div 
-                        style={{ margin: "10px 0", background: "rgba(0,0,0,0.3)", padding: "8px", borderRadius: "8px", border: "1px solid rgba(185,151,79,0.25)" }}
-                        onClick={(e) => e.stopPropagation()}
-                      >
-                        <span style={{ fontSize: "11px", fontWeight: "700", color: "#B9974F", display: "block", marginBottom: "6px" }}>
-                          SELECT PLATFORM:
-                        </span>
-                        <div style={{ display: "flex", gap: "4px" }}>
-                          {[
-                            { key: "meta", label: "Meta (₹5K)" },
-                            { key: "google", label: "Google (₹10K)" },
-                            { key: "both", label: "Both (₹15K)" }
-                          ].map((opt) => (
-                            <button
-                              key={opt.key}
-                              type="button"
-                              onClick={() => {
-                                setPerfSubOption(opt.key);
-                                setSelectedTierId("plan_performance_marketing");
-                              }}
-                              style={{
-                                flex: 1,
-                                fontSize: "10.5px",
-                                fontWeight: "700",
-                                padding: "6px 2px",
-                                borderRadius: "4px",
-                                cursor: "pointer",
-                                border: "none",
-                                background: perfSubOption === opt.key ? "#B9974F" : "rgba(255,255,255,0.08)",
-                                color: perfSubOption === opt.key ? "#0E2721" : "#e2e8f0"
-                              }}
-                            >
-                              {opt.label}
-                            </button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
 
                     {/* Action Button inside card */}
                     <div className="cp-card-action">
