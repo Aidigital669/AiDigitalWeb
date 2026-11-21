@@ -116,26 +116,26 @@ export default function Testimonials() {
   }, []);
 
   return (
-    <section className="section testimonials-section" style={{ paddingBlock: "100px", background: "linear-gradient(180deg, var(--bg-ivory, #F8F5EF) 0%, #FFFFFF 50%, var(--bg-ivory, #F8F5EF) 100%)", position: "relative", overflow: "hidden" }}>
+    <section className="section testimonials-section" style={{ paddingBlock: "100px", background: "radial-gradient(120% 100% at 50% 0%, #153E35 0%, #0E2721 60%, #081B17 100%)", position: "relative", overflow: "hidden" }}>
       {/* Decorative Luxury Background Glow Elements */}
       <div style={{ position: "absolute", top: "-50px", left: "-50px", width: "350px", height: "350px", background: "radial-gradient(circle, rgba(255, 140, 82, 0.16) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }}></div>
       <div style={{ position: "absolute", bottom: "-100px", right: "-50px", width: "420px", height: "420px", background: "radial-gradient(circle, rgba(30, 77, 66, 0.12) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }}></div>
 
       <div className="section-heading" style={{ position: "relative", zIndex: 2, marginBottom: "54px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-        <span className="eyebrow" style={{ display: "inline-flex", marginBottom: "16px", border: "1px solid rgba(255, 140, 82, 0.35)", borderRadius: "999px", padding: "8px 18px", color: "var(--cta-gold, #FF8C52)", background: "#ffffff", fontSize: "11.5px", fontWeight: "800", letterSpacing: "0.12em", textTransform: "uppercase", boxShadow: "0 4px 14px rgba(255, 140, 82, 0.12)" }}>
+        <span className="eyebrow" style={{ display: "inline-flex", marginBottom: "16px", border: "1px solid rgba(255, 140, 82, 0.35)", borderRadius: "999px", padding: "8px 18px", color: "var(--cta-gold, #FF8C52)", background: "rgba(138, 214, 209, 0.15)", fontSize: "11.5px", fontWeight: "800", letterSpacing: "0.12em", textTransform: "uppercase", boxShadow: "0 4px 14px rgba(255, 140, 82, 0.12)" }}>
           Real Results. Real Feedback.
         </span>
-        <h2 style={{ fontFamily: "var(--font-headline, 'Sora', sans-serif)", fontSize: "clamp(32px, 4vw, 44px)", lineHeight: "1.15", color: "var(--brand-forest, #359FA0)", margin: "0 0 16px 0", maxWidth: "600px", fontWeight: "800" }}>
+        <h2 style={{ fontFamily: "var(--font-headline, 'Sora', sans-serif)", fontSize: "clamp(32px, 4vw, 44px)", lineHeight: "1.15", color: "#FFFFFF", margin: "0 0 16px 0", maxWidth: "600px", fontWeight: "800" }}>
           See What Our Clients <br/><span style={{ color: "var(--cta-gold, #FF8C52)" }}>Are Saying</span>
         </h2>
-        <p style={{ color: "var(--text-charcoal-muted, #556B64)", fontSize: "15.5px", maxWidth: "520px", margin: "0", lineHeight: "1.6" }}>
+        <p style={{ color: "#A8DDD9", fontSize: "15.5px", maxWidth: "520px", margin: "0", lineHeight: "1.6" }}>
           Don't just take our word for it. Here are genuine reviews from businesses we've helped grow.
         </p>
       </div>
 
       <div style={{ position: "relative", zIndex: 2, maxWidth: "1100px", margin: "0 auto", padding: "0 20px" }}>
         {/* Widget Container with Luxury Frame */}
-        <div className="testimonials-widget-card" style={{ background: "#ffffff", borderRadius: "24px", padding: "24px", boxShadow: "0 24px 50px rgba(30, 77, 66, 0.08), 0 0 0 1px rgba(255, 140, 82, 0.18)", border: "1.5px solid var(--line-soft, #EDE7DA)" }}>
+        <div className="testimonials-widget-card" style={{ background: "rgba(138, 214, 209, 0.15)", borderRadius: "24px", padding: "24px", boxShadow: "0 24px 50px rgba(30, 77, 66, 0.08), 0 0 0 1px rgba(255, 140, 82, 0.18)", border: "1.5px solid var(--line-soft, #EDE7DA)" }}>
           {/* Elfsight All-in-One Reviews Widget */}
           <Script src="https://elfsightcdn.com/platform.js" strategy="lazyOnload" />
           <div className="elfsight-app-8a4acbd3-d813-43e7-a303-15ff4fc467e2" data-elfsight-app-lazy></div>

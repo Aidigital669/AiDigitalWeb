@@ -2,56 +2,56 @@
   --font-body: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-headline: 'Sora', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
-  /* Core Brand Colors (Updated Palette: #359FA0, #8AD6D1, #FFF0C5, #FF8C52) */
+  /* Forest Green Brand Colors */
   --brand-forest: #359FA0;
-  --brand-forest-dark: #103839;
-  --brand-forest-soft: #EBF7F6;
-  --brand-forest-muted: #247576;
+  --brand-forest-dark: #0E2721;
+  --brand-forest-soft: #12342D;
+  --brand-forest-muted: #1A4D42;
   --brand-aqua: #8AD6D1;
 
-  --bg-ivory: #FFFDF9;
-  --bg-ivory-soft: #FFFDF6;
-  --bg-ivory-warm: #FFF0C5;
-  --bg-ivory-darker: #F2E3B8;
+  --bg-ivory: #0E2721;
+  --bg-ivory-soft: #12342D;
+  --bg-ivory-warm: #153E35;
+  --bg-ivory-darker: #1A4D42;
 
   --cta-gold: #FF8C52;
   --cta-gold-hover: #E87438;
-  --cta-gold-soft: #FFF2EB;
+  --cta-gold-soft: rgba(255, 140, 82, 0.15);
   --cta-gold-glow: rgba(255, 140, 82, 0.35);
 
-  --text-charcoal: #202D2C;
-  --text-charcoal-muted: #536665;
-  --text-charcoal-light: #728786;
+  --text-charcoal: #FFFFFF;
+  --text-charcoal-muted: #A8DDD9;
+  --text-charcoal-light: #C8EAE6;
 
-  /* Global Semantic System */
-  --page: #FFFDF9;
-  --surface: #ffffff;
-  --surface-muted: #FFF0C5;
-  --text: #202D2C;
-  --muted: #536665;
-  --line: #F2E3B8;
-  --line-soft: #FAF0D4;
+  /* Global Semantic System: Full Forest Green */
+  --page: #0E2721;
+  --surface: #143830;
+  --surface-muted: #10332C;
+  --text: #FFFFFF;
+  --muted: #A8DDD9;
+  --line: rgba(138, 214, 209, 0.20);
+  --line-soft: rgba(138, 214, 209, 0.12);
   --blue: #359FA0;
-  --blue-soft: #EBF7F6;
+  --blue-soft: #12342D;
   --orange: #FF8C52;
-  --orange-soft: #FFF2EB;
+  --orange-soft: rgba(255, 140, 82, 0.15);
   --green: #359FA0;
-  --green-soft: #EBF7F6;
-  --shadow: 0 18px 45px rgba(53, 159, 160, 0.10);
-  --card-bg: linear-gradient(180deg, #FFFFFF 0%, #FFFDF9 100%);
-  --card-border: rgba(53, 159, 160, 0.20);
-  --card-shadow: 0 14px 36px rgba(16, 56, 57, 0.08);
-  --card-shadow-hover: 0 24px 54px rgba(255, 140, 82, 0.20);
+  --green-soft: #12342D;
+  --shadow: 0 18px 45px rgba(0, 0, 0, 0.35);
+  --card-bg: linear-gradient(180deg, #164037 0%, #0E2721 100%);
+  --card-border: rgba(138, 214, 209, 0.25);
+  --card-shadow: 0 14px 36px rgba(0, 0, 0, 0.25);
+  --card-shadow-hover: 0 24px 54px rgba(255, 140, 82, 0.25);
   --font-headline: "Sora", Arial, sans-serif;
   --font-body: "Inter", Arial, sans-serif;
   --page-gutter: clamp(20px, 4.5vw, 64px);
 
   /* Performance Marketing Theme Overrides */
   --pm-color-primary: #359FA0;
-  --pm-color-primary-hover: #103839;
+  --pm-color-primary-hover: #0E2721;
   --pm-color-orange: #FF8C52;
   --pm-color-badge: #FF8C52;
-  --pm-text-navy: #103839;
+  --pm-text-navy: #359FA0;
 }
 
 * {
@@ -64,8 +64,8 @@ html {
 
 body {
   margin: 0;
-  background: var(--page);
-  color: var(--text);
+  background: var(--page, #0E2721);
+  color: var(--text, #FFFFFF);
   font-family: var(--font-body);
   font-size: 16px;
   line-height: 1.5;
@@ -78,21 +78,21 @@ a {
 
 
 :root {
-  /* Design Variable System */
-  --pm-bg-overlay: rgba(14, 39, 33, 0.85);
-  --pm-bg-card: #F8F5EF;
-  --pm-bg-white: #ffffff;
+  /* Design Variable System: Forest Green */
+  --pm-bg-overlay: rgba(10, 31, 26, 0.90);
+  --pm-bg-card: #143830;
+  --pm-bg-white: #164037;
 
   --pm-color-primary: #359FA0;
-  --pm-color-primary-hover: #103839;
+  --pm-color-primary-hover: #0E2721;
   --pm-color-orange: #FF8C52;
   --pm-color-badge: #FF8C52;
 
-  --pm-text-dark: #292D2B;
-  --pm-text-muted: #5C6460;
+  --pm-text-dark: #FFFFFF;
+  --pm-text-muted: #A8DDD9;
   --pm-text-navy: #359FA0;
 
-  --pm-border-light: #E5DEC9;
+  --pm-border-light: rgba(138, 214, 209, 0.25);
 }
 
 /* Native HTML Dialog Box Settings */
@@ -2287,7 +2287,8 @@ p {
 }
 
 .featured-work {
-  background: #ffffff;
+  background: #0E2721;
+  color: #FFFFFF;
 }
 
 .portfolio-hero {
@@ -3177,7 +3178,8 @@ p {
 }
 
 .why {
-  background: #f8fafc;
+  background: #0A211C;
+  color: #FFFFFF;
 }
 
 .why-grid {
@@ -7930,7 +7932,7 @@ p {
 /* Luxury Footer */
 .footer {
   background: var(--brand-forest) !important;
-  color: #F8F5EF !important;
+  color: #143830 !important;
   border-top: 1px solid rgba(185, 151, 79, 0.3) !important;
 }
 
@@ -8006,7 +8008,7 @@ p {
    PLANS & PRICING THEME PALETTE REFINEMENTS
    ======================================================== */
 .industry-filter-section {
-  background: var(--bg-ivory) !important;
+  background: #0E2721 !important;
   border-bottom: 1px solid var(--line) !important;
   box-shadow: 0 4px 12px rgba(30, 77, 66, 0.03) !important;
 }
@@ -8055,7 +8057,7 @@ p {
 }
 
 .builder-pricing-section {
-  background: var(--bg-ivory) !important;
+  background: #0E2721 !important;
 }
 
 .builder-banner-frame {
@@ -8068,7 +8070,7 @@ p {
 }
 
 .builder-contact-strip {
-  background: #FFFFFF !important;
+  background: linear-gradient(150deg, #154238 0%, #0E2721 100%) !important;
   border: 1px solid var(--line) !important;
   box-shadow: 0 4px 16px rgba(30, 77, 66, 0.04) !important;
 }
@@ -8101,7 +8103,7 @@ p {
 }
 
 .builder-package-card {
-  background: #FFFFFF !important;
+  background: linear-gradient(150deg, #164239 0%, #0E2721 100%) !important;
   border: 1.5px solid var(--line) !important;
   box-shadow: 0 20px 50px -10px rgba(30, 77, 66, 0.08), 0 0 0 1px rgba(185, 151, 79, 0.15) !important;
 }
@@ -8225,7 +8227,7 @@ p {
   gap: 10px !important;
   padding: 14px 20px !important;
   background: rgba(248, 245, 239, 0.55) !important;
-  border-bottom: 1.5px solid var(--line-soft, #EDE7DA) !important;
+  border-bottom: 1.5px solid rgba(138, 214, 209, 0.25) !important;
 }
 
 .asicote-handshake-icon {
@@ -8294,7 +8296,7 @@ p {
 }
 
 .builder-service-card {
-  background: #FFFFFF !important;
+  background: linear-gradient(150deg, #164239 0%, #0E2721 100%) !important;
   border: 1px solid var(--line) !important;
 }
 
@@ -8346,7 +8348,7 @@ p {
 }
 
 .builder-faqs-section {
-  background: var(--bg-ivory) !important;
+  background: #0E2721 !important;
   border-top: 1px solid var(--line) !important;
 }
 
@@ -8456,7 +8458,7 @@ p {
 }
 
 .campaign-card {
-  background: #FFFFFF !important;
+  background: linear-gradient(150deg, #164239 0%, #0E2721 100%) !important;
   border: 1.5px solid var(--line) !important;
   border-radius: 20px !important;
 }
@@ -8491,7 +8493,7 @@ p {
 }
 
 .tag-row span {
-  background: var(--bg-ivory) !important;
+  background: #0E2721 !important;
   border: 1px solid var(--line) !important;
   color: var(--brand-forest) !important;
 }
@@ -8533,7 +8535,7 @@ p {
   padding: 0 !important;
   margin: 0 !important;
   display: block !important;
-  background: var(--bg-ivory, #F8F5EF) !important;
+  background: #0E2721 !important;
   line-height: 0 !important;
   border: none !important;
   outline: none !important;
@@ -8546,7 +8548,7 @@ p {
   aspect-ratio: 16 / 9;
   max-height: 88vh;
   min-height: 380px;
-  background: var(--bg-ivory, #F8F5EF) !important;
+  background: #0E2721 !important;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -8937,12 +8939,12 @@ p {
    Testimonials & Client Reviews Section Theme Harmonization
    ========================================================================== */
 .testimonials-section {
-  background: linear-gradient(180deg, var(--bg-ivory, #F8F5EF) 0%, #FFFFFF 50%, var(--bg-ivory, #F8F5EF) 100%) !important;
+  background: linear-gradient(180deg, var(--bg-ivory, #143830) 0%, #FFFFFF 50%, var(--bg-ivory, #143830) 100%) !important;
   position: relative;
 }
 
 .testimonials-widget-card {
-  border: 1.5px solid var(--line-soft, #EDE7DA) !important;
+  border: 1.5px solid rgba(138, 214, 209, 0.25) !important;
   box-shadow: 0 24px 50px rgba(30, 77, 66, 0.08), 0 0 0 1px rgba(185, 151, 79, 0.18) !important;
   background: #FFFFFF !important;
   border-radius: 24px !important;
@@ -9136,8 +9138,8 @@ p {
 }
 
 .cp-pillar-card {
-  background: #FFFFFF;
-  border: 1.5px solid var(--line-soft, #EDE7DA);
+  background: linear-gradient(150deg, #164239 0%, #0E2721 100%);
+  border: 1.5px solid rgba(138, 214, 209, 0.25);
   border-radius: 16px;
   padding: 16px 18px;
   display: flex;
@@ -9288,7 +9290,7 @@ p {
   position: absolute;
   top: -10px;
   right: 14px;
-  background: linear-gradient(135deg, #FFF0C5 0%, #FF8C52 100%);
+  background: linear-gradient(135deg, #143830 0%, #FF8C52 100%);
   color: #103839;
   font-size: 9px;
   font-weight: 900;
@@ -9409,7 +9411,7 @@ p {
 }
 
 .cp-gold-pill {
-  background: linear-gradient(135deg, #FFF0C5 0%, #FFA775 50%, #FF8C52 100%);
+  background: linear-gradient(135deg, #143830 0%, #FFA775 50%, #FF8C52 100%);
   color: #103839;
   border-radius: 999px;
   padding: 7px 12px;
@@ -9788,7 +9790,7 @@ p {
 /* 8 Deliverables Grid */
 .cp-services-section {
   background: #FFFFFF;
-  border: 1.5px solid var(--line-soft, #EDE7DA);
+  border: 1.5px solid rgba(138, 214, 209, 0.25);
   border-radius: 18px;
   padding: 22px 24px;
   box-shadow: 0 4px 16px rgba(30, 77, 66, 0.04);
@@ -9840,7 +9842,7 @@ p {
   align-items: flex-start;
   gap: 12px;
   padding: 14px;
-  background: var(--bg-ivory, #F8F5EF);
+  background: #0E2721;
   border: 1px solid var(--line, #E6DEC9);
   border-radius: 12px;
   transition: all 0.2s ease;
@@ -10003,8 +10005,8 @@ p {
 }
 
 .cp-faq-item {
-  background: #FFFFFF;
-  border: 1px solid var(--line-soft, #EDE7DA);
+  background: linear-gradient(150deg, #164239 0%, #0E2721 100%);
+  border: 1px solid rgba(138, 214, 209, 0.25);
   border-radius: 14px;
   overflow: hidden;
   transition: all 0.2s ease;

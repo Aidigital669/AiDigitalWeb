@@ -253,7 +253,7 @@ export default function PricingPopup({ dialogRef }) {
             max-height: none !important;
             overflow: visible !important;
             border-radius: 26px !important;
-            background: #FFFFFF !important;
+            background: #164239 !important;
             box-shadow: 0 25px 60px -10px rgba(30, 77, 66, 0.28) !important;
             border: 1.5px solid rgba(185, 151, 79, 0.3) !important;
             position: relative !important;
@@ -264,7 +264,7 @@ export default function PricingPopup({ dialogRef }) {
             top: 22px !important;
             width: 36px !important;
             height: 36px !important;
-            background: #F8F5EF !important;
+            background: #143830 !important;
             border: 1px solid rgba(185, 151, 79, 0.3) !important;
             border-radius: 50% !important;
             color: #359FA0 !important;
@@ -321,7 +321,7 @@ export default function PricingPopup({ dialogRef }) {
             padding: 6px 14px;
             border-radius: 8px;
             border: 1.5px solid rgba(185, 151, 79, 0.35);
-            background: #F8F5EF;
+            background: #143830;
             color: #359FA0;
             outline: none;
             cursor: pointer;
@@ -334,7 +334,7 @@ export default function PricingPopup({ dialogRef }) {
             display: grid;
             grid-template-columns: 1fr 1.08fr;
             gap: 20px;
-            background: #F8F5EF;
+            background: #143830;
             border: 1.5px solid rgba(185, 151, 79, 0.25);
             border-radius: 20px;
             padding: 20px 22px;
@@ -532,7 +532,7 @@ export default function PricingPopup({ dialogRef }) {
             align-items: center;
             justify-content: center;
             gap: 6px;
-            background: #FFFFFF;
+            background: #164239;
             color: #359FA0;
             border: 1.5px solid #359FA0;
             padding: 9px 14px;
@@ -554,7 +554,7 @@ export default function PricingPopup({ dialogRef }) {
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            background: #FFFFFF;
+            background: #164239;
             border: 1.5px solid rgba(185, 151, 79, 0.25);
             border-radius: 16px;
             padding: 16px 18px;
@@ -616,7 +616,7 @@ export default function PricingPopup({ dialogRef }) {
             margin: 8px 0 12px 0;
           }
           .popup-tier-pill {
-            background: #F8F5EF;
+            background: #143830;
             border: 1.5px solid rgba(185, 151, 79, 0.35);
             border-radius: 10px;
             padding: 6px 10px;
@@ -631,7 +631,7 @@ export default function PricingPopup({ dialogRef }) {
           }
           .popup-tier-pill:hover {
             border-color: #FF8C52;
-            background: #FFFFFF;
+            background: #164239;
           }
           .popup-tier-pill.active {
             background: #359FA0;
