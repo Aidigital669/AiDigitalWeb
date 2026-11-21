@@ -267,7 +267,7 @@ export default function PricingPopup({ dialogRef }) {
             background: #F8F5EF !important;
             border: 1px solid rgba(185, 151, 79, 0.3) !important;
             border-radius: 50% !important;
-            color: #1e4d42 !important;
+            color: #359FA0 !important;
             cursor: pointer !important;
             display: flex !important;
             align-items: center !important;
@@ -277,7 +277,7 @@ export default function PricingPopup({ dialogRef }) {
             outline: none !important;
           }
           .popup-custom-close-btn:hover {
-            background: #1e4d42 !important;
+            background: #359FA0 !important;
             color: #FFFFFF !important;
             transform: rotate(90deg) scale(1.05) !important;
           }
@@ -301,13 +301,13 @@ export default function PricingPopup({ dialogRef }) {
           .popup-compact-title {
             font-size: 22.5px !important;
             font-weight: 800 !important;
-            color: #1e4d42 !important;
+            color: #359FA0 !important;
             margin: 0 !important;
             line-height: 1.25 !important;
             letter-spacing: -0.01em !important;
           }
           .popup-compact-title span {
-            color: #B9974F !important;
+            color: #FF8C52 !important;
           }
           .popup-compact-sub {
             font-size: 14px !important;
@@ -322,13 +322,13 @@ export default function PricingPopup({ dialogRef }) {
             border-radius: 8px;
             border: 1.5px solid rgba(185, 151, 79, 0.35);
             background: #F8F5EF;
-            color: #1e4d42;
+            color: #359FA0;
             outline: none;
             cursor: pointer;
             transition: border-color 0.2s ease;
           }
           .popup-compact-industry-select select:focus {
-            border-color: #B9974F;
+            border-color: #FF8C52;
           }
           .popup-compact-body {
             display: grid;
@@ -357,7 +357,7 @@ export default function PricingPopup({ dialogRef }) {
             align-items: center;
             gap: 6px;
             background: rgba(30, 77, 66, 0.08);
-            color: #1e4d42;
+            color: #359FA0;
             border: 1px solid rgba(30, 77, 66, 0.2);
             padding: 4px 12px;
             border-radius: 99px;
@@ -382,7 +382,7 @@ export default function PricingPopup({ dialogRef }) {
             transition: all 0.25s ease !important;
           }
           .popup-compact-price-wrap:hover {
-            border-color: #B9974F !important;
+            border-color: #FF8C52 !important;
             box-shadow: 0 12px 28px -4px rgba(30, 77, 66, 0.12), 0 0 0 1px rgba(185, 151, 79, 0.3) !important;
           }
           .popup-c-price-left {
@@ -394,13 +394,13 @@ export default function PricingPopup({ dialogRef }) {
           .popup-c-currency {
             font-size: 28px !important;
             font-weight: 800 !important;
-            color: #B9974F !important;
+            color: #FF8C52 !important;
             line-height: 1 !important;
           }
           .popup-c-amount {
             font-size: 52px !important;
             font-weight: 900 !important;
-            color: #1e4d42 !important;
+            color: #359FA0 !important;
             letter-spacing: -0.03em !important;
             line-height: 1 !important;
             font-family: var(--font-headline), sans-serif !important;
@@ -435,12 +435,12 @@ export default function PricingPopup({ dialogRef }) {
             gap: 5px !important;
             font-size: 13px !important;
             font-weight: 700 !important;
-            color: #1e4d42 !important;
+            color: #359FA0 !important;
             line-height: 1.3 !important;
           }
           .popup-c-effective .material-symbols-outlined {
             font-size: 16px !important;
-            color: #B9974F !important;
+            color: #FF8C52 !important;
             flex-shrink: 0 !important;
           }
           .popup-c-engine-tag {
@@ -466,7 +466,7 @@ export default function PricingPopup({ dialogRef }) {
           }
           .popup-h-item .material-symbols-outlined {
             font-size: 17px;
-            color: #B9974F;
+            color: #FF8C52;
             flex-shrink: 0;
           }
           .popup-compact-ctas {
@@ -476,7 +476,7 @@ export default function PricingPopup({ dialogRef }) {
             margin-top: 4px;
           }
           .popup-c-btn-buy {
-            background: linear-gradient(135deg, #B9974F 0%, #A4843F 100%);
+            background: linear-gradient(135deg, #FF8C52 0%, #E87438 100%);
             color: #FFFFFF;
             border: none;
             border-radius: 999px;
@@ -533,8 +533,8 @@ export default function PricingPopup({ dialogRef }) {
             justify-content: center;
             gap: 6px;
             background: #FFFFFF;
-            color: #1e4d42;
-            border: 1.5px solid #1e4d42;
+            color: #359FA0;
+            border: 1.5px solid #359FA0;
             padding: 9px 14px;
             border-radius: 999px;
             font-size: 13px;
@@ -543,7 +543,7 @@ export default function PricingPopup({ dialogRef }) {
             transition: all 0.15s ease;
           }
           .popup-c-btn-call:hover {
-            background: #1e4d42;
+            background: #359FA0;
             color: #FFFFFF;
             transform: translateY(-1px);
           }
@@ -566,14 +566,14 @@ export default function PricingPopup({ dialogRef }) {
             gap: 6px;
             font-size: 13px;
             font-weight: 800;
-            color: #1e4d42;
+            color: #359FA0;
             text-transform: uppercase;
             letter-spacing: 0.05em;
             margin-bottom: 10px;
           }
           .popup-c-deliv-header .material-symbols-outlined {
             font-size: 18px;
-            color: #B9974F;
+            color: #FF8C52;
           }
           .popup-c-deliv-grid {
             display: grid;
@@ -592,7 +592,7 @@ export default function PricingPopup({ dialogRef }) {
           }
           .popup-c-deliv-item .material-symbols-outlined {
             font-size: 16px;
-            color: #B9974F;
+            color: #FF8C52;
             flex-shrink: 0;
           }
           .popup-c-deliv-item .deliv-name {
@@ -630,18 +630,18 @@ export default function PricingPopup({ dialogRef }) {
             text-align: left;
           }
           .popup-tier-pill:hover {
-            border-color: #B9974F;
+            border-color: #FF8C52;
             background: #FFFFFF;
           }
           .popup-tier-pill.active {
-            background: #1e4d42;
-            border-color: #B9974F;
+            background: #359FA0;
+            border-color: #FF8C52;
             box-shadow: 0 4px 12px rgba(30, 77, 66, 0.2);
           }
           .popup-tier-pill-name {
             font-size: 11px;
             font-weight: 700;
-            color: #1e4d42;
+            color: #359FA0;
             line-height: 1.2;
           }
           .popup-tier-pill.active .popup-tier-pill-name {
@@ -650,7 +650,7 @@ export default function PricingPopup({ dialogRef }) {
           .popup-tier-pill-price {
             font-size: 11.5px;
             font-weight: 800;
-            color: #B9974F;
+            color: #FF8C52;
             white-space: nowrap;
           }
           .popup-tier-pill.active .popup-tier-pill-price {
@@ -663,12 +663,12 @@ export default function PricingPopup({ dialogRef }) {
           .popup-c-view-all a {
             font-size: 13px;
             font-weight: 700;
-            color: #1e4d42;
+            color: #359FA0;
             text-decoration: none;
             transition: color 0.15s ease;
           }
           .popup-c-view-all a:hover {
-            color: #B9974F;
+            color: #FF8C52;
             text-decoration: underline;
           }
           @media (max-width: 768px) {
@@ -757,8 +757,8 @@ export default function PricingPopup({ dialogRef }) {
                 <span className="material-symbols-outlined">verified</span>
                 {currentIndustry.badge || "Digital Marketing Partner for Real Estate Channel Partners"}
               </span>
-              <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#B9974F", color: "#1e4d42" }}>
-                <span className="material-symbols-outlined" style={{ color: "#B9974F" }}>handshake</span>
+              <span className="popup-mini-badge" style={{ background: "#FFFFFF", borderColor: "#FF8C52", color: "#359FA0" }}>
+                <span className="material-symbols-outlined" style={{ color: "#FF8C52" }}>handshake</span>
                 <span>AI DIGITAL ASSOCIATE CHANNEL</span>
               </span>
             </div>
@@ -782,7 +782,7 @@ export default function PricingPopup({ dialogRef }) {
               <div className="popup-c-price-left">
                 <span className="popup-c-currency">₹</span>
                 <span className="popup-c-amount">{activeTier.priceDisplay}</span>
-                <span style={{ fontSize: "14px", fontWeight: "800", color: "#B9974F", marginLeft: "4px" }}>+ GST</span>
+                <span style={{ fontSize: "14px", fontWeight: "800", color: "#FF8C52", marginLeft: "4px" }}>+ GST</span>
               </div>
               <div className="popup-c-price-right">
                 <span className="popup-c-period-pill">{activeTier.period || "/ 3 MONTHS"}</span>

@@ -26,16 +26,6 @@ export default function HeroVideo() {
       <div className="modern-hero-ambient-glow" aria-hidden="true" />
 
       <div className="modern-hero-container">
-        {/* 1. Modern Eyebrow Pill */}
-        <div className="modern-hero-badge reveal">
-          <span className="modern-hero-pulse-dot" aria-hidden="true" />
-          <span>BIZZMAKER • DIGITAL MARKETING AGENCY</span>
-          <span style={{ opacity: 0.5 }}>•</span>
-          <span className="badge-tag-highlight">2026 ROI PLAYBOOK</span>
-          <span className="material-symbols-outlined" style={{ fontSize: "16px", color: "#B9974F" }}>
-            arrow_forward
-          </span>
-        </div>
 
         {/* 2. Main High-Converting Headline (H1) */}
         <h1 className="modern-hero-title reveal delay-100">

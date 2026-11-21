@@ -152,7 +152,7 @@ export function SiteHeader({ active = "home" }) {
           style={{
             background: "rgba(30, 77, 66, 0.08)",
             border: "1px solid rgba(30, 77, 66, 0.25)",
-            color: "#1e4d42",
+            color: "#359FA0",
             padding: "8px 16px",
             fontSize: "0.85rem",
             fontWeight: 600,
@@ -192,7 +192,7 @@ export function SiteHeader({ active = "home" }) {
             <a
               className="mobile-menu-cta"
               href="/admin"
-              style={{ background: "#1e4d42", color: "#fff", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "8px", padding: "10px 14px", borderRadius: "8px", fontSize: "13px" }}
+              style={{ background: "#359FA0", color: "#fff", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "8px", padding: "10px 14px", borderRadius: "8px", fontSize: "13px" }}
               onClick={() => setMenuOpen(false)}
             >
               <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>login</span>

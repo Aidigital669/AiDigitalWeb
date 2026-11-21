@@ -266,14 +266,14 @@ function PlanTierIcon({ tier }) {
   if (tierId === "plan_perf_both" || (tierName.includes("meta") && tierName.includes("google"))) {
     return (
       <div style={{ display: "flex", alignItems: "center", gap: "5px" }} title="Google & Meta Ads">
-        <svg width="22" height="22" viewBox="0 0 48 48" aria-label="Google">
+        <svg width="20" height="20" viewBox="0 0 48 48" aria-label="Google">
           <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
           <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
           <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.91l7.35-5.73z"/>
           <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/>
         </svg>
-        <span style={{ color: "#FAD978", fontWeight: "800", fontSize: "13px" }}>+</span>
-        <svg width="22" height="22" viewBox="0 0 48 48" aria-label="Facebook">
+        <span style={{ color: "#8AD6D1", fontWeight: "800", fontSize: "13px" }}>+</span>
+        <svg width="20" height="20" viewBox="0 0 48 48" aria-label="Facebook">
           <circle cx="24" cy="24" r="23" fill="#1877F2"/>
           <path fill="#FFFFFF" d="M26.7 38V24.5h4.5l.7-5.2h-5.2v-3.3c0-1.5.4-2.5 2.6-2.5h2.8V8.9c-.5-.1-2.1-.2-4-.2-4 0-6.7 2.4-6.7 6.9v3.7h-4.5v5.2h4.5V38h5.3z"/>
         </svg>
@@ -284,7 +284,7 @@ function PlanTierIcon({ tier }) {
   // 2. Google Ads or Performance Marketing (Google)
   if (tierId === "plan_google_ads" || tierId === "plan_perf_google" || (tierName.includes("google") && !tierName.includes("meta"))) {
     return (
-      <svg width="32" height="32" viewBox="0 0 48 48" aria-label="Google Ads">
+      <svg width="26" height="26" viewBox="0 0 48 48" aria-label="Google Ads">
         <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/>
         <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/>
         <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.91l7.35-5.73z"/>
@@ -422,12 +422,12 @@ export default function PricingClientPage() {
                   fontWeight: activeCategory === cat.id ? "700" : "500",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
-                  border: activeCategory === cat.id ? "1.5px solid #B9974F" : "1px solid rgba(255, 255, 255, 0.12)",
-                  background: activeCategory === cat.id ? "#1e4d42" : "rgba(255, 255, 255, 0.04)",
+                  border: activeCategory === cat.id ? "1.5px solid #FF8C52" : "1px solid rgba(255, 255, 255, 0.12)",
+                  background: activeCategory === cat.id ? "#359FA0" : "rgba(255, 255, 255, 0.04)",
                   color: activeCategory === cat.id ? "#FFFFFF" : "#cbd5e1"
                 }}
               >
-                <span className="material-symbols-outlined" style={{ fontSize: "16px", color: activeCategory === cat.id ? "#B9974F" : "#94a3b8" }}>
+                <span className="material-symbols-outlined" style={{ fontSize: "16px", color: activeCategory === cat.id ? "#FF8C52" : "#8AD6D1" }}>
                   {cat.icon}
                 </span>
                 <span>{cat.label}</span>
@@ -445,7 +445,7 @@ export default function PricingClientPage() {
               <span className="cp-grid-hint">Select a growth package to get started</span>
             </div>
 
-            <div className="cp-plans-grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", alignItems: "start" }}>
+            <div className="cp-plans-grid">
               {filteredTiers.map((tier) => {
                 const isSelected = tier.id === selectedTierId;
                 return (

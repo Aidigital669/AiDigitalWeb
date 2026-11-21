@@ -20,10 +20,10 @@ export default function Testimonials() {
           [class*="WriteReviewButton"],
           [class*="button-base"][class*="header"],
           button[class*="Button"] {
-            background: #1E4D42 !important;
-            background-color: #1E4D42 !important;
+            background: #359FA0 !important;
+            background-color: #359FA0 !important;
             color: #FFFFFF !important;
-            border: 1.5px solid #B9974F !important;
+            border: 1.5px solid #FF8C52 !important;
             border-radius: 999px !important;
             box-shadow: 0 4px 14px rgba(30, 77, 66, 0.25) !important;
             transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
@@ -33,12 +33,12 @@ export default function Testimonials() {
           [class*="WriteReviewButton"]:hover,
           [class*="button-base"][class*="header"]:hover,
           button[class*="Button"]:hover {
-            background: #B9974F !important;
-            background-color: #B9974F !important;
+            background: #FF8C52 !important;
+            background-color: #FF8C52 !important;
             border-color: #9E7F3D !important;
             color: #FFFFFF !important;
             transform: translateY(-2px) !important;
-            box-shadow: 0 6px 18px rgba(185, 151, 79, 0.35) !important;
+            box-shadow: 0 6px 18px rgba(255, 140, 82, 0.35) !important;
           }
           [class*="header-write-review-button"] *,
           [class*="WriteReviewButton"] * {
@@ -51,15 +51,15 @@ export default function Testimonials() {
           [class*="TabIndicator"],
           [class*="Tabs__TabIndicator"],
           [class*="active-line"] {
-            background: #B9974F !important;
-            background-color: #B9974F !important;
+            background: #FF8C52 !important;
+            background-color: #FF8C52 !important;
             height: 3px !important;
             border-radius: 2px !important;
           }
           [class*="tab"][class*="active"],
           [class*="Tab--active"],
           [class*="Tabs__TabActive"] {
-            color: #1E4D42 !important;
+            color: #359FA0 !important;
             font-weight: 700 !important;
           }
 
@@ -67,8 +67,8 @@ export default function Testimonials() {
           [class*="rating-item"] svg,
           [class*="Rating__Stars"] svg,
           [class*="star"] svg {
-            fill: #B9974F !important;
-            color: #B9974F !important;
+            fill: #FF8C52 !important;
+            color: #FF8C52 !important;
           }
 
           /* Read More & Verified Accent */
@@ -76,13 +76,13 @@ export default function Testimonials() {
           [class*="ReadMore"],
           [class*="verified-badge"],
           [class*="VerifiedBadge"] {
-            color: #B9974F !important;
+            color: #FF8C52 !important;
           }
 
           /* Review card container */
           [class*="review-container"] {
             border-radius: 16px !important;
-            border: 1px solid rgba(185, 151, 79, 0.12) !important;
+            border: 1px solid rgba(255, 140, 82, 0.12) !important;
           }
         `;
         rootNode.appendChild(style);
@@ -118,15 +118,15 @@ export default function Testimonials() {
   return (
     <section className="section testimonials-section" style={{ paddingBlock: "100px", background: "linear-gradient(180deg, var(--bg-ivory, #F8F5EF) 0%, #FFFFFF 50%, var(--bg-ivory, #F8F5EF) 100%)", position: "relative", overflow: "hidden" }}>
       {/* Decorative Luxury Background Glow Elements */}
-      <div style={{ position: "absolute", top: "-50px", left: "-50px", width: "350px", height: "350px", background: "radial-gradient(circle, rgba(185, 151, 79, 0.16) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }}></div>
+      <div style={{ position: "absolute", top: "-50px", left: "-50px", width: "350px", height: "350px", background: "radial-gradient(circle, rgba(255, 140, 82, 0.16) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }}></div>
       <div style={{ position: "absolute", bottom: "-100px", right: "-50px", width: "420px", height: "420px", background: "radial-gradient(circle, rgba(30, 77, 66, 0.12) 0%, transparent 70%)", borderRadius: "50%", pointerEvents: "none" }}></div>
 
       <div className="section-heading" style={{ position: "relative", zIndex: 2, marginBottom: "54px", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
-        <span className="eyebrow" style={{ display: "inline-flex", marginBottom: "16px", border: "1px solid rgba(185, 151, 79, 0.35)", borderRadius: "999px", padding: "8px 18px", color: "var(--cta-gold, #B9974F)", background: "#ffffff", fontSize: "11.5px", fontWeight: "800", letterSpacing: "0.12em", textTransform: "uppercase", boxShadow: "0 4px 14px rgba(185, 151, 79, 0.12)" }}>
+        <span className="eyebrow" style={{ display: "inline-flex", marginBottom: "16px", border: "1px solid rgba(255, 140, 82, 0.35)", borderRadius: "999px", padding: "8px 18px", color: "var(--cta-gold, #FF8C52)", background: "#ffffff", fontSize: "11.5px", fontWeight: "800", letterSpacing: "0.12em", textTransform: "uppercase", boxShadow: "0 4px 14px rgba(255, 140, 82, 0.12)" }}>
           Real Results. Real Feedback.
         </span>
-        <h2 style={{ fontFamily: "var(--font-headline, 'Sora', sans-serif)", fontSize: "clamp(32px, 4vw, 44px)", lineHeight: "1.15", color: "var(--brand-forest, #1E4D42)", margin: "0 0 16px 0", maxWidth: "600px", fontWeight: "800" }}>
-          See What Our Clients <br/><span style={{ color: "var(--cta-gold, #B9974F)" }}>Are Saying</span>
+        <h2 style={{ fontFamily: "var(--font-headline, 'Sora', sans-serif)", fontSize: "clamp(32px, 4vw, 44px)", lineHeight: "1.15", color: "var(--brand-forest, #359FA0)", margin: "0 0 16px 0", maxWidth: "600px", fontWeight: "800" }}>
+          See What Our Clients <br/><span style={{ color: "var(--cta-gold, #FF8C52)" }}>Are Saying</span>
         </h2>
         <p style={{ color: "var(--text-charcoal-muted, #556B64)", fontSize: "15.5px", maxWidth: "520px", margin: "0", lineHeight: "1.6" }}>
           Don't just take our word for it. Here are genuine reviews from businesses we've helped grow.
@@ -135,7 +135,7 @@ export default function Testimonials() {
 
       <div style={{ position: "relative", zIndex: 2, maxWidth: "1100px", margin: "0 auto", padding: "0 20px" }}>
         {/* Widget Container with Luxury Frame */}
-        <div className="testimonials-widget-card" style={{ background: "#ffffff", borderRadius: "24px", padding: "24px", boxShadow: "0 24px 50px rgba(30, 77, 66, 0.08), 0 0 0 1px rgba(185, 151, 79, 0.18)", border: "1.5px solid var(--line-soft, #EDE7DA)" }}>
+        <div className="testimonials-widget-card" style={{ background: "#ffffff", borderRadius: "24px", padding: "24px", boxShadow: "0 24px 50px rgba(30, 77, 66, 0.08), 0 0 0 1px rgba(255, 140, 82, 0.18)", border: "1.5px solid var(--line-soft, #EDE7DA)" }}>
           {/* Elfsight All-in-One Reviews Widget */}
           <Script src="https://elfsightcdn.com/platform.js" strategy="lazyOnload" />
           <div className="elfsight-app-8a4acbd3-d813-43e7-a303-15ff4fc467e2" data-elfsight-app-lazy></div>
