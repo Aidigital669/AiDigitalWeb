@@ -2291,6 +2291,19 @@ p {
   color: #FFFFFF;
 }
 
+/* Top Blank Area Filter Bar in Portfolio Hero */
+.portfolio-hero-top-filter-bar {
+  grid-column: 1 / -1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.portfolio-hero-top-filter-bar .work-filter-row {
+  margin: 0 auto;
+}
+
 .portfolio-hero {
   display: grid;
   grid-template-columns: 0.78fr 1.22fr;
@@ -3632,7 +3645,20 @@ p {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .portfolio-hero {
+  /* Top Blank Area Filter Bar in Portfolio Hero */
+.portfolio-hero-top-filter-bar {
+  grid-column: 1 / -1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.portfolio-hero-top-filter-bar .work-filter-row {
+  margin: 0 auto;
+}
+
+.portfolio-hero {
     grid-template-columns: 1fr;
     min-height: auto;
     gap: 28px;
@@ -3680,7 +3706,20 @@ p {
     padding-bottom: 32px;
   }
 
-  .portfolio-hero {
+  /* Top Blank Area Filter Bar in Portfolio Hero */
+.portfolio-hero-top-filter-bar {
+  grid-column: 1 / -1;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.portfolio-hero-top-filter-bar .work-filter-row {
+  margin: 0 auto;
+}
+
+.portfolio-hero {
     padding-block: 58px;
   }
 

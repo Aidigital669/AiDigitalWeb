@@ -97,7 +97,15 @@ const showcaseProjects = [
   }
 ];
 
-export default function PortfolioShowcase() {
+const serviceFilters = [
+  "All",
+  "Website and Seo",
+  "Ai Videos",
+  "Creative Content",
+  "Reels"
+];
+
+export default function PortfolioShowcase({ activeFilter = "All", setActiveFilter }) {
   const [showcaseProjectsState] = useState(showcaseProjects);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -167,6 +175,27 @@ export default function PortfolioShowcase() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdData) }}
       />
+
+      {/* Top Blank Area Filter Buttons */}
+      <div className="portfolio-hero-top-filter-bar">
+        <div className="work-filter-row" aria-label="Service filters">
+          {serviceFilters.map((filter) => (
+            <button
+              type="button"
+              key={filter}
+              className={activeFilter === filter ? "active" : ""}
+              aria-pressed={activeFilter === filter}
+              onClick={() => {
+                if (setActiveFilter) setActiveFilter(filter);
+                const el = document.getElementById("portfolio");
+                if (el) el.scrollIntoView({ behavior: "smooth" });
+              }}
+            >
+              {filter}
+            </button>
+          ))}
+        </div>
+      </div>
 
       <div className="portfolio-hero-copy">
         <span className="eyebrow">Our Success Stories</span>

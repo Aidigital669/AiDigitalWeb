@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import FeaturedWork from "../components/FeaturedWork";
 import PortfolioShowcase from "../components/PortfolioShowcase";
 import { SiteFooter, SiteHeader } from "../components/SiteChrome";
@@ -9,6 +9,7 @@ import PageHiddenNotice from "../components/PageHiddenNotice";
 
 export default function PortfolioClientPage() {
   const { isVisible, isPageVisible } = useVisibility();
+  const [activeFilter, setActiveFilter] = useState("All");
 
   if (!isPageVisible("portfolio")) {
     return <PageHiddenNotice pageName="Portfolio" />;
@@ -17,8 +18,18 @@ export default function PortfolioClientPage() {
   return (
     <main id="top">
       <SiteHeader active="portfolio" />
-      {isVisible("portfolio_showcase") && <PortfolioShowcase />}
-      {isVisible("portfolio_featured") && <FeaturedWork />}
+      {isVisible("portfolio_showcase") && (
+        <PortfolioShowcase 
+          activeFilter={activeFilter} 
+          setActiveFilter={setActiveFilter} 
+        />
+      )}
+      {isVisible("portfolio_featured") && (
+        <FeaturedWork 
+          activeFilter={activeFilter} 
+          setActiveFilter={setActiveFilter} 
+        />
+      )}
       <SiteFooter />
     </main>
   );

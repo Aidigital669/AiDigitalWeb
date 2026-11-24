@@ -206,9 +206,11 @@ const industryKeyMap = {
   "Digital Marketing": "portfolio_ind_marketing",
 };
 
-export default function FeaturedWork() {
+export default function FeaturedWork({ activeFilter: propActiveFilter, setActiveFilter: propSetActiveFilter }) {
+  const [internalActiveFilter, setInternalActiveFilter] = useState("All");
+  const activeFilter = propActiveFilter !== undefined ? propActiveFilter : internalActiveFilter;
+  const setActiveFilter = propSetActiveFilter || setInternalActiveFilter;
   const { isVisible } = useVisibility();
-  const [activeFilter, setActiveFilter] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [showOthers, setShowOthers] = useState(false);
   const [industriesState, setIndustriesState] = useState(industries);
@@ -299,21 +301,7 @@ export default function FeaturedWork() {
         </div>
       )}
 
-      {isVisible("portfolio_filter_bar") && (
-        <div className="work-filter-row" aria-label="Service filters">
-          {availableFilters.map((filter) => (
-            <button
-              type="button"
-              key={filter}
-              className={activeFilter === filter ? "active" : ""}
-              aria-pressed={activeFilter === filter}
-              onClick={() => setActiveFilter(filter)}
-            >
-              {filter}
-            </button>
-          ))}
-        </div>
-      )}
+      
 
       {(activeFilter === "Website & SEO" || activeFilter === "Website and Seo") && isVisible("portfolio_type_websites") && (
         <div className="website-type-row" aria-label="Website and SEO project types">
