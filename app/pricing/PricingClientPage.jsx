@@ -15,7 +15,7 @@ const defaultCpTiers = [
     name: "Google Ads Management",
     scope: "Google Ads Management",
     ticketRange: "Paid Search & PPC",
-    category: "ads",
+    category: "google_ads",
     price: 7500,
     priceDisplay: "7,500",
     period: "per Month",
@@ -36,7 +36,7 @@ const defaultCpTiers = [
     name: "Meta Ads (FB & Instagram)",
     scope: "Meta Ads",
     ticketRange: "Paid Social",
-    category: "ads",
+    category: "meta_ads",
     price: 3000,
     priceDisplay: "3,000",
     period: "per Month",
@@ -99,7 +99,7 @@ const defaultCpTiers = [
     name: "Reel Shoot",
     scope: "Reel Shoot",
     ticketRange: "Media Production",
-    category: "media",
+    category: "content",
     price: 6000,
     priceDisplay: "6,000",
     period: "Starting from",
@@ -120,7 +120,7 @@ const defaultCpTiers = [
     name: "AI Videos",
     scope: "AI Videos",
     ticketRange: "AI Media",
-    category: "media",
+    category: "content",
     price: 599,
     priceDisplay: "599",
     period: "Starting from",
@@ -141,7 +141,7 @@ const defaultCpTiers = [
     name: "Social Media Graphics (10 Posts)",
     scope: "Social Media Graphics",
     ticketRange: "Content Pack",
-    category: "media",
+    category: "content",
     price: 500,
     priceDisplay: "500",
     period: "for 10 Posts",
@@ -162,7 +162,7 @@ const defaultCpTiers = [
     name: "Website Development",
     scope: "Website Development",
     ticketRange: "Web & Tech",
-    category: "growth",
+    category: "website",
     price: 5000,
     priceDisplay: "5,000",
     period: "Starting from",
@@ -183,7 +183,7 @@ const defaultCpTiers = [
     name: "Brand Development Program",
     scope: "Brand Development Program",
     ticketRange: "Brand Authority",
-    category: "growth",
+    category: "brand",
     price: 20000,
     priceDisplay: "20,000",
     period: "Starting from",
@@ -383,9 +383,19 @@ export default function PricingClientPage() {
   const deliverables = industryData?.package?.features || defaultDeliverables;
   const faqs = industryData?.faqs || defaultFaqs;
 
+  const getTierCategory = (t) => {
+    if (t.category === "meta_ads" || t.id === "plan_meta_ads") return "meta_ads";
+    if (t.category === "google_ads" || t.id === "plan_google_ads") return "google_ads";
+    if (t.category === "performance" || t.id.startsWith("plan_perf")) return "performance";
+    if (t.category === "brand" || t.id === "plan_brand_dev") return "brand";
+    if (t.category === "content" || t.category === "media" || ["plan_reel_shoot", "plan_ai_videos", "plan_social_graphics"].includes(t.id)) return "content";
+    if (t.category === "website" || t.id === "plan_website_dev") return "website";
+    return t.category;
+  };
+
   const filteredTiers = activeCategory === "all" 
     ? cpTiers 
-    : cpTiers.filter((t) => t.category === activeCategory);
+    : cpTiers.filter((t) => getTierCategory(t) === activeCategory);
 
   return (
     <div className="pricing-page-wrapper cp-compressed-page">
@@ -399,14 +409,16 @@ export default function PricingClientPage() {
             <h1 className="cp-main-title">Plans</h1>
           </div>
 
-          {/* Category Filter Tabs */}
+          {/* Category Filter Tabs - 7 Dedicated Categories */}
           <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap", margin: "32px 0 20px 0" }}>
             {[
               { id: "all", label: `All Plans (${cpTiers.length})`, icon: "dashboard" },
-              { id: "ads", label: `Paid Ads (${cpTiers.filter((t) => t.category === "ads").length})`, icon: "campaign" },
-              { id: "performance", label: `Performance Marketing (${cpTiers.filter((t) => t.category === "performance").length})`, icon: "trending_up" },
-              { id: "media", label: `Media & Video Production (${cpTiers.filter((t) => t.category === "media").length})`, icon: "videocam" },
-              { id: "growth", label: `Web & Brand Growth (${cpTiers.filter((t) => t.category === "growth").length})`, icon: "rocket_launch" }
+              { id: "meta_ads", label: `Meta Ads (${cpTiers.filter((t) => getTierCategory(t) === "meta_ads").length})`, icon: "share" },
+              { id: "google_ads", label: `Google Ads (${cpTiers.filter((t) => getTierCategory(t) === "google_ads").length})`, icon: "ads_click" },
+              { id: "performance", label: `Performance Marketing (${cpTiers.filter((t) => getTierCategory(t) === "performance").length})`, icon: "trending_up" },
+              { id: "brand", label: `Brand Growth Marketing (${cpTiers.filter((t) => getTierCategory(t) === "brand").length})`, icon: "workspace_premium" },
+              { id: "content", label: `Content Marketing (${cpTiers.filter((t) => getTierCategory(t) === "content").length})`, icon: "videocam" },
+              { id: "website", label: `Website Development (${cpTiers.filter((t) => getTierCategory(t) === "website").length})`, icon: "desktop_windows" }
             ].map((cat) => (
               <button
                 key={cat.id}
