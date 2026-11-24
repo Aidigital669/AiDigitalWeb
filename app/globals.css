@@ -2585,22 +2585,30 @@ p {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 14px;
-  border: 1px solid var(--card-border, #e2e8f0);
+  padding: 7px 16px;
+  border: 1px solid rgba(138, 214, 209, 0.25);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(22, 66, 57, 0.65);
   font-size: 13px;
   font-weight: 600;
-  color: var(--muted, #64748b);
+  color: #E2E8F0;
   cursor: pointer;
   transition: all 0.2s ease;
+  backdrop-filter: blur(8px);
 }
 
-.showcase-category-chips .chip-btn:hover,
+.showcase-category-chips .chip-btn:hover {
+  border-color: #359FA0;
+  background: rgba(53, 159, 160, 0.2);
+  color: #8AD6D1;
+  transform: translateY(-1px);
+}
+
 .showcase-category-chips .chip-btn.active {
-  border-color: #2684b9;
-  background: var(--blue-soft, #eef7fc);
-  color: var(--blue, #2684b9);
+  border-color: #FF8C52;
+  background: linear-gradient(135deg, rgba(255, 140, 82, 0.25) 0%, rgba(20, 56, 48, 0.8) 100%);
+  color: #FFA775;
+  box-shadow: 0 4px 14px rgba(255, 140, 82, 0.2);
   transform: translateY(-1px);
 }
 

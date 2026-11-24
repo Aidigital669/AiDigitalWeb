@@ -17,6 +17,42 @@ const websiteTypes = ["Static Websites", "Dynamic Websites"];
 
 const industries = [
   {
+    name: "Fashion",
+    description:
+      "Apparel e-commerce websites, viral fashion reels, influencer campaigns, and lookbook creatives.",
+    projects: [
+      { title: "Aura Couture Shopify Store", type: "Website & SEO" },
+      { title: "Summer Collection Launch Campaign", type: "Campaigns" },
+      { title: "Cinematic Fashion Promo Video", type: "AI Videos" },
+      { title: "Seasonal Lookbook Creative", type: "Creative Content" },
+      { title: "Viral Fashion Trending Reel", type: "Reels" }
+    ]
+  },
+  {
+    name: "Commercial Vehicle",
+    description:
+      "Fleet dealership portals, commercial truck lead generation, B2B ads, and vehicle promotional videos.",
+    projects: [
+      { title: "Commercial Motors Dealership Portal", type: "Website & SEO" },
+      { title: "Heavy Fleet Lead Generation Campaign", type: "Campaigns" },
+      { title: "Truck Lineup 3D Video Promo", type: "AI Videos" },
+      { title: "Fleet Specs Promotional Creative", type: "Creative Content" },
+      { title: "Commercial Vehicle Walkthrough Reel", type: "Reels" }
+    ]
+  },
+  {
+    name: "Technology",
+    description:
+      "SaaS product websites, AI tech demo campaigns, software explainers, and B2B tech creatives.",
+    projects: [
+      { title: "CloudStack Enterprise SaaS Portal", type: "Website & SEO" },
+      { title: "B2B Software Demo Sign-Up Campaign", type: "Campaigns" },
+      { title: "AI Platform Product Explainer Video", type: "AI Videos" },
+      { title: "Tech Architecture Infographic Creative", type: "Creative Content" },
+      { title: "Product Feature Release Reel", type: "Reels" }
+    ]
+  },
+  {
     name: "Real Estate",
     description:
       "Websites, campaigns, AI property promotions, creative branding, and real estate reels.",
@@ -147,6 +183,9 @@ const filterTypeKeyMap = {
 };
 
 const industryKeyMap = {
+  "Fashion": "portfolio_ind_fashion",
+  "Commercial Vehicle": "portfolio_ind_commercial_vehicle",
+  "Technology": "portfolio_ind_tech",
   "Real Estate": "portfolio_ind_realestate",
   "Education": "portfolio_ind_education",
   "Healthcare": "portfolio_ind_healthcare",

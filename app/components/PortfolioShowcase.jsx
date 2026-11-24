@@ -5,69 +5,95 @@ import { Icon } from "./SiteChrome";
 
 const showcaseProjects = [
   {
-    id: "proj-1",
-    title: "Real Estate SEO Portal",
-    category: "Website & SEO",
-    industry: "Real Estate",
-    metric: "+142%",
-    metricLabel: "Organic Traffic",
+    id: "proj-education",
+    title: "EduPulse Learning Academy",
+    category: "EdTech & Student Enrollment",
+    industry: "Education",
+    metric: "+320%",
+    metricLabel: "Admission Inquiries",
     description:
-      "A conversion-focused property listing website optimized for Local SEO, featuring advanced lead capture and campaign-ready landing pages.",
-    tags: ["Real Estate SEO", "Lead Generation", "UI/UX Design"],
+      "High-converting admission lead funnels, targeted Google Search campaigns, and dynamic course landing pages engineered for schools, universities, and coaching institutes.",
+    tags: ["Admission Campaigns", "EdTech SEO", "Lead Gen Funnel"],
     accent: "blue",
-    icon: "language"
+    icon: "school"
   },
   {
-    id: "proj-2",
-    title: "AI Real Estate Video Ads",
-    category: "Video Marketing",
-    industry: "Real Estate",
-    metric: "3.8x",
-    metricLabel: "Ad ROAS",
+    id: "proj-healthcare",
+    title: "MedCare Multispeciality Hospital",
+    category: "Patient Acquisition & Local SEO",
+    industry: "Healthcare",
+    metric: "+185%",
+    metricLabel: "Patient Appointments",
     description:
-      "AI-driven property video concepting and short-form video ads engineered for maximum reach on paid and organic social media channels.",
-    tags: ["AI Video Marketing", "Instagram Reels", "Paid Social Ads"],
+      "HIPAA-compliant doctor appointment portals, local hospital search optimization, and targeted Meta Ads campaigns driving verified patient consultations.",
+    tags: ["Doctor Appointments", "Local Healthcare SEO", "Medical Ads"],
+    accent: "green",
+    icon: "medical_services"
+  },
+  {
+    id: "proj-fashion",
+    title: "Aura Couture & Apparel",
+    category: "D2C E-Commerce & Paid Social",
+    industry: "Fashion",
+    metric: "4.6x",
+    metricLabel: "Ad ROAS Scaled",
+    description:
+      "High-converting Shopify storefronts, cinematic AI fashion teasers, and viral Instagram Reel funnels delivering scalable return-on-ad-spend for designer apparel.",
+    tags: ["Fashion E-Commerce", "Instagram Reels", "ROAS Scaling"],
     accent: "orange",
-    icon: "movie"
+    icon: "checkroom"
   },
   {
-    id: "proj-3",
-    title: "Fintech Web Platform",
-    category: "Website & SEO",
-    industry: "Finance",
-    metric: "+78%",
-    metricLabel: "Qualified Leads",
+    id: "proj-commercial-vehicle",
+    title: "Apex Fleet & Commercial Motors",
+    category: "B2B Dealership & PPC Funnel",
+    industry: "Commercial Vehicle",
+    metric: "+240%",
+    metricLabel: "Fleet Dealership Leads",
     description:
-      "A secure, dashboard-style fintech web platform designed for finance education, building investor trust, and driving inbound lead generation.",
-    tags: ["Fintech Web Design", "Content SEO", "Lead Gen Analytics"],
+      "Heavy transport, truck, and commercial fleet sales lead funnels with geo-targeted Google Ads, WhatsApp CRM integration, and high-trust commercial vehicle showcase pages.",
+    tags: ["Commercial Fleet Leads", "B2B Google Ads", "Dealership CRM"],
     accent: "blue",
+    icon: "local_shipping"
+  },
+  {
+    id: "proj-technology",
+    title: "CloudStack SaaS & Enterprise AI",
+    category: "SaaS Growth & Performance Marketing",
+    industry: "Technology",
+    metric: "+310%",
+    metricLabel: "Demo Sign-Ups",
+    description:
+      "Full-funnel B2B performance marketing, product-led SEO landing pages, and interactive software demo funnels engineered for enterprise tech and SaaS startups.",
+    tags: ["SaaS Performance Marketing", "B2B Tech SEO", "Demo Conversion UX"],
+    accent: "blue",
+    icon: "devices"
+  },
+  {
+    id: "proj-finance",
+    title: "FinVertex Wealth & Advisory",
+    category: "Fintech Web & Qualified Lead Gen",
+    industry: "Finance",
+    metric: "+165%",
+    metricLabel: "Qualified HNI Leads",
+    description:
+      "High-trust wealth management web platforms, investor credibility funnels, and performance marketing driving verified inbound inquiries for financial advisory firms.",
+    tags: ["Fintech Platform", "Wealth Advisory", "High-ROAS Funnel"],
+    accent: "green",
     icon: "query_stats"
   },
   {
-    id: "proj-4",
-    title: "Ayurmor Wellness",
-    category: "E-Commerce & SEO",
-    industry: "Health & Wellness",
-    metric: "+210%",
-    metricLabel: "Organic Sales",
+    id: "proj-other",
+    title: "OmniScale Custom Growth & Branding",
+    category: "Omnichannel Brand Scaling",
+    industry: "Other",
+    metric: "5.2x",
+    metricLabel: "Revenue Multiplier",
     description:
-      "An SEO-optimized e-commerce platform for 100% natural Ayurvedic wellness & instant superfood drinks. Features rich product schemas and trust badges.",
-    tags: ["E-Commerce SEO", "Schema Markup", "Conversion UX"],
-    accent: "green",
-    icon: "shopping_cart"
-  },
-  {
-    id: "proj-5",
-    title: "Pureplush E-Commerce",
-    category: "E-Commerce & SEO",
-    industry: "Retail",
-    metric: "+185%",
-    metricLabel: "Sales Growth",
-    description:
-      "A premium retail e-commerce platform designed with an optimized checkout flow and visually engaging product showcases.",
-    tags: ["E-Commerce", "Checkout Optimization", "Retail UI"],
+      "Tailored 360° growth solutions, custom video productions, corporate branding identities, and multi-channel ad scaling for diverse niche businesses.",
+    tags: ["Custom Brand Identity", "Omnichannel Growth", "Video Production"],
     accent: "orange",
-    icon: "storefront"
+    icon: "category"
   }
 ];
 
@@ -88,7 +114,7 @@ export default function PortfolioShowcase() {
     return () => window.clearInterval(timer);
   }, [showcaseProjectsState.length, isPaused]);
 
-  const previewBars = useMemo(() => [78, 58, 88, 48, 70], []);
+  const previewBars = useMemo(() => [78, 58, 88, 48, 70, 85, 62], []);
 
   function moveSlide(direction) {
     if (showcaseProjectsState.length === 0) return;
