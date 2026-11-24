@@ -489,7 +489,6 @@ export default function PricingClientPage() {
 
                     {/* Scope / Title */}
                     <div className="cp-card-scope-wrap">
-                      <span className="cp-scope-prefix">{tier.ticketRange || "Service Package"}</span>
                       <h2 className="cp-card-scope-title">{tier.scope}</h2>
                       {tier.subtitle && <p className="cp-card-subtitle">{tier.subtitle}</p>}
                     </div>
@@ -501,12 +500,6 @@ export default function PricingClientPage() {
                         <span className="cp-pill-amount">{tier.priceDisplay}</span>
                         <span className="cp-pill-period">{tier.period || "/month"}</span>
                       </div>
-                    </div>
-
-                    {/* Monthly Effective / Unit Cost */}
-                    <div className="cp-card-monthly-box">
-                      <span className="material-symbols-outlined">payments</span>
-                      <strong>{tier.monthlyEffective}</strong>
                     </div>
 
                     {/* Action Button inside card */}
