@@ -259,23 +259,15 @@ const CATEGORIES = [
   {
     id: "website",
     label: "WEBSITE & SEO",
-    filterKey: "Website & SEO",
+    filterKey: "Website and Seo",
     description: "High-converting websites & SEO strategies",
     icon: "language",
     accent: "blue"
   },
   {
-    id: "campaign",
-    label: "CAMPAIGNS",
-    filterKey: "Campaigns",
-    description: "Targeted ad campaigns that drive real leads",
-    icon: "campaign",
-    accent: "orange"
-  },
-  {
     id: "video",
     label: "AI VIDEOS",
-    filterKey: "AI Videos",
+    filterKey: "Ai Videos",
     description: "AI-powered promo videos & property tours",
     icon: "movie",
     accent: "blue"

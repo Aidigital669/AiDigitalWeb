@@ -6,9 +6,8 @@ import { useVisibility } from "../context/VisibilityContext";
 
 const filters = [
   "All",
-  "Website & SEO",
-  "Campaigns",
-  "AI Videos",
+  "Website and Seo",
+  "Ai Videos",
   "Creative Content",
   "Reels"
 ];
@@ -157,11 +156,12 @@ const industries = [
 ];
 
 const filterIcons = {
+  "Website and Seo": "language",
   "Website & SEO": "language",
-  Campaigns: "campaign",
+  "Ai Videos": "movie",
   "AI Videos": "movie",
   "Creative Content": "palette",
-  Reels: "smart_display"
+  "Reels": "smart_display"
 };
 
 const otherProjects = [
@@ -175,8 +175,9 @@ const otherProjects = [
 
 
 const filterTypeKeyMap = {
+  "Website and Seo": "portfolio_type_websites",
   "Website & SEO": "portfolio_type_websites",
-  "Campaigns": "portfolio_type_campaigns",
+  "Ai Videos": "portfolio_type_aivideos",
   "AI Videos": "portfolio_type_aivideos",
   "Creative Content": "portfolio_type_creatives",
   "Reels": "portfolio_type_reels",
@@ -245,6 +246,8 @@ export default function FeaturedWork() {
           const typeKey = filterTypeKeyMap[project.type];
           if (typeKey && !isVisible(typeKey)) return false;
           if (activeFilter === "All") return true;
+          if (activeFilter === "Website and Seo" && (project.type === "Website & SEO" || project.type === "Website and Seo")) return true;
+          if (activeFilter === "Ai Videos" && (project.type === "AI Videos" || project.type === "Ai Videos")) return true;
           return project.type === activeFilter;
         })
       }))
@@ -312,7 +315,7 @@ export default function FeaturedWork() {
         </div>
       )}
 
-      {activeFilter === "Website & SEO" && isVisible("portfolio_type_websites") && (
+      {(activeFilter === "Website & SEO" || activeFilter === "Website and Seo") && isVisible("portfolio_type_websites") && (
         <div className="website-type-row" aria-label="Website and SEO project types">
           {websiteTypes.map((type) => (
             <span key={type}>{type}</span>
