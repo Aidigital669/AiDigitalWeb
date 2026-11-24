@@ -18,7 +18,7 @@ const defaultCpTiers = [
     category: "google_ads",
     price: 7500,
     priceDisplay: "7,500",
-    period: "per Month",
+    period: "Per Month",
     monthlyEffective: "₹7,500 Effective per Month",
     subtitle: "High-Intent Google Search, PPC, Display & Performance Max Ad Campaigns",
     icon: "ads_click",
@@ -39,7 +39,7 @@ const defaultCpTiers = [
     category: "meta_ads",
     price: 3000,
     priceDisplay: "3,000",
-    period: "per Month",
+    period: "Per Month",
     monthlyEffective: "₹3,000 Effective per Month",
     subtitle: "Laser-Targeted Instagram & Facebook Paid Ads & Retargeting Funnels",
     icon: "share",
@@ -60,7 +60,7 @@ const defaultCpTiers = [
     category: "performance",
     price: 5000,
     priceDisplay: "5,000",
-    period: "per Month",
+    period: "Per Month",
     monthlyEffective: "₹5,000 Effective per Month",
     subtitle: "Full-Funnel Meta Conversion Scaling, CAC Reduction & Laser Instagram Targeting",
     icon: "trending_up",
@@ -74,7 +74,7 @@ const defaultCpTiers = [
     category: "performance",
     price: 10000,
     priceDisplay: "10,000",
-    period: "per Month",
+    period: "Per Month",
     monthlyEffective: "₹10,000 Effective per Month",
     subtitle: "High-ROAS Google Search, Performance Max Scaling & Conversion Optimization",
     icon: "trending_up",
@@ -88,7 +88,7 @@ const defaultCpTiers = [
     category: "performance",
     price: 15000,
     priceDisplay: "15,000",
-    period: "per Month",
+    period: "Per Month",
     monthlyEffective: "₹15,000 Effective per Month",
     subtitle: "Omnichannel Cross-Platform Scaling, CAC Reduction & Combined Attribution on Meta + Google",
     icon: "trending_up",
@@ -144,7 +144,7 @@ const defaultCpTiers = [
     category: "content",
     price: 500,
     priceDisplay: "500",
-    period: "for 10 Posts",
+    period: "For 10 Posts",
     monthlyEffective: "Just ₹50 per Custom Creative",
     subtitle: "10 Custom High-Res Branded Post Creatives, Flyers & Promotional Banners",
     icon: "palette",
@@ -309,6 +309,16 @@ function PlanTierIcon({ tier }) {
     </span>
   );
 }
+
+const formatPeriodPrefix = (period) => {
+  if (!period) return "Per Month";
+  const p = period.trim();
+  const lower = p.toLowerCase();
+  if (lower === "per month" || lower === "/month") return "Per Month";
+  if (lower === "starting from" || lower === "starts from") return "Starting from";
+  if (lower === "for 10 posts") return "For 10 Posts";
+  return p.charAt(0).toUpperCase() + p.slice(1);
+};
 
 export default function PricingClientPage() {
   const { isVisible, isPageVisible } = useVisibility();
@@ -496,9 +506,9 @@ export default function PricingClientPage() {
                     {/* Pricing Pill */}
                     <div className="cp-price-pill-wrap">
                       <div className="cp-gold-pill">
+                        <span className="cp-pill-period">{formatPeriodPrefix(tier.period)}</span>
                         <span className="cp-pill-currency">₹</span>
                         <span className="cp-pill-amount">{tier.priceDisplay}</span>
-                        <span className="cp-pill-period">{tier.period || "/month"}</span>
                       </div>
                     </div>
 
