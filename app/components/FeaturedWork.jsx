@@ -268,7 +268,7 @@ export default function FeaturedWork() {
       <div className="section-heading">
         <h2>Featured Projects</h2>
         <p>
-          A showcase of our best websites, campaigns, AI videos, creatives, and reels.
+          A showcase of our best websites, AI videos, creative content, and reels.
         </p>
       </div>
 
@@ -324,7 +324,7 @@ export default function FeaturedWork() {
       )}
 
       <div className="industry-list">
-        {activeFilter === "Creative Content" || activeFilter === "AI Videos" || activeFilter === "Reels" || activeFilter === "Website & SEO" || activeFilter === "All" || activeFilter === "Campaigns" ? (
+        {activeFilter === "Creative Content" || activeFilter === "AI Videos" || activeFilter === "Reels" || activeFilter === "Website & SEO" || activeFilter === "All"  ? (
           <CreativeGrid
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
