@@ -1,27 +1,10 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
-import PricingPopup from "./PricingPopup";
+import React from "react";
 
 export default function HeroVideo() {
-  const dialogRef = useRef(null);
-
-  // Triggers the pricing popup natively with a 10-second delay when the page renders
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      if (dialogRef.current) {
-        dialogRef.current.showModal();
-      }
-    }, 10000);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <section className="modern-hero-section" aria-label="BizzMaker Header">
-      {/* Background Pricing Lead Modal (opens on 10s delay) */}
-      <PricingPopup dialogRef={dialogRef} />
-
       {/* Top Ambient Glow */}
       <div className="modern-hero-ambient-glow" aria-hidden="true" />
 
