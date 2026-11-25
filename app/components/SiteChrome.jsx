@@ -144,6 +144,53 @@ export function SiteHeader({ active = "home" }) {
         ))}
       </div>
       <div className="nav-actions-wrapper" style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        {/* Small Chatbot Button on Navbar before Login Button */}
+        {isVisible("widget_chat") && (
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof window !== "undefined") {
+                window.dispatchEvent(new CustomEvent("open-chat-widget"));
+              }
+            }}
+            className="nav-button-chatbot-pill"
+            title="Chat with BizzMaker AI Assistant"
+            aria-label="Open support chat"
+            style={{
+              background: "rgba(53, 159, 160, 0.12)",
+              border: "1px solid rgba(53, 159, 160, 0.35)",
+              color: "#359FA0",
+              padding: "7px 13px",
+              fontSize: "0.85rem",
+              fontWeight: 600,
+              borderRadius: "8px",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
+              cursor: "pointer",
+              position: "relative",
+              transition: "all 0.2s ease"
+            }}
+          >
+            <span style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
+              <span className="material-symbols-outlined" style={{ fontSize: "18px", color: "#359FA0" }}>support_agent</span>
+              <span
+                style={{
+                  position: "absolute",
+                  top: "-1px",
+                  right: "-2px",
+                  width: "6px",
+                  height: "6px",
+                  borderRadius: "50%",
+                  background: "#10B981",
+                  boxShadow: "0 0 0 1.5px #0b221d"
+                }}
+              />
+            </span>
+            <span>Ask me</span>
+          </button>
+        )}
+
         {/* Simple Login Button */}
         <a
           className="nav-button nav-button-employee"
@@ -189,6 +236,36 @@ export function SiteHeader({ active = "home" }) {
             </a>
           ))}
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.15)", paddingTop: "10px", marginTop: "6px", display: "flex", flexDirection: "column", gap: "6px" }}>
+            {isVisible("widget_chat") && (
+              <button
+                type="button"
+                className="mobile-menu-cta"
+                style={{ 
+                  background: "rgba(53, 159, 160, 0.16)", 
+                  border: "1px solid rgba(53, 159, 160, 0.35)",
+                  color: "#8AD6D1", 
+                  display: "flex", 
+                  alignItems: "center", 
+                  justifyContent: "flex-start", 
+                  gap: "8px", 
+                  padding: "10px 14px", 
+                  borderRadius: "8px", 
+                  fontSize: "13px",
+                  cursor: "pointer",
+                  width: "100%",
+                  textAlign: "left"
+                }}
+                onClick={() => {
+                  setMenuOpen(false);
+                  if (typeof window !== "undefined") {
+                    window.dispatchEvent(new CustomEvent("open-chat-widget"));
+                  }
+                }}
+              >
+                <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>support_agent</span>
+                <span>Ask me (AI Chat Assistant)</span>
+              </button>
+            )}
             <a
               className="mobile-menu-cta"
               href="/admin"

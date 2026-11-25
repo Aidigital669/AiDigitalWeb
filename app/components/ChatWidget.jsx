@@ -8,12 +8,6 @@ export default function ChatWidget() {
   const pathname = usePathname();
   const { isVisible } = useVisibility();
   const [isOpen, setIsOpen] = useState(false);
-
-  if (pathname?.startsWith("/login") || pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin") || pathname?.startsWith("/employee-login")) {
-    return null;
-  }
-
-  if (!isVisible("widget_chat")) return null;
   const [messages, setMessages] = useState([
     {
       sender: "model",
@@ -23,6 +17,23 @@ export default function ChatWidget() {
   const [inputValue, setInputValue] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    const handleToggle = () => setIsOpen((prev) => !prev);
+    window.addEventListener("open-chat-widget", handleOpen);
+    window.addEventListener("toggle-chat-widget", handleToggle);
+    return () => {
+      window.removeEventListener("open-chat-widget", handleOpen);
+      window.removeEventListener("toggle-chat-widget", handleToggle);
+    };
+  }, []);
+
+  const isHiddenPage = pathname?.startsWith("/login") || pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin") || pathname?.startsWith("/employee-login");
+
+  if (isHiddenPage || !isVisible("widget_chat")) {
+    return null;
+  }
 
   const quickQuestions = [
     "What packages do you offer?",

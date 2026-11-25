@@ -302,48 +302,57 @@ function GoogleLogo({ size = 22 }) {
 function PlanTierIcon({ tier }) {
   const tierId = tier?.id || "";
   const tierName = (tier?.name || tier?.scope || "").toLowerCase();
+  const isDual = tierId === "plan_perf_both" || (tierName.includes("google") && (tierName.includes("meta") || tierName.includes("facebook")));
 
-  // 1. Dual Google & Meta
-  if (tierId === "plan_perf_both" || (tierName.includes("google") && (tierName.includes("meta") || tierName.includes("facebook")))) {
+  // 1. Dual Google & Facebook: 2 small boxes with + in the middle
+  if (isDual) {
     return (
-      <div style={{ display: "flex", alignItems: "center", gap: "6px" }} title="Google & Meta Ads">
-        <GoogleLogo size={20} />
+      <div className="cp-dual-boxes-container" style={{ display: "flex", alignItems: "center", gap: "6px" }} title="Google & Facebook Ads">
+        <div 
+          className="cp-small-icon-box"
+          style={{
+            width: "38px",
+            height: "38px",
+            borderRadius: "11px",
+            background: "rgba(138, 214, 209, 0.15)",
+            border: "1px solid rgba(138, 214, 209, 0.4)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"
+          }}
+        >
+          <GoogleLogo size={20} />
+        </div>
         <span style={{ color: "#8AD6D1", fontWeight: "800", fontSize: "14px", lineHeight: 1 }}>+</span>
-        <MetaLogo size={22} />
+        <div 
+          className="cp-small-icon-box"
+          style={{
+            width: "38px",
+            height: "38px",
+            borderRadius: "11px",
+            background: "rgba(138, 214, 209, 0.15)",
+            border: "1px solid rgba(138, 214, 209, 0.4)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 4px 12px rgba(0, 0, 0, 0.15)"
+          }}
+        >
+          <FacebookLogo size={20} />
+        </div>
       </div>
     );
   }
 
-  // 2. Meta Ads (Meta + Facebook with + sign in the middle)
-  if (
-    tierId === "plan_meta_ads" || 
-    tierId === "plan_perf_meta" || 
-    (tierName.includes("meta") && tierName.includes("facebook")) ||
-    tierName.includes("meta ads (fb & instagram)") ||
-    (tierName.includes("meta") && !tierName.includes("google"))
-  ) {
-    return (
-      <div style={{ display: "flex", alignItems: "center", gap: "6px" }} title="Meta & Facebook Ads">
-        <MetaLogo size={22} />
-        <span style={{ color: "#8AD6D1", fontWeight: "800", fontSize: "14px", lineHeight: 1 }}>+</span>
-        <FacebookLogo size={20} />
-      </div>
-    );
+  // 2. Google Ads alone
+  if (tierId === "plan_google_ads" || tierId === "plan_perf_google" || (tierName.includes("google") && !tierName.includes("meta") && !tierName.includes("facebook"))) {
+    return <GoogleLogo size={26} />;
   }
 
-  // 3. Google Ads alone
-  if (tierId === "plan_google_ads" || tierId === "plan_perf_google" || (tierName.includes("google") && !tierName.includes("meta"))) {
-    return <GoogleLogo size={28} />;
-  }
-
-  // 4. Facebook alone
-  if (tierName.includes("facebook") && !tierName.includes("meta")) {
-    return <FacebookLogo size={28} />;
-  }
-
-  // 5. Meta alone
-  if (tierName.includes("meta")) {
-    return <MetaLogo size={28} />;
+  // 3. Meta Ads / Facebook Ads -> ONLY Facebook logo
+  if (tierId === "plan_meta_ads" || tierId === "plan_perf_meta" || tierName.includes("meta") || tierName.includes("facebook")) {
+    return <FacebookLogo size={26} />;
   }
 
   return (
@@ -536,7 +545,13 @@ export default function PricingClientPage() {
                     )}
 
                     {/* Icon */}
-                    <div className="cp-card-icon-wrap">
+                    <div className={`cp-card-icon-wrap ${
+                      tier?.id === "plan_perf_both" || 
+                      ((tier?.name || tier?.scope || "").toLowerCase().includes("google") && 
+                       ((tier?.name || tier?.scope || "").toLowerCase().includes("meta") || (tier?.name || tier?.scope || "").toLowerCase().includes("facebook")))
+                        ? "is-dual" 
+                        : ""
+                    }`}>
                       <PlanTierIcon tier={tier} />
                     </div>
 

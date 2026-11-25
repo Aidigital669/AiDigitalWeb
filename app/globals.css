@@ -9400,6 +9400,15 @@ p {
   flex-shrink: 0;
 }
 
+.cp-card-icon-wrap.is-dual {
+  width: auto;
+  height: 48px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
 .cp-card-icon-wrap svg {
   display: block;
   max-width: 26px;
@@ -10552,4 +10561,13 @@ p {
   padding: 18px;
   background: rgba(22, 66, 57, 0.35);
   transition: all 0.3s ease;
+}
+
+/* Navbar Chatbot Pill */
+.nav-button-chatbot-pill:hover {
+  background: rgba(53, 159, 160, 0.24) !important;
+  border-color: #359FA0 !important;
+  color: #fff !important;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(53, 159, 160, 0.25);
 }
