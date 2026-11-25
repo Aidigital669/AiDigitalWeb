@@ -1,7 +1,7 @@
 export const dynamic = "force-dynamic";
 
 import { NextResponse } from "next/server";
-import pool from "../../../../lib/db";
+import pool, { ensureAllTables } from "../../../../lib/db";
 import { sendWhatsAppMessage } from "../../../../lib/whatsapp";
 import { isValidMobileNumber } from "../../../../lib/validation";
 
@@ -35,6 +35,7 @@ export async function GET(req) {
     let dbConnected = false;
 
     try {
+      await ensureAllTables();
       const [rows] = await pool.query(
         "SELECT * FROM whatsapp_logs ORDER BY created_at DESC LIMIT 50"
       );

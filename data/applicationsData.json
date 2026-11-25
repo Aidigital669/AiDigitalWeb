@@ -1,0 +1,30 @@
+[
+  {
+    "id": 2,
+    "name": "Vikram Malhotra",
+    "email": "vikram@example.com",
+    "phone": "9822001122",
+    "address": "FC Road",
+    "city": "Pune",
+    "district": "Pune",
+    "job_title": "Senior Performance Marketing Specialist",
+    "message": "Looking forward to working with AI Digital",
+    "resume_url": "/uploads/resumes/vikram_malhotra_53c78651.pdf",
+    "status": "Pending",
+    "created_at": "2026-11-10T14:12:35.000Z"
+  },
+  {
+    "id": 1,
+    "name": "Vikram Malhotra",
+    "email": "vikram@example.com",
+    "phone": "9822001122",
+    "address": "",
+    "city": "Pune",
+    "district": "",
+    "job_title": "Senior Performance Marketing Specialist",
+    "message": "",
+    "resume_url": "/uploads/resumes/vikram_malhotra_b5783e4e.pdf",
+    "status": "Pending",
+    "created_at": "2026-11-10T14:11:50.000Z"
+  }
+]
