@@ -314,8 +314,8 @@ function PlanTierIcon({ tier }) {
             width: "38px",
             height: "38px",
             borderRadius: "11px",
-            background: "rgba(138, 214, 209, 0.15)",
-            border: "1px solid rgba(138, 214, 209, 0.4)",
+            background: "rgba(46, 229, 192, 0.15)",
+            border: "1px solid rgba(46, 229, 192, 0.4)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -324,15 +324,15 @@ function PlanTierIcon({ tier }) {
         >
           <GoogleLogo size={20} />
         </div>
-        <span style={{ color: "#8AD6D1", fontWeight: "800", fontSize: "14px", lineHeight: 1 }}>+</span>
+        <span style={{ color: "#68F0AE", fontWeight: "800", fontSize: "14px", lineHeight: 1 }}>+</span>
         <div 
           className="cp-small-icon-box"
           style={{
             width: "38px",
             height: "38px",
             borderRadius: "11px",
-            background: "rgba(138, 214, 209, 0.15)",
-            border: "1px solid rgba(138, 214, 209, 0.4)",
+            background: "rgba(46, 229, 192, 0.15)",
+            border: "1px solid rgba(46, 229, 192, 0.4)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -496,12 +496,12 @@ export default function PricingClientPage() {
                   fontWeight: activeCategory === cat.id ? "700" : "500",
                   cursor: "pointer",
                   transition: "all 0.2s ease",
-                  border: activeCategory === cat.id ? "1.5px solid #FF8C52" : "1px solid rgba(255, 255, 255, 0.12)",
-                  background: activeCategory === cat.id ? "#359FA0" : "rgba(255, 255, 255, 0.04)",
+                  border: activeCategory === cat.id ? "1.5px solid #2EE5C0" : "1px solid rgba(255, 255, 255, 0.12)",
+                  background: activeCategory === cat.id ? "rgba(46, 229, 192, 0.16)" : "rgba(255, 255, 255, 0.04)",
                   color: activeCategory === cat.id ? "#FFFFFF" : "#cbd5e1"
                 }}
               >
-                <span className="material-symbols-outlined" style={{ fontSize: "16px", color: activeCategory === cat.id ? "#FF8C52" : "#8AD6D1" }}>
+                <span className="material-symbols-outlined" style={{ fontSize: "16px", color: activeCategory === cat.id ? "#2EE5C0" : "#68F0AE" }}>
                   {cat.icon}
                 </span>
                 <span>{cat.label}</span>
@@ -536,13 +536,6 @@ export default function PricingClientPage() {
                     }}
                     aria-label={`Select ${tier.scope} Plan`}
                   >
-                    {/* Badge top corner if popular */}
-                    {tier.popular && (
-                      <div className="cp-card-popular-badge">
-                        <span className="material-symbols-outlined">hotel_class</span>
-                        TOP RECOMMENDED
-                      </div>
-                    )}
 
                     {/* Icon */}
                     <div className={`cp-card-icon-wrap ${

@@ -157,9 +157,9 @@ export function SiteHeader({ active = "home" }) {
             title="Chat with BizzMaker AI Assistant"
             aria-label="Open support chat"
             style={{
-              background: "rgba(53, 159, 160, 0.12)",
-              border: "1px solid rgba(53, 159, 160, 0.35)",
-              color: "#359FA0",
+              background: "rgba(46, 229, 192, 0.12)",
+              border: "1px solid rgba(46, 229, 192, 0.35)",
+              color: "#2EE5C0",
               padding: "7px 13px",
               fontSize: "0.85rem",
               fontWeight: 600,
@@ -173,7 +173,7 @@ export function SiteHeader({ active = "home" }) {
             }}
           >
             <span style={{ position: "relative", display: "inline-flex", alignItems: "center" }}>
-              <span className="material-symbols-outlined" style={{ fontSize: "18px", color: "#359FA0" }}>support_agent</span>
+              <span className="material-symbols-outlined" style={{ fontSize: "18px", color: "#2EE5C0" }}>support_agent</span>
               <span
                 style={{
                   position: "absolute",
@@ -197,9 +197,9 @@ export function SiteHeader({ active = "home" }) {
           href="/admin"
           title="Admin Portal"
           style={{
-            background: "rgba(30, 77, 66, 0.08)",
-            border: "1px solid rgba(30, 77, 66, 0.25)",
-            color: "#359FA0",
+            background: "rgba(12, 37, 50, 0.08)",
+            border: "1px solid rgba(12, 37, 50, 0.25)",
+            color: "#2EE5C0",
             padding: "8px 16px",
             fontSize: "0.85rem",
             fontWeight: 600,
@@ -241,9 +241,9 @@ export function SiteHeader({ active = "home" }) {
                 type="button"
                 className="mobile-menu-cta"
                 style={{ 
-                  background: "rgba(53, 159, 160, 0.16)", 
-                  border: "1px solid rgba(53, 159, 160, 0.35)",
-                  color: "#8AD6D1", 
+                  background: "rgba(46, 229, 192, 0.16)", 
+                  border: "1px solid rgba(46, 229, 192, 0.35)",
+                  color: "#68F0AE", 
                   display: "flex", 
                   alignItems: "center", 
                   justifyContent: "flex-start", 
@@ -269,7 +269,7 @@ export function SiteHeader({ active = "home" }) {
             <a
               className="mobile-menu-cta"
               href="/admin"
-              style={{ background: "#359FA0", color: "#fff", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "8px", padding: "10px 14px", borderRadius: "8px", fontSize: "13px" }}
+              style={{ background: "#2EE5C0", color: "#041A21", display: "flex", alignItems: "center", justifyContent: "flex-start", gap: "8px", padding: "10px 14px", borderRadius: "8px", fontSize: "13px" }}
               onClick={() => setMenuOpen(false)}
             >
               <span className="material-symbols-outlined" style={{ fontSize: "18px" }}>login</span>
