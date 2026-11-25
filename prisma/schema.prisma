@@ -1,0 +1,353 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =======================================================
+// WORKFORCE & AGENCY OPERATIONS SUITE
+// =======================================================
+
+model User {
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  name          String
+  password      String
+  role          String // ADMIN, CEO, TL, EMPLOYEE, SALES, CLIENT
+  department    String
+  salary        Float          @default(0.0)
+  status        String         @default("ACTIVE")
+  avatar        String?
+  address       String?
+  dob           String?
+  exp           String?
+  designation   String?
+  mobile        String?
+  lastSalary    Float?         @default(0.0)
+  dateOfJoining String?
+  passportPhoto String?
+  aadharCard    String?
+  panCard       String?
+  marksheet10   String?
+  marksheet12   String?
+  graduation    String?
+  otherDoc      String?
+  works         String?
+  createdAt     DateTime       @default(now())
+  attendance    Attendance[]
+  leaveRequests LeaveRequest[]
+  assignedTasks Task[]         @relation("AssignedTasks")
+  createdTasks  Task[]         @relation("CreatedTasks")
+  callRecords   CallRecord[]
+}
+
+model Attendance {
+  id        Int       @id @default(autoincrement())
+  userId    Int
+  clockIn   DateTime
+  clockOut  DateTime?
+  status    String // PRESENT, LATE, HALF_DAY, ABSENT
+  date      String
+  location  String?
+  createdAt DateTime  @default(now())
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model LeaveRequest {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  startDate String
+  endDate   String
+  reason    String
+  status    String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Task {
+  id             Int      @id @default(autoincrement())
+  title          String
+  description    String?
+  status         String   @default("TODO") // TODO, IN_PROGRESS, REVIEW, DONE
+  assignedToId   Int
+  createdById    Int
+  dueDate        String?
+  priority       String   @default("Normal")
+  reason         String?
+  workSampleUrl  String?
+  department     String?
+  subtasks       String?
+  module         String?
+  dependency     String?
+  expectedOutput String?
+  taskDate       String?
+  createdAt      DateTime @default(now())
+  assignedTo     User     @relation("AssignedTasks", fields: [assignedToId], references: [id], onDelete: Cascade)
+  createdBy      User     @relation("CreatedTasks", fields: [createdById], references: [id], onDelete: Cascade)
+}
+
+model Client {
+  id                  Int              @id @default(autoincrement())
+  clientId            String           @unique
+  businessName        String
+  clientName          String?
+  joiningDate         String
+  services            String
+  packageName         String
+  packageAmount       Float
+  contact             String?
+  email               String?
+  password            String?
+  website             String?
+  sector              String?
+  requirement         String?
+  accountReady        Boolean          @default(false)
+  active              Boolean          @default(true)
+  extensionDays       Int              @default(0)
+  extensionExpiryDate String?
+  notes               String?
+  createdAt           DateTime         @default(now())
+  clientDeliveries    ClientDelivery[]
+  clientTasks         ClientTask[]
+  clientFeedback      ClientFeedback[]
+  renewalRequests     RenewalRequest[]
+}
+
+model ClientDelivery {
+  id           Int      @id @default(autoincrement())
+  deliveryId   String   @unique
+  clientId     String
+  clientName   String
+  postType     String
+  postDate     String
+  status       String   @default("Pending") // Pending, In Progress, Ready, Delivered
+  linkedTaskId String?
+  workingOn    String?
+  notes        String?
+  createdAt    DateTime @default(now())
+  client       Client   @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
+}
+
+model ClientTask {
+  id              Int       @id @default(autoincrement())
+  taskId          String    @unique
+  clientId        String
+  businessName    String
+  taskTitle       String
+  date            String
+  assignTo        String?
+  workingOn       String?
+  status          String    @default("Not Started")
+  service         String?
+  packageName     String?
+  postType        String?
+  notes           String?
+  priority        String    @default("Normal")
+  reason          String?
+  workSampleUrl   String?
+  statusChangedAt DateTime?
+  createdAt       DateTime  @default(now())
+  client          Client    @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
+}
+
+model Plan {
+  id           Int      @id @default(autoincrement())
+  category     String
+  name         String
+  price        Float
+  billingCycle String?
+  features     Json
+  createdAt    DateTime @default(now())
+}
+
+model ClientFeedback {
+  id           Int      @id @default(autoincrement())
+  clientId     String
+  businessName String
+  clientName   String?
+  type         String // Feedback or Concern
+  rating       Int? // 1 to 5
+  message      String
+  status       String   @default("Pending") // Pending, Reviewed
+  createdAt    DateTime @default(now())
+  client       Client   @relation(fields: [clientId], references: [clientId], onDelete: Cascade)
+}
+
+model CallRecord {
+  id                  Int       @id @default(autoincrement())
+  clientName          String
+  phoneNumber         String
+  status              String    @default("PENDING")
+  notes               String?
+  callDate            DateTime  @default(now())
+  followUpDate        DateTime?
+  expectedValue       Float?
+  leadSource          String?
+  salesPersonId       Int
+  packageName         String?
+  expectedClosingDate DateTime?
+  salesPerson         User      @relation(fields: [salesPersonId], references: [id], onDelete: Cascade)
+}
+
+model RenewalRequest {
+  id              Int      @id @default(autoincrement())
+  clientId        String
+  clientDbId      Int
+  businessName    String
+  requestType     String // RENEWAL or EXTENSION
+  status          String   @default("PENDING") // PENDING, APPROVED, REJECTED
+  requestedDays   Int?
+  approvedDays    Int?
+  reason          String?
+  adminNote       String?
+  requestedById   Int
+  requestedByName String
+  requestedByRole String   @default("TL")
+  approvedById    Int?
+  approvedByName  String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  client          Client   @relation(fields: [clientDbId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id              Int      @id @default(autoincrement())
+  action          String
+  performedByName String
+  performedByRole String
+  createdAt       DateTime @default(now())
+}
+
+// =======================================================
+// WEBSITE CMS & DIGITAL MARKETING SUITE
+// =======================================================
+
+model PricingPlan {
+  id               String  @id
+  category         String
+  platform         String?
+  badge_class      String?
+  level            String
+  pill_class       String?
+  price            String
+  period           String?
+  features         String // JSON string of array
+  button_text      String? @default("Select Plan")
+  is_popular       Boolean @default(false)
+  service_name     String?
+  plan_parameter   String?
+  tag_class        String?
+  is_highlight     Boolean @default(false)
+  highlight_styles String?
+}
+
+model PortfolioItem {
+  id           String  @id
+  section      String // showcase, featured
+  title        String
+  category     String?
+  industry     String?
+  metric       String?
+  metric_label String?
+  description  String?
+  tags         String? // JSON string of array
+  accent       String?
+  icon         String?
+  src          String?
+  type         String?
+  global_index Int?
+  thumbnail    String?
+}
+
+model Blog {
+  id          String   @id
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String
+  coverImage  String?
+  category    String   @default("Marketing")
+  published   Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SiteVisibility {
+  id          String   @id
+  type        String   @default("section") // page, section, widget
+  page_group  String
+  name        String
+  description String?
+  is_visible  Boolean  @default(true)
+  sort_order  Int      @default(0)
+  updatedAt   DateTime @default(now()) @updatedAt
+}
+
+model JobApplication {
+  id         Int      @id @default(autoincrement())
+  name       String
+  email      String
+  phone      String
+  address    String?
+  city       String?
+  district   String?
+  job_title  String
+  message    String?
+  resume_url String?
+  status     String   @default("Pending")
+  createdAt  DateTime @default(now())
+}
+
+model OnboardingDetail {
+  id            Int      @id @default(autoincrement())
+  business_name String
+  client_name   String
+  email         String
+  phone         String
+  services      String?
+  notes         String?
+  createdAt     DateTime @default(now())
+}
+
+model PromoCode {
+  id               Int      @id @default(autoincrement())
+  code             String   @unique
+  discount_percent Float
+  min_order_amount Float    @default(0)
+  description      String?
+  is_active        Boolean  @default(true)
+  createdAt        DateTime @default(now())
+}
+
+model WebsiteVisitor {
+  id             Int      @id @default(autoincrement())
+  session_id     String?
+  ip_address     String?
+  user_agent     String?
+  country        String?
+  page_visited   String?
+  referrer       String?
+  duration       Int?     @default(0)
+  created_at     DateTime @default(now())
+  last_active_at DateTime @default(now())
+}
+
+model WhatsAppLog {
+  id         Int      @id @default(autoincrement())
+  recipient  String
+  message    String
+  status     String   @default("SENT")
+  error      String?
+  created_at DateTime @default(now())
+}
+
+model CheckoutExitFeedback {
+  id         Int      @id @default(autoincrement())
+  reason     String
+  comment    String?
+  created_at DateTime @default(now())
+}
