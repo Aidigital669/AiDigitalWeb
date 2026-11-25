@@ -4,6 +4,10 @@ import Image from "next/image";
 import { useVisibility } from "../context/VisibilityContext";
 
 const industryVisibilityMap = {
+  "Fashion": "portfolio_ind_fashion",
+  "Commercial Vehicle": "portfolio_ind_commercial_vehicle",
+  "Technology": "portfolio_ind_tech",
+  "Other": "portfolio_ind_other",
   "Real Estate": "portfolio_ind_realestate",
   "Education": "portfolio_ind_education",
   "Healthcare": "portfolio_ind_healthcare",
@@ -96,6 +100,29 @@ export const creativeGroups = [
       { src: "/Campaign/HealthcareCampaign.jpeg", title: "Healthcare Clinic Campaign", description: "A patient acquisition and awareness campaign built for doctors, specialty hospitals, and wellness clinics.", globalIndex: 304, type: "campaign" },
       { src: "https://youtu.be/AFilU3i5pTU", title: "Health Care", description: "Promotional reel highlighting advanced healthcare services and medical expertise.", globalIndex: 213, type: "reel" },
       { src: "https://youtube.com/shorts/3LK4K10ukvg", title: "Orthopedic Surgeon", description: "Promotional reel highlighting orthopedic surgical expertise.", globalIndex: 218, type: "reel" }
+    ]
+  },
+  {
+    industry: "Fashion",
+    description: "Apparel e-commerce websites, viral fashion reels, influencer campaigns, and lookbook creatives.",
+    images: [
+      { src: "/creative_content/Creative1.jpeg", title: "Aura Couture Shopify Store", description: "High-converting Shopify storefront for designer apparel.", globalIndex: 50, type: "website" },
+      { src: "/creative_content/Creative7.jpeg", title: "Seasonal Lookbook Creative", description: "Fashion brand promotional visual and lookbook creative.", globalIndex: 51, type: "image" },
+      { src: "/creative_content/Creative8.jpeg", title: "Summer Collection Launch Campaign", description: "Influencer marketing and paid social campaign for apparel.", globalIndex: 52, type: "campaign" },
+      { src: "https://youtube.com/shorts/CGmclmt0ibU", title: "Cinematic Fashion Promo Video", description: "Cinematic AI fashion teaser and promotional video.", globalIndex: 254, type: "youtube" },
+      { src: "https://youtu.be/uxlAeIZCY1w", title: "Viral Fashion Trending Reel", description: "Viral Instagram Reel funnel for designer apparel.", globalIndex: 255, type: "reel" }
+    ]
+  },
+  {
+    industry: "Commercial Vehicle",
+    description: "Fleet dealership portals, commercial truck lead generation, B2B ads, and vehicle promotional videos.",
+    images: [
+      { src: "/creative_content/Creative9.jpeg", title: "Commercial Motors Dealership Portal", description: "Heavy transport, truck, and commercial fleet sales lead portal.", globalIndex: 55, type: "website" },
+      { src: "/creative_content/Creative10.jpeg", title: "Fleet Specs Promotional Creative", description: "Fleet promotional specs, technical flyers, and commercial banners.", globalIndex: 56, type: "image" },
+      { src: "/creative_content/Creative6.jpeg", title: "Heavy Fleet Lead Generation Campaign", description: "Targeted B2B commercial vehicle and truck dealership campaign.", globalIndex: 57, type: "campaign" },
+      { src: "https://youtu.be/bvKjWoaAOQY?si=LnPMbHrhTanH2I_V", title: "Commercial Fleet Sharan360", description: "Commercial automotive dealership and fleet showcase promo.", globalIndex: 256, type: "youtube" },
+      { src: "https://youtube.com/shorts/OjB222E1JFI", title: "Truck Lineup 3D Video Promo", description: "Commercial fleet 3D promotional and feature video.", globalIndex: 257, type: "youtube" },
+      { src: "https://youtu.be/AFilU3i5pTU", title: "Commercial Vehicle Walkthrough Reel", description: "Commercial vehicle walkthrough and dealership showcase reel.", globalIndex: 258, type: "reel" }
     ]
   },
   {
@@ -246,6 +273,17 @@ export const creativeGroups = [
       { src: "https://ayurmor.com/", thumbnail: "/uploads/Ayurmor.jpg", title: "Ayurmor Ayurvedic Wellness", description: "An SEO-friendly e-commerce platform for Ayurvedic health supplements and instant herbal soups, built with optimized product schemas and category pages.", globalIndex: 102, type: "website" },
       { src: "https://pureplush.in/", thumbnail: "/uploads/Pureplush.jpg", title: "Pureplush E-Commerce", description: "A premium e-commerce platform designed for high conversions, featuring a seamless shopping experience and elegant product showcases.", globalIndex: 103, type: "website" }
     ]
+  },
+  {
+    industry: "Other",
+    description: "Tailored 360° growth solutions, custom video productions, corporate branding identities, and multi-channel ad scaling.",
+    images: [
+      { src: "/creative_content/Creative10.jpeg", title: "OmniScale Custom Growth & Branding", description: "Full-scale custom brand growth and omnichannel digital strategy.", globalIndex: 120, type: "website" },
+      { src: "/creative_content/Creative2.jpeg", title: "Corporate Identity Redesign", description: "Multi-channel branding design and visual identity kit.", globalIndex: 121, type: "image" },
+      { src: "/creative_content/Creative5.jpeg", title: "SaaS Platform Launch Campaign", description: "Integrated digital marketing and multi-channel growth campaign.", globalIndex: 122, type: "campaign" },
+      { src: "https://youtube.com/shorts/pogRO6aMOes?si=AM5Q5hTy50oTqGRa", title: "AI Voice Agent Demo Video", description: "AI video production and technology demo showcase.", globalIndex: 259, type: "youtube" },
+      { src: "https://youtube.com/shorts/APpxjSt5LLw?si=4r68FMnAWGrdhhxA", title: "Product Launch Promotional Reel", description: "Custom promotional reel built for omnichannel social scaling.", globalIndex: 260, type: "reel" }
+    ]
   }
 ];
 const chunkArray = (array, size) => {
@@ -289,7 +327,15 @@ const CATEGORIES = [
     accent: "blue"
   }
 ];
-export default function CreativeGrid({ activeFilter = "All", setActiveFilter, searchQuery = "", setSearchQuery, onlyShowOtherCreative = false }) {
+export default function CreativeGrid({ 
+  activeFilter = "All", 
+  setActiveFilter, 
+  activeIndustry,
+  setActiveIndustry,
+  searchQuery = "", 
+  setSearchQuery, 
+  onlyShowOtherCreative = false 
+}) {
   const { isVisible } = useVisibility();
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const scrollContainers = useRef({});
@@ -663,13 +709,31 @@ export default function CreativeGrid({ activeFilter = "All", setActiveFilter, se
   }
   return (
     <>
-      {filteredGroups.map((group) => (
-        <article className="industry-section" key={group.industry} style={{ marginTop: "24px" }}>
-          <div className="industry-copy">
-            <span className="industry-label">Industry</span>
-            <h3>{group.industry}</h3>
-            <p>{group.description}</p>
-          </div>
+      {filteredGroups.map((group) => {
+        let industrySlug = `industry-${group.industry.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+        if (group.industry === "Technology & Apps" || group.industry === "Technology") {
+          industrySlug = "industry-technology";
+        }
+        if (group.industry === "Other" || group.industry === "OmniScale Custom Growth & Branding") {
+          industrySlug = "industry-other";
+        }
+        const isTargeted = activeIndustry && (
+          activeIndustry.toLowerCase() === group.industry.toLowerCase() ||
+          (activeIndustry === "Technology" && group.industry.toLowerCase().includes("technology"))
+        );
+
+        return (
+          <article 
+            id={industrySlug} 
+            className={`industry-section ${isTargeted ? "highlight-category-target" : ""}`} 
+            key={group.industry} 
+            style={{ marginTop: "24px" }}
+          >
+            <div className="industry-copy">
+              <span className="industry-label">Industry</span>
+              <h3>{group.industry}</h3>
+              <p>{group.description}</p>
+            </div>
           {activeFilter === "All" && !searchQuery.trim() && isVisible("portfolio_category_boxes") ? (
             <div className="industry-boxes-grid">
               {visibleCategories.map((cat, idx) => {
@@ -941,7 +1005,8 @@ export default function CreativeGrid({ activeFilter = "All", setActiveFilter, se
             </div>
           )}
         </article>
-      ))}
+        );
+      })}
       {activeImage && (
         <div
           className="creative-lightbox"

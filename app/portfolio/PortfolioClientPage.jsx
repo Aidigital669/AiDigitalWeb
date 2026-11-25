@@ -10,6 +10,7 @@ import PageHiddenNotice from "../components/PageHiddenNotice";
 export default function PortfolioClientPage() {
   const { isVisible, isPageVisible } = useVisibility();
   const [activeFilter, setActiveFilter] = useState("All");
+  const [activeIndustry, setActiveIndustry] = useState(null);
 
   if (!isPageVisible("portfolio")) {
     return <PageHiddenNotice pageName="Portfolio" />;
@@ -21,13 +22,17 @@ export default function PortfolioClientPage() {
       {isVisible("portfolio_showcase") && (
         <PortfolioShowcase 
           activeFilter={activeFilter} 
-          setActiveFilter={setActiveFilter} 
+          setActiveFilter={setActiveFilter}
+          activeIndustry={activeIndustry}
+          setActiveIndustry={setActiveIndustry} 
         />
       )}
       {isVisible("portfolio_featured") && (
         <FeaturedWork 
           activeFilter={activeFilter} 
-          setActiveFilter={setActiveFilter} 
+          setActiveFilter={setActiveFilter}
+          activeIndustry={activeIndustry}
+          setActiveIndustry={setActiveIndustry} 
         />
       )}
       <SiteFooter />

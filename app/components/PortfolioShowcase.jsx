@@ -105,11 +105,29 @@ const serviceFilters = [
   "Reels"
 ];
 
-export default function PortfolioShowcase({ activeFilter = "All", setActiveFilter }) {
+export default function PortfolioShowcase({ 
+  activeFilter = "All", 
+  setActiveFilter,
+  activeIndustry,
+  setActiveIndustry 
+}) {
   const [showcaseProjectsState] = useState(showcaseProjects);
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const touchStartX = useRef(null);
+
+  // Sync activeIndex if activeIndustry is passed from outside
+  useEffect(() => {
+    if (activeIndustry) {
+      const idx = showcaseProjectsState.findIndex(
+        (p) => p.industry.toLowerCase() === activeIndustry.toLowerCase() ||
+               (activeIndustry === "Technology" && p.industry.includes("Technology"))
+      );
+      if (idx !== -1 && idx !== activeIndex) {
+        setActiveIndex(idx);
+      }
+    }
+  }, [activeIndustry, showcaseProjectsState]);
 
   const activeProject = showcaseProjectsState[activeIndex] || showcaseProjectsState[0] || { tags: [] };
 
@@ -146,6 +164,64 @@ export default function PortfolioShowcase({ activeFilter = "All", setActiveFilte
       else moveSlide(-1);
     }
     touchStartX.current = null;
+  };
+
+  // Scroll to Category Chips when a top filter is chosen
+  const handleTopFilterClick = (filter) => {
+    if (setActiveFilter) setActiveFilter(filter);
+    const catEl = document.getElementById("portfolio-categories");
+    if (catEl) {
+      const headerOffset = 110;
+      const y = catEl.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+      window.scrollTo({ top: y, behavior: "smooth" });
+      catEl.classList.add("categories-highlight-pulse");
+      setTimeout(() => {
+        catEl.classList.remove("categories-highlight-pulse");
+      }, 2000);
+    }
+  };
+
+  // Scroll to Content Area for that category when a category chip is chosen
+  const handleCategoryChipClick = (proj, idx) => {
+    setActiveIndex(idx);
+    if (setActiveIndustry) setActiveIndustry(proj.industry);
+
+    const slug = proj.industry.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+    setTimeout(() => {
+      let target = document.getElementById(`industry-${slug}`);
+      if (!target && proj.industry === "Technology") {
+        target = document.getElementById("industry-technology") || document.getElementById("industry-technology-apps");
+      }
+      if (!target && proj.industry === "Other") {
+        target = document.getElementById("industry-other") || document.querySelector(".others-toggle-container") || document.getElementById("portfolio");
+      }
+      if (!target) {
+        // Fallback search by heading text inside industry sections
+        const headings = document.querySelectorAll(".industry-copy h3");
+        for (const h of headings) {
+          const hText = h.textContent.trim().toLowerCase();
+          if (hText === proj.industry.toLowerCase() || (proj.industry === "Technology" && hText.includes("technology"))) {
+            target = h.closest("article");
+            break;
+          }
+        }
+      }
+
+      if (target) {
+        const headerOffset = 90;
+        const y = target.getBoundingClientRect().top + window.pageYOffset - headerOffset;
+        window.scrollTo({ top: y, behavior: "smooth" });
+        target.classList.add("highlight-category-target");
+        setTimeout(() => {
+          target.classList.remove("highlight-category-target");
+        }, 2500);
+      } else {
+        const portfolioEl = document.getElementById("portfolio");
+        if (portfolioEl) {
+          portfolioEl.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+    }, 100);
   };
 
   const jsonLdData = {
@@ -185,11 +261,7 @@ export default function PortfolioShowcase({ activeFilter = "All", setActiveFilte
               key={filter}
               className={activeFilter === filter ? "active" : ""}
               aria-pressed={activeFilter === filter}
-              onClick={() => {
-                if (setActiveFilter) setActiveFilter(filter);
-                const el = document.getElementById("portfolio");
-                if (el) el.scrollIntoView({ behavior: "smooth" });
-              }}
+              onClick={() => handleTopFilterClick(filter)}
             >
               {filter}
             </button>
@@ -205,13 +277,18 @@ export default function PortfolioShowcase({ activeFilter = "All", setActiveFilte
           AI videos, and creatives built for scalable growth and measurable ROI.
         </p>
 
-        <div className="showcase-category-chips" aria-label="Project showcase categories">
+        {/* Category Chips: Connected to scroll down to content area */}
+        <div 
+          id="portfolio-categories" 
+          className="showcase-category-chips" 
+          aria-label="Project showcase categories"
+        >
           {showcaseProjectsState.map((proj, idx) => (
             <button
               key={proj.id}
               type="button"
               className={`chip-btn ${activeIndex === idx ? "active" : ""}`}
-              onClick={() => setActiveIndex(idx)}
+              onClick={() => handleCategoryChipClick(proj, idx)}
             >
               <Icon name={proj.icon} />
               <span>{proj.industry}</span>
@@ -254,7 +331,14 @@ export default function PortfolioShowcase({ activeFilter = "All", setActiveFilte
               ))}
             </div>
 
-            <a href="#portfolio" className="slide-cta-btn">
+            <a 
+              href="#portfolio" 
+              className="slide-cta-btn"
+              onClick={(e) => {
+                e.preventDefault();
+                handleCategoryChipClick(activeProject, activeIndex);
+              }}
+            >
               <span>Explore Portfolio</span>
               <Icon name="arrow_forward" />
             </a>
@@ -287,7 +371,7 @@ export default function PortfolioShowcase({ activeFilter = "All", setActiveFilte
               type="button"
               key={project.title}
               className={activeIndex === index ? "active" : ""}
-              onClick={() => setActiveIndex(index)}
+              onClick={() => handleCategoryChipClick(project, index)}
               aria-label={`Show ${project.title}`}
               aria-pressed={activeIndex === index}
             />

@@ -206,7 +206,12 @@ const industryKeyMap = {
   "Digital Marketing": "portfolio_ind_marketing",
 };
 
-export default function FeaturedWork({ activeFilter: propActiveFilter, setActiveFilter: propSetActiveFilter }) {
+export default function FeaturedWork({ 
+  activeFilter: propActiveFilter, 
+  setActiveFilter: propSetActiveFilter,
+  activeIndustry,
+  setActiveIndustry 
+}) {
   const [internalActiveFilter, setInternalActiveFilter] = useState("All");
   const activeFilter = propActiveFilter !== undefined ? propActiveFilter : internalActiveFilter;
   const setActiveFilter = propSetActiveFilter || setInternalActiveFilter;
@@ -215,6 +220,13 @@ export default function FeaturedWork({ activeFilter: propActiveFilter, setActive
   const [showOthers, setShowOthers] = useState(false);
   const [industriesState, setIndustriesState] = useState(industries);
   const [otherProjectsState, setOtherProjectsState] = useState(otherProjects);
+
+  // Auto-expand other projects if user selects "Other" category
+  useEffect(() => {
+    if (activeIndustry === "Other") {
+      setShowOthers(true);
+    }
+  }, [activeIndustry]);
 
   // Filter out any service filter pill whose type is hidden in admin
   const availableFilters = useMemo(() => {
@@ -316,36 +328,46 @@ export default function FeaturedWork({ activeFilter: propActiveFilter, setActive
           <CreativeGrid
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
+            activeIndustry={activeIndustry}
+            setActiveIndustry={setActiveIndustry}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
           />
         ) : (
           <>
-            {visibleIndustries.map((industry) => (
-              <article className="industry-section" key={industry.name}>
-                <div className="industry-copy">
-                  <span className="industry-label">Industry</span>
-                  <h3>{industry.name}</h3>
-                  <p>{industry.description}</p>
-                </div>
-                <div className="featured-project-grid">
-                  {industry.projects.map((project) => (
-                    <div className="featured-project-card" key={project.title}>
-                      <span className="material-symbols-outlined" aria-hidden="true">
-                        {filterIcons[project.type] ?? "dashboard"}
-                      </span>
-                      <strong>{project.title}</strong>
-                      <small>{project.type}</small>
-                    </div>
-                  ))}
-                </div>
-              </article>
-            ))}
+            {visibleIndustries.map((industry) => {
+              const industrySlug = `industry-${industry.name.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+              const isTargeted = activeIndustry && activeIndustry.toLowerCase() === industry.name.toLowerCase();
+              return (
+                <article 
+                  id={industrySlug} 
+                  className={`industry-section ${isTargeted ? "highlight-category-target" : ""}`} 
+                  key={industry.name}
+                >
+                  <div className="industry-copy">
+                    <span className="industry-label">Industry</span>
+                    <h3>{industry.name}</h3>
+                    <p>{industry.description}</p>
+                  </div>
+                  <div className="featured-project-grid">
+                    {industry.projects.map((project) => (
+                      <div className="featured-project-card" key={project.title}>
+                        <span className="material-symbols-outlined" aria-hidden="true">
+                          {filterIcons[project.type] ?? "dashboard"}
+                        </span>
+                        <strong>{project.title}</strong>
+                        <small>{project.type}</small>
+                      </div>
+                    ))}
+                  </div>
+                </article>
+              );
+            })}
           </>
         )}
 
         {isVisible("portfolio_other_projects") && visibleOtherProjects.length > 0 && (
-          <div className="others-toggle-container">
+          <div id="industry-other" className="others-toggle-container">
             <button
               type="button"
               className={`others-toggle-button ${showOthers ? "active" : ""}`}
@@ -364,6 +386,8 @@ export default function FeaturedWork({ activeFilter: propActiveFilter, setActive
           <CreativeGrid
             activeFilter={activeFilter}
             setActiveFilter={setActiveFilter}
+            activeIndustry={activeIndustry}
+            setActiveIndustry={setActiveIndustry}
             searchQuery={searchQuery}
             setSearchQuery={setSearchQuery}
             onlyShowOtherCreative={true}

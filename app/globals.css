@@ -10502,3 +10502,54 @@ p {
     display: none;
   }
 }
+
+/* =======================================================
+   CONNECTED FLOW: TOP BUTTONS -> CATEGORIES -> CONTENT AREA
+   ======================================================= */
+
+/* 1. Pulse highlight for Category Chips when top filter is chosen */
+@keyframes categoriesHighlightPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(255, 140, 82, 0.7);
+    border-color: rgba(255, 140, 82, 0.8);
+  }
+  40% {
+    box-shadow: 0 0 24px 6px rgba(255, 140, 82, 0.45);
+    border-color: #FF8C52;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 140, 82, 0);
+  }
+}
+
+.showcase-category-chips.categories-highlight-pulse {
+  animation: categoriesHighlightPulse 1.8s ease-in-out;
+  border-radius: 999px;
+}
+
+/* 2. Target Section Highlight when a Category is chosen */
+@keyframes targetIndustrySectionHighlight {
+  0% {
+    box-shadow: 0 0 0 0 rgba(53, 159, 160, 0.7);
+    border-color: rgba(53, 159, 160, 0.9);
+  }
+  35% {
+    box-shadow: 0 0 32px 8px rgba(53, 159, 160, 0.45);
+    border-color: #359FA0;
+    transform: translateY(-2px);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(53, 159, 160, 0);
+    transform: translateY(0);
+  }
+}
+
+.industry-section.highlight-category-target,
+.industry-section.active-category-section {
+  animation: targetIndustrySectionHighlight 2.4s ease-in-out;
+  border: 1px solid rgba(53, 159, 160, 0.5);
+  border-radius: 16px;
+  padding: 18px;
+  background: rgba(22, 66, 57, 0.35);
+  transition: all 0.3s ease;
+}
