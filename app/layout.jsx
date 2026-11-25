@@ -2,7 +2,6 @@ import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
 import ChatWidget from "./components/ChatWidget";
-import WhatsAppFloating from "./components/WhatsAppFloating";
 import BackToTop from "./components/BackToTop";
 import GlobalCursorGlow from "./components/GlobalCursorGlow";
 import VisitorTracker from "./components/VisitorTracker";
@@ -125,7 +124,6 @@ export default function RootLayout({ children }) {
           </Suspense>
           {children}
           <ChatWidget />
-          <WhatsAppFloating />
           <BackToTop />
         </VisibilityProvider>
 
