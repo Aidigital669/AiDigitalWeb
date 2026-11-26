@@ -471,16 +471,16 @@ export default function PricingClientPage() {
             <h1 className="cp-main-title">Plans</h1>
           </div>
 
-          {/* Category Filter Tabs - 7 Dedicated Categories */}
+          {/* Category Filter Tabs - 7 Dedicated Categories in a Single Row */}
           <div className="cp-category-tabs-row">
             {[
               { id: "all", label: `All Plans (${cpTiers.length})`, icon: "dashboard" },
               { id: "meta_ads", label: `Meta Ads (${cpTiers.filter((t) => getTierCategory(t) === "meta_ads").length})`, icon: "share" },
               { id: "google_ads", label: `Google Ads (${cpTiers.filter((t) => getTierCategory(t) === "google_ads").length})`, icon: "ads_click" },
-              { id: "performance", label: `Performance Marketing (${cpTiers.filter((t) => getTierCategory(t) === "performance").length})`, icon: "trending_up" },
-              { id: "brand", label: `Brand Growth Marketing (${cpTiers.filter((t) => getTierCategory(t) === "brand").length})`, icon: "workspace_premium" },
+              { id: "performance", label: `Performance (${cpTiers.filter((t) => getTierCategory(t) === "performance").length})`, icon: "trending_up" },
+              { id: "brand", label: `Brand Growth (${cpTiers.filter((t) => getTierCategory(t) === "brand").length})`, icon: "workspace_premium" },
               { id: "content", label: `Content Marketing (${cpTiers.filter((t) => getTierCategory(t) === "content").length})`, icon: "videocam" },
-              { id: "website", label: `Website Development (${cpTiers.filter((t) => getTierCategory(t) === "website").length})`, icon: "desktop_windows" }
+              { id: "website", label: `Website Dev (${cpTiers.filter((t) => getTierCategory(t) === "website").length})`, icon: "desktop_windows" }
             ].map((cat) => (
               <button
                 key={cat.id}
@@ -493,7 +493,7 @@ export default function PricingClientPage() {
                   color: activeCategory === cat.id ? "#FFFFFF" : "#cbd5e1"
                 }}
               >
-                <span className="material-symbols-outlined" style={{ fontSize: "16px", color: activeCategory === cat.id ? "#2EE5C0" : "#68F0AE" }}>
+                <span className="material-symbols-outlined" style={{ fontSize: "15px", color: activeCategory === cat.id ? "#2EE5C0" : "#68F0AE" }}>
                   {cat.icon}
                 </span>
                 <span>{cat.label}</span>
