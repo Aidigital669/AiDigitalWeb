@@ -472,7 +472,7 @@ export default function PricingClientPage() {
           </div>
 
           {/* Category Filter Tabs - 7 Dedicated Categories */}
-          <div style={{ display: "flex", justifyContent: "center", gap: "10px", flexWrap: "wrap", margin: "32px 0 20px 0" }}>
+          <div className="cp-category-tabs-row">
             {[
               { id: "all", label: `All Plans (${cpTiers.length})`, icon: "dashboard" },
               { id: "meta_ads", label: `Meta Ads (${cpTiers.filter((t) => getTierCategory(t) === "meta_ads").length})`, icon: "share" },
@@ -486,16 +486,8 @@ export default function PricingClientPage() {
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveCategory(cat.id)}
+                className="cp-category-tab-btn"
                 style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "6px",
-                  padding: "10px 18px",
-                  borderRadius: "100px",
-                  fontSize: "13px",
-                  fontWeight: activeCategory === cat.id ? "700" : "500",
-                  cursor: "pointer",
-                  transition: "all 0.2s ease",
                   border: activeCategory === cat.id ? "1.5px solid #2EE5C0" : "1px solid rgba(255, 255, 255, 0.12)",
                   background: activeCategory === cat.id ? "rgba(46, 229, 192, 0.16)" : "rgba(255, 255, 255, 0.04)",
                   color: activeCategory === cat.id ? "#FFFFFF" : "#cbd5e1"

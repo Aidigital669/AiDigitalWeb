@@ -3466,8 +3466,8 @@ p {
 
 .footer {
   padding-block: 58px 28px;
-  border-top: 1px solid var(--line);
-  background: #ffffff;
+  border-top: 1px solid rgba(46, 229, 192, 0.18);
+  background: #112a36;
 }
 
 .footer-grid {
@@ -3502,18 +3502,21 @@ p {
 
 .socials a {
   display: grid;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   place-items: center;
   border-radius: 50%;
-  color: #ffffff;
-  background: var(--blue);
-  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+  color: #2EE5C0;
+  background: rgba(46, 229, 192, 0.12);
+  border: 1px solid rgba(46, 229, 192, 0.3);
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease, color 180ms ease;
 }
 
 .socials a:hover {
   transform: translateY(-3px);
-  box-shadow: 0 10px 22px rgba(38, 132, 185, 0.22);
+  background: #2EE5C0;
+  color: #041A21;
+  box-shadow: 0 10px 22px rgba(46, 229, 192, 0.35);
 }
 
 .socials .material-symbols-outlined {
@@ -7986,29 +7989,34 @@ p {
 
 /* Luxury Footer */
 .footer {
-  background: var(--brand-forest) !important;
-  color: #0C2532 !important;
-  border-top: 1px solid rgba(46, 229, 192, 0.3) !important;
+  background: #112a36 !important;
+  color: #FFFFFF !important;
+  border-top: 1px solid rgba(46, 229, 192, 0.18) !important;
 }
 
 .footer h3,
 .footer h4,
 .footer .footer-title,
 .footer strong {
-  color: var(--cta-gold) !important;
+  color: #2EE5C0 !important;
 }
 
 .footer a {
-  color: rgba(248, 245, 239, 0.85);
-  transition: color 0.2s ease;
+  color: #8EA9B1 !important;
+  transition: color 0.2s ease, transform 0.2s ease;
 }
 
 .footer a:hover {
-  color: var(--cta-gold) !important;
+  color: #2EE5C0 !important;
 }
 
 .footer p {
-  color: rgba(248, 245, 239, 0.75);
+  color: #8EA9B1 !important;
+}
+
+.footer .copyright {
+  border-top: 1px solid rgba(46, 229, 192, 0.12) !important;
+  color: #8EA9B1 !important;
 }
 
 /* Section Headings */
@@ -9245,6 +9253,50 @@ p {
   color: var(--text-charcoal-muted, #5C6460);
   line-height: 1.4;
   margin: 0;
+}
+
+/* Category Tabs Single Row */
+.cp-category-tabs-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 8px;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  padding: 6px 4px 14px 4px;
+  margin: 24px auto 20px auto;
+  max-width: 100%;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 1100px) {
+  .cp-category-tabs-row {
+    justify-content: center;
+  }
+}
+
+.cp-category-tabs-row::-webkit-scrollbar {
+  display: none;
+}
+
+.cp-category-tab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.cp-category-tab-btn:hover {
+  transform: translateY(-1px);
 }
 
 /* 2,2 ROWS PLANS SECTION (2 Rows x 2 Columns Grid) */
